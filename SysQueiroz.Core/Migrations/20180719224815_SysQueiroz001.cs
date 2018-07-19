@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SysQueiroz.Core.Migrations
 {
-    public partial class SysQueirozMigration001 : Migration
+    public partial class SysQueiroz001 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
