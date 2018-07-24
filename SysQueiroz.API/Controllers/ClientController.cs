@@ -46,9 +46,16 @@ namespace SysQueiroz.API.Controllers
         {
             try
             {
-                clientDomain.Insert(client);
+                if (ModelState.IsValid)
+                {
+                    clientDomain.Insert(client);
 
-                return new Return(Suc.ClientSuccessfullyRegistered);
+                    return new Return(Suc.ClientSuccessfullyRegistered);
+                }
+                else
+                {
+                    return new Error(Err.InvalidPadding);
+                }
             }
             catch (Exception ex)
             {
