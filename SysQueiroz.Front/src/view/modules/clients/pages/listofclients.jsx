@@ -30,15 +30,20 @@ class ListOfClients extends Component {
                 text: 'Banco'
             }
         ]
-        
+
         let clnts
-        if(this.props.responses[clients] !== undefined)
+        if (this.props.responses[clients] !== undefined)
             clnts = this.props.responses[clients].data
         else clnts = []
 
         return (
             <fieldset>
                 <legend>Lista de Clientes</legend>
+                <div className="pull-right">
+                    <div className="btn-group">
+                        <button className="btn btn-primary">NOVO</button>
+                    </div>
+                </div>
                 <BootstrapTable keyField='cpf' data={clnts} columns={cols} noDataIndication="Não há clientes!" />
             </fieldset>
         )
