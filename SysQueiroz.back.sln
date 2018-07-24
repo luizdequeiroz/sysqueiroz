@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SysQueiroz.Repository", "Sy
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SysQueiroz.Modules", "SysQueiroz.Modules", "{154C60EB-C83F-41BB-842C-F79E92553249}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysQueiroz.Users", "SysQueiroz.Modules\SysQueiroz.Users\SysQueiroz.Users.csproj", "{25E02B32-1A54-49B8-8FC9-15CC2DBD54FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SysQueiroz.Users", "SysQueiroz.Modules\SysQueiroz.Users\SysQueiroz.Users.csproj", "{25E02B32-1A54-49B8-8FC9-15CC2DBD54FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SysQueiroz.Clients", "SysQueiroz.Clients\SysQueiroz.Clients.csproj", "{93E8B40B-DBB5-492E-B0A9-E99EF85C0D1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,12 +37,17 @@ Global
 		{25E02B32-1A54-49B8-8FC9-15CC2DBD54FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25E02B32-1A54-49B8-8FC9-15CC2DBD54FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25E02B32-1A54-49B8-8FC9-15CC2DBD54FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93E8B40B-DBB5-492E-B0A9-E99EF85C0D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93E8B40B-DBB5-492E-B0A9-E99EF85C0D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93E8B40B-DBB5-492E-B0A9-E99EF85C0D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93E8B40B-DBB5-492E-B0A9-E99EF85C0D1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{25E02B32-1A54-49B8-8FC9-15CC2DBD54FC} = {154C60EB-C83F-41BB-842C-F79E92553249}
+		{93E8B40B-DBB5-492E-B0A9-E99EF85C0D1C} = {154C60EB-C83F-41BB-842C-F79E92553249}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6C52BD7B-5D27-4717-85F8-C92BAD32621E}

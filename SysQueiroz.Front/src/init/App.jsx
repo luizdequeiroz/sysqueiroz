@@ -15,7 +15,8 @@ import './App.css'
 
 // PAGES
 import Menu from '../view/modules/menu'
-import listofusers from '../view/modules/users/pages/listofusers';
+import listofusers from '../view/modules/users/pages/listofusers'
+import listofclients from '../view/modules/clients/pages/listofclients'
 
 const store = configureStore(routerMiddleware(hashHistory))
 
@@ -30,6 +31,7 @@ class App extends Component {
               <IndexRoute component={Menu} />
               <Route path="/menu" component={Menu} />
               <Route path="/listofusers" component={listofusers} />
+              <Route path="/listofclients" component={listofclients} />
             </Route>
           </Router>
           <DevTools />

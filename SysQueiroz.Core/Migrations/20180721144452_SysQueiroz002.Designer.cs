@@ -11,9 +11,10 @@ using System;
 namespace SysQueiroz.Core.Migrations
 {
     [DbContext(typeof(SysQueirozContext))]
-    partial class SysQueirozContextModelSnapshot : ModelSnapshot
+    [Migration("20180721144452_SysQueiroz002")]
+    partial class SysQueiroz002
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,23 +48,13 @@ namespace SysQueiroz.Core.Migrations
 
                     b.Property<string>("Agency");
 
-                    b.Property<string>("Bank");
-
-                    b.Property<string>("BenefitNumber");
-
-                    b.Property<DateTime>("BirthDate");
-
                     b.Property<string>("CPF");
-
-                    b.Property<string>("CounterCheckPassword");
 
                     b.Property<string>("Email");
 
                     b.Property<string>("Name");
 
                     b.Property<string>("Op");
-
-                    b.Property<string>("Phone");
 
                     b.Property<string>("PortalPassword");
 

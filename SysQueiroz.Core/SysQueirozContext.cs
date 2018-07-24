@@ -11,5 +11,6 @@ namespace SysQueiroz.Core
         public DbSet<Department> Departments { get; set; }
         public DbSet<Menu> Menus { get; set; } 
         public DbSet<Authorization> Authorizations { get; set; }
+        public DbSet<Client> Clients { get; set; }
     }
 }

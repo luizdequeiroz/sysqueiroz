@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SysQueiroz.Clients\SysQueiroz.Clients.csproj" />
     <ProjectReference Include="..\SysQueiroz.Core\SysQueiroz.Core.csproj" />
     <ProjectReference Include="..\SysQueiroz.Modules\SysQueiroz.Users\SysQueiroz.Users.csproj" />
   </ItemGroup>

@@ -17,6 +17,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Usuário não possui permissão!")]
         UserDoesNotHavePermission = -6,
         [Description("Usuário ainda não possui acessos!")]
-        UserDoesNotHaveAccessYet = 0
-      }
+        UserDoesNotHaveAccessYet = -7,
+        [Description("Não há clientes!")]
+        NoClients = -8
+    }
 }

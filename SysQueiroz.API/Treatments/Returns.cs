@@ -16,6 +16,11 @@ namespace SysQueiroz.API.Treatments
             Data = data;
             Token = token;
         }
+        public Return(Suc suc)
+        {
+            Status = (int)suc;
+            Data = suc.ToDescription();
+        }
         public int Status;
         public object Data;
         public string Token;
