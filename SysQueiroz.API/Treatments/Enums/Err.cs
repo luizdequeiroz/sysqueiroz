@@ -19,6 +19,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Usuário ainda não possui acessos!")]
         UserDoesNotHaveAccessYet = -7,
         [Description("Não há clientes!")]
-        NoClients = -8
+        NoClients = -8,
+        [Description("Preenchimento inválido!")]
+        InvalidPadding = -9
     }
 }
