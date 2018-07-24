@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SecurityKeyFromCore = SysQueiroz.Core.Provider.SecurityKey;
+using SysQueiroz.Users.Access;
 
 namespace SysQueiroz.API
 {
@@ -47,7 +48,7 @@ namespace SysQueiroz.API
 
                         ValidIssuer = "security.sysqueirozteam.com.br",
                         ValidAudience = "security.sysqueirozteam.com.br",
-                        IssuerSigningKey = SecurityKeyFromCore.Create("ljfb.4c0d3t3am.dotnetcore")
+                        IssuerSigningKey = SecurityKeyFromCore.Create("lllc.5y5qu31r0zt3am.dotnetcore")
                     };
 
                     option.Events = new JwtBearerEvents
@@ -69,6 +70,8 @@ namespace SysQueiroz.API
             {
                 options.AddPolicy("User",
                     policy => policy.RequireClaim("UserId"));
+                options.AddPolicy("Administrator",
+                    policy => policy.Requirements.Add(new AccessLevelRequirement(1)));
             });
 
             services.AddMvc();

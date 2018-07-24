@@ -49,13 +49,13 @@ export function showAlert(context, msg, type) {
  * @param {string} msgError mensagem a ser exibida em caso de erro na solicitação à API.
  * @param {string} msgProcessing mensagem a ser exibida enquanto a solicitação à API é processada.
  */
-export function requestToSelf(context, method, returnStateKey, param = "", methodType = 'GET', withProgress = true, msgError = 'Erro na solicitação.', msgProcessing = 'Processando, aguarde.') {
+export function requestToSelf(context, method, returnStateKey, param = '', methodType = 'GET', withProgress = true, msgError = 'Erro na solicitação.', msgProcessing = 'Processando, aguarde.') {
     const { props: { dispatch }, state: { responses } } = context
 
     var xhr = new XMLHttpRequest()
     xhr.open(methodType, `${API}/${method}/${methodType === 'GET' ? param : ''}`, true)
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.setRequestHeader("Authorization", `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
     if (withProgress) {
         xhr.onloadstart = () => {
             dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
@@ -76,6 +76,11 @@ export function requestToSelf(context, method, returnStateKey, param = "", metho
                 dispatch({ type: HIDE_MODAL_ALERT })
             }
         } else if (xhr.status === 401) {
+            
+            if(window.location.hash === '#/'){
+                sessionStorage.clear()
+                clearReducer(context)
+            }
             window.location.hash = '#'
             dispatch({ type: GENERIC_FAILED, msg: 'Usuário não está em uma sessão válida ou não tem permissão para a solicitação!' })
         }
@@ -105,13 +110,13 @@ export function requestToSelf(context, method, returnStateKey, param = "", metho
  * @param {string} msgError mensagem a ser exibida em caso de erro na solicitação à API.
  * @param {string} msgProcessing mensagem a ser exibida enquanto a solicitação à API é processada.
  */
-export function requestToOther(context, method, returnReduceKey, param = "", methodType = 'GET', withProgress = true, msgError = 'Erro na solicitação.', msgProcessing = 'Processando, aguarde.') {
+export function requestToOther(context, method, returnReduceKey, param = '', methodType = 'GET', withProgress = true, msgError = 'Erro na solicitação.', msgProcessing = 'Processando, aguarde.') {
     const { props: { dispatch, responses } } = context
 
     var xhr = new XMLHttpRequest()
     xhr.open(methodType, `${API}/${method}/${methodType === 'GET' ? param : ''}`, true)
-    xhr.setRequestHeader("Content-type", "application/json");
-    xhr.setRequestHeader("Authorization", `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
     if (withProgress) {
         xhr.onloadstart = () => {
             dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
@@ -134,6 +139,11 @@ export function requestToOther(context, method, returnReduceKey, param = "", met
                 dispatch({ type: HIDE_MODAL_ALERT })
             }
         } else if (xhr.status === 401) {
+            
+            if(window.location.hash === '#/'){
+                sessionStorage.clear()
+                clearReducer(context)
+            }
             window.location.hash = '#'
             dispatch({ type: GENERIC_FAILED, msg: 'Sessão inválida ou usuário não tem permissão!' })
         }
@@ -160,14 +170,14 @@ export function requestToOther(context, method, returnReduceKey, param = "", met
  * @param {string} msgError mensagem a ser exibida em caso de erro na solicitação à API.
  * @param {string} msgProcessing mensagem a ser exibida enquanto a solicitação à API é processada.
  */
-export function requestSync(method, param = "", methodType = 'GET', msgError = 'Erro na solicitação.') {
+export function requestSync(method, param = '', methodType = 'GET', msgError = 'Erro na solicitação.') {
 
     try {
 
         var xhr = new XMLHttpRequest()
         xhr.open(methodType, `${API}/${method}/${methodType === 'GET' ? param : ''}`, false)
-        xhr.setRequestHeader("Content-type", "application/json");
-        xhr.setRequestHeader("Authorization", `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
         if (methodType === 'POST') xhr.send(JSON.stringify(param))
         else xhr.send()
 

@@ -1,6 +1,6 @@
-export default props => {    
+export default props => {
     if (props.condition) {
-        return props.children
+        return <div>{props.children}</div>
     } else {
         return false
     }

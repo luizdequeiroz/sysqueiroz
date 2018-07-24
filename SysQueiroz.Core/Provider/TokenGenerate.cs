@@ -8,8 +8,8 @@ namespace SysQueiroz.Core.Provider
         {
             var token = new TokenBuilder
             {
-                SecurityKey = SecurityKey.Create("ljfb.4c0d3t3am.dotnetcore"),
-                Subject = user.Email,
+                SecurityKey = SecurityKey.Create("lllc.5y5qu31r0zt3am.dotnetcore"),
+                Subject = user.AccessLevel.ToString(),
                 Issuer = "security.sysqueirozteam.com.br",
                 Audience = "security.sysqueirozteam.com.br",
                 ExpiryInMinutes = 5

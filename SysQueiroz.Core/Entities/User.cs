@@ -10,5 +10,6 @@ namespace SysQueiroz.Core.Entities
         public string Password { get; set; }
         public Employee Employee { get; set; }
         public IList<Authorization> Authorizations { get; set; }
+        public int AccessLevel { get; set; }
     }
 }

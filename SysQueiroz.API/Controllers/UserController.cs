@@ -26,7 +26,7 @@ namespace SysQueiroz.API.Controllers
         // POST api/Login
         [HttpPost]
         [AllowAnonymous]
-        public Return Login([FromBody]User User)
+        public Return Login([FromBody] User User)
         {
             try
             {
@@ -67,6 +67,7 @@ namespace SysQueiroz.API.Controllers
 
         // GET api/GetAllUsers
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public Return GetAllUsers()
         {
             try
