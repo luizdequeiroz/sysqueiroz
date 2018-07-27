@@ -17,6 +17,7 @@ import './App.css'
 import Menu from '../view/modules/menu'
 import listofusers from '../view/modules/users/pages/listofusers'
 import listofclients from '../view/modules/clients/pages/listofclients'
+import systempermissions from '../view/modules/permissions/pages/systempermissions'
 
 const store = configureStore(routerMiddleware(hashHistory))
 
@@ -32,6 +33,7 @@ class App extends Component {
               <Route path="/menu" component={Menu} />
               <Route path="/listofusers" component={listofusers} />
               <Route path="/listofclients" component={listofclients} />
+              <Route path="/systempermissions" component={systempermissions} />
             </Route>
           </Router>
           <DevTools />

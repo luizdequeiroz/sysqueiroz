@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
@@ -52,11 +53,11 @@ class HeaderLogin extends Component {
                     <Navbar.Form pullRight className="hidden-xs">
                         <div className="form-inline">
                             <div className="input-group hidden-xs">
-                                <label className="input-group-addon" htmlFor="email"><i className="fa fa-at" /></label>
+                                <label className="input-group-addon" htmlFor="email"><FontAwesome name="at" /></label>
                                 <input id="email" type="text" className="form-control" placeholder="E-mail" />
                             </div>&nbsp;
                             <div className="input-group hidden-xs">
-                                <label className="input-group-addon" htmlFor="password"><i className="fa fa-lock" /></label>
+                                <label className="input-group-addon" htmlFor="password"><FontAwesome name="lock" /></label>
                                 <input id="password" type="password" className="form-control" placeholder="Senha" />
                             </div>
                             <button type="submit" className="btn btn-link" onClick={this.entrar}>Entrar</button>
@@ -65,13 +66,13 @@ class HeaderLogin extends Component {
                     <Nav className="hidden-sm hidden-md hidden-lg">
                         <NavItem>
                             <div className="input-group">
-                                <label className="input-group-addon" htmlFor="email"><i className="fa fa-at" /></label>
+                                <label className="input-group-addon" htmlFor="email"><FontAwesome name="at" /></label>
                                 <input id="e-mobile" type="text" className="form-control" placeholder="E-mail" />
                             </div>
                         </NavItem>
                         <NavItem>
                             <div className="input-group">
-                                <label className="input-group-addon" htmlFor="password"><i className="fa fa-lock" /></label>
+                                <label className="input-group-addon" htmlFor="password"><FontAwesome name="lock" /></label>
                                 <input id="s-mobile" type="password" className="form-control" placeholder="Senha" />
                             </div>
                         </NavItem>

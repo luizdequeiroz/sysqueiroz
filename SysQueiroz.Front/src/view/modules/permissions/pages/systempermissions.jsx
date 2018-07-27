@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
-import { session, employee, menus } from '../../data/alias/keys'
-import { GetEmployeeByUserId } from '../../data/alias/methods'
-import { requestToOther } from '../../data/dispatchers'
+import { session, employee, menus } from '../../../../data/alias/keys'
+import { GetEmployeeByUserId } from '../../../../data/alias/methods'
+import { requestToOther } from '../../../../data/dispatchers'
 
-class Menu extends Component {
+class SystemPermissionsMenu extends Component {
 
     // para repreencher os dados do logado caso a tela seja atualizada
     componentWillMount() {
@@ -58,4 +58,4 @@ function select(state) {
     }
 }
 
-export default connect(select)(Menu)
+export default connect(select)(SystemPermissionsMenu)
