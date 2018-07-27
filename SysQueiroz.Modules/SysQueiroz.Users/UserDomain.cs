@@ -16,7 +16,19 @@ namespace SysQueiroz.Users
 
         public User GetUserByEmail(string email)
         {
-            return SelectWhere<User>(u => u.Email == email).FirstOrDefault();
+            return SelectWhere<User>(u => u.Email == email).Select(u => new User 
+            {
+                Id = u.Id,
+                Password = u.Password,
+                Email = u.Email,
+                UserRoles = u.UserRoles.Select(ur => new UserRole
+                {
+                    Role = new Role
+                    {
+                        Methods = ur.Role.Methods
+                    }
+                }).ToList()
+            }).FirstOrDefault();
         }
 
         public Employee GetEmployeeByUserId(int id)
@@ -38,7 +50,7 @@ namespace SysQueiroz.Users
 
         public IList<Menu> GetMenuByUserId(int id)
         {
-            var authorizations = SelectWhere<Authorization>(a => a.User.Id == id);
+            var authorizations = SelectWhere<MenuAccess>(a => a.User.Id == id);
             var menus = authorizations.Select(a => a.Menu).ToList();
             return menus;
         }

@@ -13,7 +13,7 @@ using SysQueiroz.Core.Entities;
 namespace SysQueiroz.API.Controllers
 {
     [Route("api/[action]")]
-    [Authorize(Policy = "User")]
+    [Authorize(Policy = "UserAccess")]
     public class ClientController : Controller
     {
         private ClientDomain clientDomain;

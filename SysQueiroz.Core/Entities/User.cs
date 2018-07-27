@@ -9,7 +9,7 @@ namespace SysQueiroz.Core.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public Employee Employee { get; set; }
-        public IList<Authorization> Authorizations { get; set; }
-        public int AccessLevel { get; set; }
+        public IList<MenuAccess> MenuAccesses { get; set; }
+        public IList<UserRole> UserRoles { get; set; }
     }
 }

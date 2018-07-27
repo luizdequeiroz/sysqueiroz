@@ -8,6 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SecurityKeyFromCore = SysQueiroz.Core.Provider.SecurityKey;
+using System.Text;
+using SysQueiroz.Core.Entities;
+using SysQueiroz.API.Treatments.Enums;
+using System.Linq;
 
 namespace SysQueiroz.API
 {
@@ -55,11 +59,19 @@ namespace SysQueiroz.API
                         OnAuthenticationFailed = context =>
                         {
                             Console.WriteLine($"OnAuthenticationFailed: {context.Exception.Message}");
+
                             return Task.CompletedTask;
                         },
                         OnTokenValidated = context =>
                         {
                             Console.WriteLine($"OnTokenValidated {context.SecurityToken}");
+
+                            if(context.IsPublicMethod(Configuration))
+                                context.Success();
+                            else if (context.ItsAllowed()) 
+                                context.Success();                            
+                            else context.Fail(Err.UserDoesNotHavePermission.ToDescription());
+
                             return Task.CompletedTask;
                         }
                     };
@@ -67,13 +79,16 @@ namespace SysQueiroz.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("User",
-                    policy => policy.RequireClaim("UserId"));
+                options.AddPolicy("UserAccess",
+                    policy => {
+                        policy.RequireClaim("UserId");
+                        policy.RequireClaim("UserMethods");
+                    });
             });
 
             services.AddMvc();
 
-            StartupRepository.Init(Configuration.GetConnectionString("sysqueiroz"));
+            StartupRepository.Init(Configuration.GetConnectionString("dbtest"));
             StartupRepository.Configure(services);
         }
 

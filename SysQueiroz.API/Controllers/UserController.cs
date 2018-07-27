@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace SysQueiroz.API.Controllers
 {
     [Route("api/[action]")]
-    [Authorize(Policy = "User")]
+    [Authorize(Policy = "UserAccess")]
     public class UserController : Controller
     {
         private UserDomain userDomain;
@@ -67,7 +67,6 @@ namespace SysQueiroz.API.Controllers
 
         // GET api/GetAllUsers
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
         public Return GetAllUsers()
         {
             try
