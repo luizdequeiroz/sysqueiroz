@@ -42,7 +42,7 @@ class HeaderNavBar extends Component {
         const tagsBrand = (
             <span>
                 <img role="presentation" src={_img} width="30px" />
-                <a href="#"><b>CL</b> | <i>SysQueiroz</i></a>
+                <a href="#"><b>CL</b> <i>SysQueiroz</i></a>
             </span>
         )
         let content
