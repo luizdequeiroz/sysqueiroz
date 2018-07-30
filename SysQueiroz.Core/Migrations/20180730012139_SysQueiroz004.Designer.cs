@@ -11,9 +11,10 @@ using System;
 namespace SysQueiroz.Core.Migrations
 {
     [DbContext(typeof(SysQueirozContext))]
-    partial class SysQueirozContextModelSnapshot : ModelSnapshot
+    [Migration("20180730012139_SysQueiroz004")]
+    partial class SysQueiroz004
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,7 +102,7 @@ namespace SysQueiroz.Core.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("superHref");
+                    b.Property<string>("SuperName");
 
                     b.HasKey("Id");
 

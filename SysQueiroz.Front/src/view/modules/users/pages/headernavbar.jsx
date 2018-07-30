@@ -12,6 +12,16 @@ import { requestToOther, setReducer } from '../../../../data/dispatchers'
 
 class HeaderNavBar extends Component {
 
+    /// para repreencher os dados do logado caso a tela seja atualizada
+    componentWillMount() {
+
+        if (this.props.responses[session] !== undefined) {
+            if (this.props.responses[employee] === undefined) {
+                requestToOther(this, GetEmployeeByUserId, employee, JSON.parse(this.props.responses[session]).data, 'GET', false)
+            }
+        }
+    }
+
     componentDidUpdate() {
 
         if (this.props.responses[session] !== undefined) {
@@ -32,7 +42,7 @@ class HeaderNavBar extends Component {
         const tagsBrand = (
             <span>
                 <img role="presentation" src={_img} width="30px" />
-                <a href="#">React Base</a>
+                <a href="#"><b>CL</b> | <i>SysQueiroz</i></a>
             </span>
         )
         let content
