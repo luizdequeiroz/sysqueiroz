@@ -7,6 +7,8 @@ export const GetMenuByUserId = 'GetMenuByUserId'
 export const GetDepartmentByUserId = 'GetDepartmentByUserId'
 export const GetUsersEmployeesWithDepartments = 'GetUsersEmployeesWithDepartments'
 export const GetAllProfiles = 'GetAllProfiles'
+export const UpdateProfile = 'UpdateProfile'
+export const DeleteProfile = 'DeleteProfile'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

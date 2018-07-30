@@ -9,7 +9,7 @@ class Menu extends Component {
     render() {
 
         let content      
-        const superHref = window.location.hash.replace("#/", "")
+        const superHref = window.location.hash.replace("#/menu", "").replace("#/", "")
         
         if (this.props.responses[menus] !== undefined) {
             content = (

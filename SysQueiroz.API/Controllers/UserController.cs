@@ -167,5 +167,36 @@ namespace SysQueiroz.API.Controllers
                 return new Error(ex);
             }
         }
+
+        [HttpPost]
+        public Return UpdateProfile([FromBody] Profile p)
+        {
+            try
+            {
+                profileDomain.Update(p);
+
+                return new Return(Suc.ProfileUpdatedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpPost]
+        public Return DeleteProfile([FromBody] int id)
+        {
+            try
+            {
+                var profile = profileDomain.SelectByID<Profile>(id);
+                profileDomain.Delete(profile);
+
+                return new Return(Suc.ProfileDeletedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
     }
 }
