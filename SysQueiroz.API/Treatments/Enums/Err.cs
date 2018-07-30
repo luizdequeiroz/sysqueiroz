@@ -21,6 +21,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Não há clientes!")]
         NoClients = -8,
         [Description("Preenchimento inválido!")]
-        InvalidPadding = -9
+        InvalidPadding = -9,
+        [Description("Não há perfis!")]
+        NoProfiles = -10
     }
 }

@@ -14,10 +14,11 @@ import configureStore from '../data/store/configureStore'
 import './App.css'
 
 // PAGES
-import Menu from '../view/modules/menu'
+import menu from '../view/modules/menu'
 import listofusers from '../view/modules/users/pages/listofusers'
 import listofclients from '../view/modules/clients/pages/listofclients'
 import systempermissions from '../view/modules/permissions/pages/systempermissions'
+import profiles from '../view/modules/permissions/pages/profiles'
 
 const store = configureStore(routerMiddleware(hashHistory))
 
@@ -29,11 +30,12 @@ class App extends Component {
         <div>
           <Router history={hashHistory}>
             <Route path="/" component={Index}>
-              <IndexRoute component={Menu} />
-              <Route path="/menu" component={Menu} />
+              <IndexRoute component={menu} />
+              <Route path="/menu" component={menu} />
               <Route path="/listofusers" component={listofusers} />
               <Route path="/listofclients" component={listofclients} />
               <Route path="/systempermissions" component={systempermissions} />
+              <Route path="/profiles" component={profiles} />
             </Route>
           </Router>
           <DevTools />

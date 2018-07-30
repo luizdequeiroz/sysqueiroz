@@ -6,6 +6,7 @@ export const GetEmployeeByUserId = 'GetEmployeeByUserId'
 export const GetMenuByUserId = 'GetMenuByUserId'
 export const GetDepartmentByUserId = 'GetDepartmentByUserId'
 export const GetUsersEmployeesWithDepartments = 'GetUsersEmployeesWithDepartments'
+export const GetAllProfiles = 'GetAllProfiles'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

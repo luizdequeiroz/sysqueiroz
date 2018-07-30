@@ -8,7 +8,7 @@ namespace SysQueiroz.Core.Provider
     {
         public static string NewToken(this User user)
         {            
-            var methods = string.Join('|', user.UserRoles.Select(ur => ur.Role).Select(r => string.Join('|', r.Methods.Select(m => m.Name))));
+            var methods = string.Join('|', user.UserProfiles.Select(up => up.Profile).Select(p => string.Join('|', p.ProfileMethods.Select(pm => pm.Method).Select(m => m.Name))));
 
             var token = new TokenBuilder
             {

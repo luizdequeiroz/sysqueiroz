@@ -14,18 +14,24 @@ namespace SysQueiroz.Users
             _context = context;
         }
 
-        public User GetUserByEmail(string email)
+        public User GetUserWithMethodsPerProfileByEmail(string email)
         {
             return SelectWhere<User>(u => u.Email == email).Select(u => new User 
             {
                 Id = u.Id,
                 Password = u.Password,
                 Email = u.Email,
-                UserRoles = u.UserRoles.Select(ur => new UserRole
+                UserProfiles = u.UserProfiles.Select(up => new UserProfile
                 {
-                    Role = new Role
+                    Profile = new Profile
                     {
-                        Methods = ur.Role.Methods
+                        ProfileMethods = up.Profile.ProfileMethods.Select(pm => new ProfileMethod
+                        {
+                            Method = new Method
+                            {
+                                Name = pm.Method.Name
+                            }
+                        }).ToList()
                     }
                 }).ToList()
             }).FirstOrDefault();

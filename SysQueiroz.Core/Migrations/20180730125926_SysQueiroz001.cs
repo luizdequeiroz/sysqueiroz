@@ -57,7 +57,8 @@ namespace SysQueiroz.Core.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Href = table.Column<string>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    superHref = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,7 +66,7 @@ namespace SysQueiroz.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Methods",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -75,7 +76,21 @@ namespace SysQueiroz.Core.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Methods", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Profiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profiles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,22 +114,27 @@ namespace SysQueiroz.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Methods",
+                name: "ProfileMethods",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    RoleId = table.Column<int>(nullable: false)
+                    MethodId = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Methods", x => x.Id);
+                    table.PrimaryKey("PK_ProfileMethods", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Methods_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
+                        name: "FK_ProfileMethods_Methods_MethodId",
+                        column: x => x.MethodId,
+                        principalTable: "Methods",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProfileMethods_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -167,25 +187,25 @@ namespace SysQueiroz.Core.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
+                name: "UserProfiles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    RoleId = table.Column<int>(nullable: false),
+                    ProfileId = table.Column<int>(nullable: false),
                     UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => x.Id);
+                    table.PrimaryKey("PK_UserProfiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
+                        name: "FK_UserProfiles_Profiles_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profiles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
+                        name: "FK_UserProfiles_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -208,18 +228,23 @@ namespace SysQueiroz.Core.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Methods_RoleId",
-                table: "Methods",
-                column: "RoleId");
+                name: "IX_ProfileMethods_MethodId",
+                table: "ProfileMethods",
+                column: "MethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
-                column: "RoleId");
+                name: "IX_ProfileMethods_ProfileId",
+                table: "ProfileMethods",
+                column: "ProfileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                table: "UserRoles",
+                name: "IX_UserProfiles_ProfileId",
+                table: "UserProfiles",
+                column: "ProfileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProfiles_UserId",
+                table: "UserProfiles",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -238,16 +263,19 @@ namespace SysQueiroz.Core.Migrations
                 name: "MenuAccesses");
 
             migrationBuilder.DropTable(
-                name: "Methods");
+                name: "ProfileMethods");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "UserProfiles");
 
             migrationBuilder.DropTable(
                 name: "Menus");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Methods");
+
+            migrationBuilder.DropTable(
+                name: "Profiles");
 
             migrationBuilder.DropTable(
                 name: "Users");

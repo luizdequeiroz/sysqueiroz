@@ -10,13 +10,12 @@ class Menu extends Component {
 
         let content      
         const superHref = window.location.hash.replace("#/", "")
-        debugger
+        
         if (this.props.responses[menus] !== undefined) {
             content = (
                 <fieldset>
                     <legend>Menu</legend>
                     {this.props.responses[menus].data.map(menu => {
-                        debugger
                         if (menu.superHref === superHref) {
                             return (
                                 <a key={menu.id} className="col-md-1" href={`#${menu.href}`} style={{ minWidth: "150px" }}>

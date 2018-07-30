@@ -97,8 +97,6 @@ namespace SysQueiroz.Core.Migrations
 
                     b.Property<string>("Icon");
 
-                    b.Property<bool>("IsSuper");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("superHref");
@@ -135,16 +133,12 @@ namespace SysQueiroz.Core.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("RoleId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Methods");
                 });
 
-            modelBuilder.Entity("SysQueiroz.Core.Entities.Role", b =>
+            modelBuilder.Entity("SysQueiroz.Core.Entities.Profile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -155,7 +149,25 @@ namespace SysQueiroz.Core.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Profiles");
+                });
+
+            modelBuilder.Entity("SysQueiroz.Core.Entities.ProfileMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("MethodId");
+
+                    b.Property<int>("ProfileId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MethodId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("ProfileMethods");
                 });
 
             modelBuilder.Entity("SysQueiroz.Core.Entities.User", b =>
@@ -177,22 +189,22 @@ namespace SysQueiroz.Core.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("SysQueiroz.Core.Entities.UserRole", b =>
+            modelBuilder.Entity("SysQueiroz.Core.Entities.UserProfile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("RoleId");
+                    b.Property<int>("ProfileId");
 
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("ProfileId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserProfiles");
                 });
 
             modelBuilder.Entity("SysQueiroz.Core.Entities.Employee", b =>
@@ -216,11 +228,16 @@ namespace SysQueiroz.Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SysQueiroz.Core.Entities.Method", b =>
+            modelBuilder.Entity("SysQueiroz.Core.Entities.ProfileMethod", b =>
                 {
-                    b.HasOne("SysQueiroz.Core.Entities.Role", "Role")
-                        .WithMany("Methods")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("SysQueiroz.Core.Entities.Method", "Method")
+                        .WithMany("ProfileMethods")
+                        .HasForeignKey("MethodId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SysQueiroz.Core.Entities.Profile", "Profile")
+                        .WithMany("ProfileMethods")
+                        .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -232,15 +249,15 @@ namespace SysQueiroz.Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("SysQueiroz.Core.Entities.UserRole", b =>
+            modelBuilder.Entity("SysQueiroz.Core.Entities.UserProfile", b =>
                 {
-                    b.HasOne("SysQueiroz.Core.Entities.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("SysQueiroz.Core.Entities.Profile", "Profile")
+                        .WithMany("UserProfiles")
+                        .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SysQueiroz.Core.Entities.User", "User")
-                        .WithMany("UserRoles")
+                        .WithMany("UserProfiles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

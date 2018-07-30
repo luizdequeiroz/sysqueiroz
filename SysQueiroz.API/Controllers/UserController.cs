@@ -17,10 +17,12 @@ namespace SysQueiroz.API.Controllers
     public class UserController : Controller
     {
         private UserDomain userDomain;
+        private ProfileDomain profileDomain;
 
         public UserController(SysQueirozContext context)
         {
             userDomain = new UserDomain(context);
+            profileDomain = new ProfileDomain(context);
         }
 
         // POST api/Login
@@ -30,7 +32,7 @@ namespace SysQueiroz.API.Controllers
         {
             try
             {
-                var user = userDomain.GetUserByEmail(User.Email);
+                var user = userDomain.GetUserWithMethodsPerProfileByEmail(User.Email);
                 if (user != null)
                 {
                     if (user.Password == User.Password)
@@ -142,6 +144,23 @@ namespace SysQueiroz.API.Controllers
                 var usersEmployeesDepartment = userDomain.GetUsersEmployeesWithDepartments();
                 
                 return new Return(usersEmployeesDepartment);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpGet]
+        public Return GetAllProfiles()
+        {
+            try
+            {
+                var profiles = profileDomain.SelectAll<Profile>().ToList();
+                if (profiles.Count == 0)
+                    return new Error(Err.NoProfiles);
+                else
+                    return new Return(profiles);
             }
             catch (Exception ex)
             {
