@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import { showAlert, requestToOther } from '../../../../data/dispatchers';
+import { showAlert, requestToReducer } from '../../../../data/dispatchers';
 import { Login } from '../../../../data/alias/methods';
 import { session } from '../../../../data/alias/keys';
 
@@ -27,7 +27,7 @@ class HeaderLogin extends Component {
         if (email === '' || password === '') {
             showAlert(this, "E-mail e senha obrigatórios", 'warning')
         } else {
-            requestToOther(this, Login, session, { email, password }, 'POST')
+            requestToReducer(this, Login, session, { email, password }, 'POST')
 
             /** request synchronous */
             // const response = requestSync(Login, { email, password }, 'POST')

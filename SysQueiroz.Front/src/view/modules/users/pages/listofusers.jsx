@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import { usersemployeesdepartmant } from '../../../../data/alias/keys';
-import { requestToOther } from '../../../../data/dispatchers';
+import { requestToReducer } from '../../../../data/dispatchers';
 import { GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods';
 
 class ListOfUsers extends Component {
 
     componentWillMount() {
 
-        requestToOther(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+        requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
     }
 
     render() {

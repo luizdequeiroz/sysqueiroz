@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { requestToOther, setReducer } from '../../../../data/dispatchers'
+import { requestToReducer, setReducer } from '../../../../data/dispatchers'
 import { GetAllProfiles, UpdateProfile, DeleteProfile } from '../../../../data/alias/methods'
 import { profiles } from '../../../../data/alias/keys'
 
@@ -19,7 +19,7 @@ class Profiles extends Component {
 
     componentWillMount() {
 
-        requestToOther(this, GetAllProfiles, profiles)
+        requestToReducer(this, GetAllProfiles, profiles)
     }
 
     componentWillUnmount() {
@@ -29,7 +29,7 @@ class Profiles extends Component {
 
     deleteProfile(id) {
 
-        requestToOther(this, DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
+        requestToReducer(this, DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
         // atualizar redux com a alteração da tabela
         setReducer(this, profiles, { 
             data: this.props.responses[profiles].data.filter(p => p.id !== id).map(p => ({
@@ -48,7 +48,7 @@ class Profiles extends Component {
         const { id, name, description } = row
 
         if(newValue !== oldValue) {
-            requestToOther(this, UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
+            requestToReducer(this, UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
             // atualizar redux com a alteração da tabela
             setReducer(this, profiles, { data: this.props.responses[profiles].data.map(p => {
                 if(p.id === id) {

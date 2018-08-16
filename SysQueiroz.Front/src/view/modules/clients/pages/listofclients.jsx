@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import { clients } from '../../../../data/alias/keys';
-import { requestToOther } from '../../../../data/dispatchers';
+import { requestToReducer } from '../../../../data/dispatchers';
 import { GetAllClients } from '../../../../data/alias/methods';
 
 class ListOfClients extends Component {
 
     componentWillMount() {
 
-        requestToOther(this, GetAllClients, clients)
+        requestToReducer(this, GetAllClients, clients)
     }
 
     render() {

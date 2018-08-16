@@ -8,7 +8,7 @@ import HeaderLogged from '../components/headerlogged'
 
 import { session, employee, menus, department } from '../../../../data/alias/keys'
 import { GetEmployeeByUserId, GetMenuByUserId, GetDepartmentByUserId } from '../../../../data/alias/methods'
-import { requestToOther, setReducer } from '../../../../data/dispatchers'
+import { requestToReducer, setReducer } from '../../../../data/dispatchers'
 
 class HeaderNavBar extends Component {
 
@@ -17,7 +17,7 @@ class HeaderNavBar extends Component {
 
         if (this.props.responses[session] !== undefined) {
             if (this.props.responses[employee] === undefined) {
-                requestToOther(this, GetEmployeeByUserId, employee, JSON.parse(this.props.responses[session]).data, 'GET', false)
+                requestToReducer(this, GetEmployeeByUserId, employee, JSON.parse(this.props.responses[session]).data, 'GET', false)
             }
         }
     }
@@ -26,11 +26,11 @@ class HeaderNavBar extends Component {
 
         if (this.props.responses[session] !== undefined) {
             if (this.props.responses[menus] === undefined)
-                requestToOther(this, GetMenuByUserId, menus, JSON.parse(this.props.responses[session]).data, 'GET', false)
+                requestToReducer(this, GetMenuByUserId, menus, JSON.parse(this.props.responses[session]).data, 'GET', false)
             if (this.props.responses[department] === undefined)
-                requestToOther(this, GetDepartmentByUserId, department, JSON.parse(this.props.responses[session]).data, 'GET', false)
+                requestToReducer(this, GetDepartmentByUserId, department, JSON.parse(this.props.responses[session]).data, 'GET', false)
             if (this.props.responses[employee] === undefined)
-                requestToOther(this, GetEmployeeByUserId, employee, JSON.parse(this.props.responses[session]).data, 'GET', false)
+                requestToReducer(this, GetEmployeeByUserId, employee, JSON.parse(this.props.responses[session]).data, 'GET', false)
         } else {
             if (this.props.responses[employee] !== undefined)
                 setReducer(this, employee, undefined)

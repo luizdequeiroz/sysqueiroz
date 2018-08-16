@@ -49,7 +49,7 @@ export function showAlert(context, msg, type) {
  * @param {string} msgError mensagem a ser exibida em caso de erro na solicitação à API.
  * @param {string} msgProcessing mensagem a ser exibida enquanto a solicitação à API é processada.
  */
-export function requestToSelf(context, method, returnStateKey, param = '', methodType = 'GET', withProgress = true/*, msgError = 'Erro na solicitação.'*/, msgProcessing = 'Processando, aguarde.') {
+export function requestToState(context, method, returnStateKey, param = '', methodType = 'GET', withProgress = true/*, msgError = 'Erro na solicitação.'*/, msgProcessing = 'Processando, aguarde.') {
     const { props: { dispatch }, state: { responses } } = context
 
     var xhr = new XMLHttpRequest()
@@ -110,7 +110,7 @@ export function requestToSelf(context, method, returnStateKey, param = '', metho
  * @param {string} msgError mensagem a ser exibida em caso de erro na solicitação à API.
  * @param {string} msgProcessing mensagem a ser exibida enquanto a solicitação à API é processada.
  */
-export function requestToOther(context, method, returnReduceKey, param = '', methodType = 'GET', withProgress = true/*, msgError = 'Erro na solicitação.'*/, msgProcessing = 'Processando, aguarde.') {
+export function requestToReducer(context, method, returnReduceKey, param = '', methodType = 'GET', withProgress = true/*, msgError = 'Erro na solicitação.'*/, msgProcessing = 'Processando, aguarde.') {
     const { props: { dispatch, responses } } = context
 
     var xhr = new XMLHttpRequest()
