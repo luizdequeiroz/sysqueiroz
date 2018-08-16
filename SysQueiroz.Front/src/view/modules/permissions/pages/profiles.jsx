@@ -22,6 +22,11 @@ class Profiles extends Component {
         requestToOther(this, GetAllProfiles, profiles)
     }
 
+    componentWillUnmount() {
+
+        setReducer(this, profiles, undefined)
+    }
+
     deleteProfile(id) {
 
         requestToOther(this, DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
@@ -50,7 +55,7 @@ class Profiles extends Component {
                     return ({
                         id: p.id,
                         name: name,
-                        description: p.description,
+                        description: description,
                         profileMethods: null,
                         userProfile: null
                     })

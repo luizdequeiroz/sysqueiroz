@@ -56,8 +56,8 @@ namespace SysQueiroz.Users
 
         public IList<Menu> GetMenuByUserId(int id)
         {
-            var authorizations = SelectWhere<MenuAccess>(a => a.User.Id == id);
-            var menus = authorizations.Select(a => a.Menu).ToList();
+            var menuAccesses = SelectWhere<MenuAccess>(a => a.User.Id == id);
+            var menus = menuAccesses.Select(a => a.Menu).ToList();
             return menus;
         }
 
