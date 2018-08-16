@@ -2,6 +2,8 @@ import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENE
 import { API } from '../Util'
 import { session } from './alias/keys'
 
+import { getRequestKey, fetchDedupe } from 'fetch-dedupe'
+
 /**
  * Função que armazena um valor em um reducer cuja key foi especificada.
  * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM).
@@ -52,51 +54,60 @@ export function showAlert(context, msg, type) {
 export function requestToState(context, method, returnStateKey, param = '', methodType = 'GET', withProgress = true/*, msgError = 'Erro na solicitação.'*/, msgProcessing = 'Processando, aguarde.') {
     const { props: { dispatch }, state: { responses } } = context
 
-    var xhr = new XMLHttpRequest()
-    xhr.open(methodType, `${API}/${method}/${methodType === 'GET' ? param : ''}`, true)
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
-    if (withProgress) {
-        xhr.onloadstart = () => {
-            dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
-        }
+    if (withProgress) dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
+    //#region preparando requisição genérica
+    var init = {
+        method: methodType,
+        headers: new Headers({
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`
+        })
     }
-    xhr.onload = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText)
-            if (response.status < 0) {
-                dispatch({ type: GENERIC_FAILED, msg: response.data })
 
-                responses[returnStateKey] = undefined
-                context.setState({ responses })
-            } else {
-                responses[returnStateKey] = response.token === null ? response : JSON.stringify(response)
-                context.setState({ responses })
+    if (methodType === 'POST')
+        init = { ...init, body: JSON.stringify(param) }
 
-                dispatch({ type: HIDE_MODAL_ALERT })
+    const request = new Request(`${API}/${method}/${methodType === 'GET' ? param : ''}`, init)
+    //#endregion
+
+    fetch(request).then(response => {
+        if (response.ok) {
+            if (response.status === 200)
+                return response.json()
+        } else {
+            if (response.status === 401) {
+
+                if(window.location.hash === '#/'){
+                    sessionStorage.clear()
+                    clearReducer(context)
+                }
+                window.location.hash = '#'
+                dispatch({ type: GENERIC_FAILED, msg: 'Sessão inválida ou usuário não tem permissão!' })
             }
-        } else if (xhr.status === 401) {
+
+            throw new Error(JSON.stringify(response))
+        }
+    }).then(json => {
+        if (json.status < 0) {
             
-            if(window.location.hash === '#/'){
-                sessionStorage.clear()
-                clearReducer(context)
-            }
-            window.location.hash = '#'
-            dispatch({ type: GENERIC_FAILED, msg: 'Usuário não está em uma sessão válida ou não tem permissão para a solicitação!' })
-        }
-    }
-    xhr.onerror = () => {
-        //dispatch({ type: GENERIC_FAILED, msg: msgError })
+            dispatch({ type: GENERIC_FAILED, msg: json.data })
 
+            responses[returnStateKey] = undefined
+            context.setState({ responses })
+        } else {
+            responses[returnStateKey] = json.token === null ? json : JSON.stringify(json)
+            context.setState({ responses })
+
+            dispatch({ type: HIDE_MODAL_ALERT })
+        }
+
+        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
+    }).catch(() => {
         responses[returnStateKey] = undefined
         context.setState({ responses })
-    }
-    xhr.onloadend = () => {
-        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
-    }
 
-    if (methodType === 'POST') xhr.send(JSON.stringify(param))
-    else xhr.send()
+        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
+    })
 }
 
 /**
@@ -113,53 +124,66 @@ export function requestToState(context, method, returnStateKey, param = '', meth
 export function requestToReducer(context, method, returnReduceKey, param = '', methodType = 'GET', withProgress = true/*, msgError = 'Erro na solicitação.'*/, msgProcessing = 'Processando, aguarde.') {
     const { props: { dispatch, responses } } = context
 
-    var xhr = new XMLHttpRequest()
-    xhr.open(methodType, `${API}/${method}/${methodType === 'GET' ? param : ''}`, true)
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`)
-    if (withProgress) {
-        xhr.onloadstart = () => {
-            dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
+    if (withProgress) dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
+    //#region preparando requisição genérica
+    var init = {
+        method: methodType,
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem(session) !== null ? JSON.parse(sessionStorage.getItem(session)).token : ''}`
         }
     }
-    xhr.onload = () => {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText)
-            if (response.status < 0) {
-                
-                dispatch({ type: GENERIC_FAILED, msg: response.data })
 
-                responses[returnReduceKey] = undefined
-                dispatch({ type: GENERIC_RETURN, data: { ...responses } })
-            } else {
-                
-                responses[returnReduceKey] = response.token === null ? response : JSON.stringify(response)
-                dispatch({ type: GENERIC_RETURN, data: { ...responses } })
+    if (methodType === 'POST')
+        init = { ...init, body: JSON.stringify(param) }
 
-                dispatch({ type: HIDE_MODAL_ALERT })
+    const url = `${API}/${method}/${methodType === 'GET' ? param : ''}`
+    // const request = new Request(url, init)
+    //#endregion
+
+    const requestKey = getRequestKey({ url, method: methodType, body: methodType === 'POST' ? JSON.stringify(param) : undefined });
+    const dedupeOptions = { requestKey }
+
+    fetchDedupe(url, init, dedupeOptions).then(response => {
+        if (response.ok) {
+            if (response.status === 200)
+                console.log(response.data)
+                return response.data
+        } else {
+            if (response.status === 401) { 
+
+                if(window.location.hash === '#/'){
+                    sessionStorage.clear()
+                    clearReducer(context)
+                }
+                window.location.hash = '#'
+                dispatch({ type: GENERIC_FAILED, msg: 'Sessão inválida ou usuário não tem permissão!' })
             }
-        } else if (xhr.status === 401) {
+
+            throw new Error(JSON.stringify(response))
+        }
+    }).then(json => {
+        if (json.status < 0) {
             
-            if(window.location.hash === '#/'){
-                sessionStorage.clear()
-                clearReducer(context)
-            }
-            window.location.hash = '#'
-            dispatch({ type: GENERIC_FAILED, msg: 'Sessão inválida ou usuário não tem permissão!' })
-        }
-    }
-    xhr.onerror = () => {
-        //dispatch({ type: GENERIC_FAILED, msg: msgError })
+            dispatch({ type: GENERIC_FAILED, msg: json.data })
 
+            responses[returnReduceKey] = undefined
+            dispatch({ type: GENERIC_RETURN, data: { ...responses } })
+        } else {
+            
+            responses[returnReduceKey] = json.token === null ? json : JSON.stringify(json)
+            dispatch({ type: GENERIC_RETURN, data: { ...responses } })
+
+            dispatch({ type: HIDE_MODAL_ALERT })
+        }
+
+        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
+    }).catch((error) => {
         responses[returnReduceKey] = undefined
         dispatch({ type: GENERIC_RETURN, data: { ...responses } })
-    }
-    xhr.onloadend = () => {
-        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
-    }
 
-    if (methodType === 'POST') xhr.send(JSON.stringify(param))
-    else xhr.send()
+        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
+    })
 }
 
 /**
@@ -181,7 +205,7 @@ export function requestSync(method, param = '', methodType = 'GET', msgError = '
         if (methodType === 'POST') xhr.send(JSON.stringify(param))
         else xhr.send()
 
-        if (xhr.status < 200 || xhr.status >= 300) {
+        if (xhr.status < 200 || xhr.status >= 300) { 
             throw new Error(JSON.stringify(xhr))
         } else if (xhr.readyState === 4) {
             const response = JSON.parse(xhr.responseText)
