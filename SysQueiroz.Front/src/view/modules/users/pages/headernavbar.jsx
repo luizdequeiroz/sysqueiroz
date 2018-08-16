@@ -12,8 +12,8 @@ import { requestToReducer, setReducer } from '../../../../data/dispatchers'
 
 class HeaderNavBar extends Component {
 
-    /// para repreencher os dados do logado caso a tela seja atualizada
-    componentWillMount() {
+    //#region [para preencher e repreencher os dados do logado quando logar e caso a tela seja atualizada]
+    componentDidMount() {
 
         if (this.props.responses[session] !== undefined) {
             if (this.props.responses[employee] === undefined) {
@@ -35,7 +35,8 @@ class HeaderNavBar extends Component {
             if (this.props.responses[employee] !== undefined)
                 setReducer(this, employee, undefined)
         }
-    }
+    }    
+    //#endregion
 
     render() {
 

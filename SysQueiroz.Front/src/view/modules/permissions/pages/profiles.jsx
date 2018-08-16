@@ -17,7 +17,7 @@ class Profiles extends Component {
         this.saveProfile = this.saveProfile.bind(this)
     }
 
-    componentWillMount() {
+    componentDidMount() {
 
         requestToReducer(this, GetAllProfiles, profiles)
     }

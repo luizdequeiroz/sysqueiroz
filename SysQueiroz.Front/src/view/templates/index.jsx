@@ -13,13 +13,16 @@ class Index extends Component {
 
     componentWillMount() {
 
-        if (sessionStorage.getItem(session) !== undefined) {
-            setReducer(this, session, sessionStorage.getItem(session) === null ? undefined : sessionStorage.getItem(session));
-        }
-
         window.onkeydown = e => this.keyCode = e.keyCode
         window.onbeforeunload = () => {
             if (this.keyCode !== 116) sessionStorage.clear()
+        }
+    }
+
+    componentDidMount() {
+        
+        if (sessionStorage.getItem(session) !== undefined) {
+            setReducer(this, session, sessionStorage.getItem(session) === null ? undefined : sessionStorage.getItem(session));
         }
     }
 

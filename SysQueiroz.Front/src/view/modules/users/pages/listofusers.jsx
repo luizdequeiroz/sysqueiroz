@@ -8,7 +8,7 @@ import { GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods
 
 class ListOfUsers extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
 
         requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
     }

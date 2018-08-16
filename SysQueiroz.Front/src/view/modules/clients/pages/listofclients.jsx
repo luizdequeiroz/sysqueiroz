@@ -8,7 +8,7 @@ import { GetAllClients } from '../../../../data/alias/methods';
 
 class ListOfClients extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
 
         requestToReducer(this, GetAllClients, clients)
     }
