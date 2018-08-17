@@ -16,7 +16,7 @@ class Menu extends Component {
                 <fieldset>
                     <legend>Menu</legend>
                     {this.props.responses[menus].data.map(menu => {
-                        if (menu.superHref === superHref) {
+                        if ((menu.superHref === null ? '' : menu.superHref) === superHref) {
                             return (
                                 <a key={menu.id} className="col-md-1" href={`#${menu.href}`} style={{ minWidth: "150px" }}>
                                     <div className="text-center">
