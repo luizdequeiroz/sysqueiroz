@@ -23,6 +23,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Preenchimento inválido!")]
         InvalidPadding = -9,
         [Description("Não há perfis!")]
-        NoProfiles = -10
+        NoProfiles = -10,
+        [Description("Múltiplos erros!")]
+        MultipleErrors = -11
     }
 }

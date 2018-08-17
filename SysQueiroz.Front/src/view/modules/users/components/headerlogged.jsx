@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { Navbar, Nav, NavItem/*, NavDropdown, MenuItem*/ } from 'react-bootstrap'
 import { clearReducer } from '../../../../data/dispatchers'
-import { employee, department } from '../../../../data/alias/keys'
+import { usersessiondatas } from '../../../../data/alias/keys'
 
 class HeaderLogged extends Component {
 
@@ -25,7 +25,7 @@ class HeaderLogged extends Component {
             <Navbar fluid fixedTop>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        {this.props.brand} | {this.props.responses[department] !== undefined ? this.props.responses[department].data.name : undefined} | <a href="#edit">{this.props.responses[employee] !== undefined ? this.props.responses[employee].data.name : undefined}</a>
+                        {this.props.brand} | {this.props.responses[usersessiondatas] !== undefined ? this.props.responses[usersessiondatas].data.department.name | (<a href="#edit">{this.props.responses[usersessiondatas].data.employee.name}</a>) : undefined}
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>

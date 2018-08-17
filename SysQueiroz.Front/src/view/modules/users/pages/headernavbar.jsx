@@ -6,8 +6,8 @@ const _img = require('../../../../../public/images/logo.png')
 import HeaderLogin from '../components/headerlogin'
 import HeaderLogged from '../components/headerlogged'
 
-import { session, employee, menus, department } from '../../../../data/alias/keys'
-import { GetEmployeeByUserId, GetMenuByUserId, GetDepartmentByUserId } from '../../../../data/alias/methods'
+import { session, usersessiondatas } from '../../../../data/alias/keys'
+import { GetUserSessionDatasByUserId } from '../../../../data/alias/methods'
 import { requestToReducer, setReducer } from '../../../../data/dispatchers'
 
 class HeaderNavBar extends Component {
@@ -16,26 +16,14 @@ class HeaderNavBar extends Component {
     componentDidMount() {
 
         if (this.props.responses[session] !== undefined) {
-            if (this.props.responses[employee] === undefined) {
-                requestToReducer(this, GetEmployeeByUserId, employee, JSON.parse(this.props.responses[session]).data, 'GET', false)
+            if (this.props.responses[usersessiondatas] === undefined) {
+                requestToReducer(this, GetUserSessionDatasByUserId, usersessiondatas, JSON.parse(this.props.responses[session]).data, 'GET', false)
             }
-        }
-    }
-
-    componentDidUpdate() {
-
-        if (this.props.responses[session] !== undefined) {
-            if (this.props.responses[menus] === undefined)
-                requestToReducer(this, GetMenuByUserId, menus, JSON.parse(this.props.responses[session]).data, 'GET', false)
-            if (this.props.responses[department] === undefined)
-                requestToReducer(this, GetDepartmentByUserId, department, JSON.parse(this.props.responses[session]).data, 'GET', false)
-            if (this.props.responses[employee] === undefined)
-                requestToReducer(this, GetEmployeeByUserId, employee, JSON.parse(this.props.responses[session]).data, 'GET', false)
         } else {
-            if (this.props.responses[employee] !== undefined)
-                setReducer(this, employee, undefined)
+            if (this.props.responses[usersessiondatas] !== undefined)
+                setReducer(this, usersessiondatas, undefined)
         }
-    }    
+    }  
     //#endregion
 
     render() {

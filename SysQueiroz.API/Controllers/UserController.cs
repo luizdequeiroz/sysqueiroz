@@ -86,49 +86,21 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Return GetEmployeeByUserId(int id)
+        public Return GetUserSessionDatasByUserId(int id)
         {
             try
             {
                 var employee = userDomain.GetEmployeeByUserId(id);
-                if (employee != null)
-                    return new Return(employee);
-                else
-                    return new Error(Err.EmployeeDoesNotExist);
-            }
-            catch (Exception ex)
-            {
-                return new Error(ex);
-            }
-        }
-
-        [HttpGet("{id}")]
-        public Return GetDepartmentByUserId(int id)
-        {
-            try
-            {
                 var department = userDomain.GetDepartmentByUserId(id);
-                if (department != null)
-                    return new Return(department);
-                else
-                    return new Error(Err.UserDoesNotBelongToAnyDepartment);
-            }
-            catch (Exception ex)
-            {
-                return new Error(ex);
-            }
-        }
-
-        [HttpGet("{id}")]
-        public Return GetMenuByUserId(int id)
-        {
-            try
-            {
                 var menu = userDomain.GetMenuByUserId(id);
-                if (menu != null)
-                    return new Return(menu);
-                else
+                if (employee == null)
+                    return new Error(Err.EmployeeDoesNotExist);
+                else if (department == null)
+                    return new Error(Err.UserDoesNotBelongToAnyDepartment);
+                else if (menu == null)
                     return new Error(Err.UserDoesNotHaveAccessYet);
+                else
+                    return new Return(new { employee, department, menu });
             }
             catch (Exception ex)
             {
@@ -137,12 +109,12 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpGet]
-        public Return GetUsersEmployeesWithDepartments() 
+        public Return GetUsersEmployeesWithDepartments()
         {
             try
             {
                 var usersEmployeesDepartment = userDomain.GetUsersEmployeesWithDepartments();
-                
+
                 return new Return(usersEmployeesDepartment);
             }
             catch (Exception ex)
