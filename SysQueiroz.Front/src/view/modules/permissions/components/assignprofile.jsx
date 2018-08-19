@@ -6,7 +6,7 @@ import { usersemployeesdepartmant } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
 
 import BootstrapTable from 'react-bootstrap-table-next'
-import filterFactory from 'react-bootstrap-table2-filter' 
+import filterFactory from 'react-bootstrap-table2-filter'
 
 class AssignProfile extends Component {
 
@@ -31,31 +31,23 @@ class AssignProfile extends Component {
             }
         ]
         let ueds
-        if(this.props.responses[usersemployeesdepartmant] !== undefined)
+        if (this.props.responses[usersemployeesdepartmant] !== undefined)
             ueds = this.props.responses[usersemployeesdepartmant].data
         else ueds = []
-
-        const list = (
-            <fieldset>
-                <legend>Lista de Usuários</legend>
-                <BootstrapTable keyField='email' data={ueds} columns={cols} noDataIndication="Não há usuários!" filter={filterFactory()} />
-            </fieldset>
-        )
-
-        const buttons = (
-            <div>
-                <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar</button>
-                <button className="btn btn-primary" onClick={() => console.log('atribuir perfis')}>Atribuir</button>
-            </div>
-        )
-
+        
         return (
             <div>
                 <Modal.Body>
-                    {list}
+                    <fieldset>
+                        <legend>Lista de Usuários</legend>
+                        <BootstrapTable keyField='email' data={ueds} columns={cols} noDataIndication="Não há usuários!" filter={filterFactory()} />
+                    </fieldset>
                 </Modal.Body>
                 <Modal.Footer>
-                    {buttons}
+                    <div>
+                        <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar</button>
+                        <button className="btn btn-primary" onClick={() => console.log('atribuir perfis')}>Atribuir</button>
+                    </div>
                 </Modal.Footer>
             </div>
         )

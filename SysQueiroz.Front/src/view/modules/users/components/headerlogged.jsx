@@ -15,6 +15,7 @@ class HeaderLogged extends Component {
 
     sair() {
 
+        window.location.hash = ''
         sessionStorage.clear()
         clearReducer(this)
     }
