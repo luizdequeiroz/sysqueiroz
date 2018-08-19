@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Status from './status'
+import SysModal from './modal'
 
 import HeaderNavBar from '../modules/users/pages/headernavbar'
 import { session } from '../../data/alias/keys'
@@ -42,6 +43,7 @@ class Index extends Component {
                     </div>
                 </Navbar>
                 <Status />
+                <SysModal />
             </div>
         );
     }

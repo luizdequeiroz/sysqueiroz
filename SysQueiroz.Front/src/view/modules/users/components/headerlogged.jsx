@@ -20,24 +20,25 @@ class HeaderLogged extends Component {
     }
 
     render() {
+        const isUndefined = this.props.responses[usersessiondatas] === undefined
 
         return (
             <Navbar fluid fixedTop>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        {this.props.brand} | {this.props.responses[usersessiondatas] !== undefined ? this.props.responses[usersessiondatas].data.department.name | (<a href="#edit">{this.props.responses[usersessiondatas].data.employee.name}</a>) : undefined}
+                        {this.props.brand} | {isUndefined ? undefined : this.props.responses[usersessiondatas].data.department.name} | {isUndefined ? undefined : <a href="#edit">{this.props.responses[usersessiondatas].data.employee.name}</a>}
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
                         <NavItem className="hidden-sm hidden-md hidden-lg">
-                            <a className="btn btn-link btn-block" onClick={this.sair} href="#">Sair</a>
+                            <button className="btn btn-link btn-block" onClick={this.sair} href="#">Sair</button>
                         </NavItem>
                     </Nav>
                     <Navbar.Form pullRight className="hidden-xs">
                         <div className="form-inline">
-                            <a className="btn btn-link btn-block" onClick={this.sair} href="#">Sair</a>
+                            <button className="btn btn-link btn-block" onClick={this.sair} href="#">Sair</button>
                         </div>
                     </Navbar.Form>
                 </Navbar.Collapse>

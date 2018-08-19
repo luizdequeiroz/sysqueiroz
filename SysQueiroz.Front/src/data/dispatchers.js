@@ -1,4 +1,4 @@
-import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN } from './alias/actions'
+import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL } from './alias/actions'
 import { API } from '../Util'
 import { session } from './alias/keys'
 
@@ -38,6 +38,31 @@ export function showAlert(context, msg, type) {
     const { props: { dispatch } } = context
 
     dispatch({ type: GENERIC_ALERT, data: { msg, type } })
+}
+
+/**
+ * Função que configura e aciona o modal do sistema (modal único do sistema, se desejar criar outros modais em simultânio com este, implementar manualmente).
+ * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM)
+ * @param {any} title conteúdo que configurará o título do modal
+ * @param {any} body conteúdo que configurará o corpo do modal
+ * @param {any} footer conteúdo que configurará o rodapé do modal
+ */
+export function showModal(context, title, content) {
+
+    const { props: { dispatch } } = context
+
+    dispatch({ type: SHOW_MODAL, config: { title, content } })
+}
+
+/**
+ * Função que fecha o modal do sistema.
+ * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM)
+ */
+export function closeModal(context) {
+
+    const { props: { dispatch } } = context
+
+    dispatch({ type: CLOSE_MODAL })
 }
 
 /**

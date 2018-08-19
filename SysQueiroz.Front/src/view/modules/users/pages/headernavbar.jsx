@@ -12,9 +12,9 @@ import { requestToReducer, setReducer } from '../../../../data/dispatchers'
 
 class HeaderNavBar extends Component {
 
-    //#region [para preencher e repreencher os dados do logado quando logar e caso a tela seja atualizada]
-    componentDidMount() {
-
+    //#region [para preencher e repreencher os dados do logado quando logar e caso a tela seja atualizada]   
+    componentDidUpdate() {
+ 
         if (this.props.responses[session] !== undefined) {
             if (this.props.responses[usersessiondatas] === undefined) {
                 requestToReducer(this, GetUserSessionDatasByUserId, usersessiondatas, JSON.parse(this.props.responses[session]).data, 'GET', false)
@@ -23,7 +23,7 @@ class HeaderNavBar extends Component {
             if (this.props.responses[usersessiondatas] !== undefined)
                 setReducer(this, usersessiondatas, undefined)
         }
-    }  
+    }
     //#endregion
 
     render() {

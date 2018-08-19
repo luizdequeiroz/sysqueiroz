@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { requestToReducer, setReducer } from '../../../../data/dispatchers'
+import { requestToReducer, setReducer, showModal } from '../../../../data/dispatchers'
 import { GetAllProfiles, UpdateProfile, DeleteProfile } from '../../../../data/alias/methods'
 import { profiles } from '../../../../data/alias/keys'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
+
+import AssignProfile from '../components/assignprofile'
 
 class Profiles extends Component {
 
@@ -65,7 +67,7 @@ class Profiles extends Component {
             }) })
         }
     }
-    
+
     render() {
         
         const cols = [
@@ -88,6 +90,7 @@ class Profiles extends Component {
                 // adicionando propriedade para mostrar botão(ões) em coluna da tabela
                 actions: (
                     <div className="btn-group">
+                        <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir perfil ${p.name}`, <AssignProfile />)}>Atribuir</button>
                         <button className="btn btn-xs btn-danger" onClick={() => this.deleteProfile(p.id)}>Deletar</button>
                     </div>
                 )

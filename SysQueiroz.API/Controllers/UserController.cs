@@ -9,6 +9,7 @@ using SysQueiroz.Core.Utils;
 using SysQueiroz.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace SysQueiroz.API.Controllers
 {
@@ -93,14 +94,22 @@ namespace SysQueiroz.API.Controllers
                 var employee = userDomain.GetEmployeeByUserId(id);
                 var department = userDomain.GetDepartmentByUserId(id);
                 var menu = userDomain.GetMenuByUserId(id);
+
                 if (employee == null)
                     return new Error(Err.EmployeeDoesNotExist);
                 else if (department == null)
                     return new Error(Err.UserDoesNotBelongToAnyDepartment);
                 else if (menu == null)
                     return new Error(Err.UserDoesNotHaveAccessYet);
-                else
-                    return new Return(new { employee, department, menu });
+                else return new Return
+                (
+                    new
+                    { 
+                        Employee = employee.Without("Department"), 
+                        Department = department.Without("Employees"), 
+                        Menu = menu 
+                    }
+                );
             }
             catch (Exception ex)
             {

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
-import { menus } from '../../data/alias/keys'
+import { usersessiondatas } from '../../data/alias/keys'
 
 class Menu extends Component {
 
@@ -11,11 +11,11 @@ class Menu extends Component {
         let content      
         const superHref = window.location.hash.replace("#/menu", "").replace("#/", "")
         
-        if (this.props.responses[menus] !== undefined) {
+        if (this.props.responses[usersessiondatas] !== undefined) {
             content = (
                 <fieldset>
                     <legend>Menu</legend>
-                    {this.props.responses[menus].data.map(menu => {
+                    {this.props.responses[usersessiondatas].data.menu.map(menu => {
                         if ((menu.superHref === null ? '' : menu.superHref) === superHref) {
                             return (
                                 <a key={menu.id} className="col-md-1" href={`#${menu.href}`} style={{ minWidth: "150px" }}>
