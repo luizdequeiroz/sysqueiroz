@@ -2,6 +2,7 @@
 using System.Linq;
 using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
+using SysQueiroz.Core.Utils;
 using SysQueiroz.Repository.Base;
 
 namespace SysQueiroz.Users
@@ -40,7 +41,7 @@ namespace SysQueiroz.Users
         public Employee GetEmployeeByUserId(int id)
         {
             var user = SelectWhere<User>(u => u.Id == id);
-            var employee = user.Select(u => u.Employee).FirstOrDefault();
+            var employee = user.Select(u => u.Employee.Without("Department")).FirstOrDefault();
 
             return employee;
         }
@@ -49,7 +50,7 @@ namespace SysQueiroz.Users
         {
             var user = SelectWhere<User>(u => u.Id == id);
             var employee = user.Select(u => u.Employee);
-            var department = employee.Select(e => e.Department).FirstOrDefault();
+            var department = employee.Select(e => e.Department.Without("Employees")).FirstOrDefault();
 
             return department;
         }
@@ -64,7 +65,8 @@ namespace SysQueiroz.Users
         public IList<dynamic> GetUsersEmployeesWithDepartments()
         {
             var result = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => new
-                {            
+                {         
+                    id = e.User.Id,   
                     name = e.Name,
                     email = e.User.Email,
                     departmentName = d.Name

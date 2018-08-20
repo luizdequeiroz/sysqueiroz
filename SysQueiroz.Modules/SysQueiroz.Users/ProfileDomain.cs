@@ -14,5 +14,25 @@ namespace SysQueiroz.Users
         {
             _context = context;
         }
+
+        public void DeleteProfile(int id)
+        {
+            var profile = SelectByID<Profile>(id);
+            Delete(profile);
+        }
+
+        public void InsertUserProfiles(int profileId, IList<int> usersId)
+        {
+            foreach (var userId in usersId)
+            {
+                var userProfile = new UserProfile
+                {
+                    UserId = userId,
+                    ProfileId = profileId
+                };
+
+                Insert(userProfile);
+            }
+        }
     }
 }

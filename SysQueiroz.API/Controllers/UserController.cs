@@ -101,15 +101,7 @@ namespace SysQueiroz.API.Controllers
                     return new Error(Err.UserDoesNotBelongToAnyDepartment);
                 else if (menu == null)
                     return new Error(Err.UserDoesNotHaveAccessYet);
-                else return new Return
-                (
-                    new
-                    { 
-                        Employee = employee.Without("Department"), 
-                        Department = department.Without("Employees"), 
-                        Menu = menu 
-                    }
-                );
+                else return new Return(new { employee, department, menu });
             }
             catch (Exception ex)
             {
@@ -169,10 +161,26 @@ namespace SysQueiroz.API.Controllers
         {
             try
             {
-                var profile = profileDomain.SelectByID<Profile>(id);
-                profileDomain.Delete(profile);
+                profileDomain.DeleteProfile(id);
 
                 return new Return(Suc.ProfileDeletedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpPost]
+        public Return AssignProfile([FromBody] dynamic assigns)
+        {
+            try
+            {
+                var profileId = (int)assigns.profileId;
+                var usersId = (int[])assigns.usersId;
+                profileDomain.InsertUserProfiles(profileId, usersId);
+
+                return new Return(Suc.SuccessfullyAssignedProfile);
             }
             catch (Exception ex)
             {

@@ -7,6 +7,7 @@ export const GetUsersEmployeesWithDepartments = 'GetUsersEmployeesWithDepartment
 export const GetAllProfiles = 'GetAllProfiles'
 export const UpdateProfile = 'UpdateProfile'
 export const DeleteProfile = 'DeleteProfile'
+export const AssignProfileMethod = 'AssignProfile'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

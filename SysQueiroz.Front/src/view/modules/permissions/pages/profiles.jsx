@@ -79,7 +79,8 @@ class Profiles extends Component {
                 text: 'Descrição'
             }, {
                 dataField: 'actions',
-                text: 'Ações'
+                text: 'Ações',
+                editable: false
             }
         ]
 
@@ -90,7 +91,7 @@ class Profiles extends Component {
                 // adicionando propriedade para mostrar botão(ões) em coluna da tabela
                 actions: (
                     <div className="btn-group">
-                        <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir perfil ${p.name}`, <AssignProfile />)}>Atribuir</button>
+                        <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir perfil ${p.name}`, <AssignProfile profileId={p.id} />)}>Atribuir</button>
                         <button className="btn btn-xs btn-danger" onClick={() => this.deleteProfile(p.id)}>Deletar</button>
                     </div>
                 )

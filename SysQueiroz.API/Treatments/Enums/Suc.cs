@@ -13,6 +13,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Perfil atualizado com sucesso!")]
         ProfileUpdatedSuccessfully = 2,
         [Description("Perfil deletado com sucesso!")]
-        ProfileDeletedSuccessfully = 3
+        ProfileDeletedSuccessfully = 3,
+        [Description("Perfil atribuido com sucesso!")]
+        SuccessfullyAssignedProfile = 4
     }
 }
