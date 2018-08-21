@@ -78,6 +78,7 @@ debugger
                                 mode: 'checkbox',
                                 clickToSelect: true,
                                 bgColor: '#00BFFF',
+                                selected: this.state.usersId,
                                 onSelect: this.onSelect,
                                 onSelectAll: this.onSelectAll
                             }} />

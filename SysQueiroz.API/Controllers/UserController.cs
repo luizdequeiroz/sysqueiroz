@@ -10,6 +10,8 @@ using SysQueiroz.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Dynamic;
+using SysQueiroz.API.Bodies.Users;
 
 namespace SysQueiroz.API.Controllers
 {
@@ -172,13 +174,11 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpPost]
-        public Return AssignProfile([FromBody] dynamic assigns)
+        public Return AssignProfile([FromBody] Assigns assigns)
         {
             try
             {
-                var profileId = (int)assigns.profileId;
-                var usersId = (int[])assigns.usersId;
-                profileDomain.InsertUserProfiles(profileId, usersId);
+                profileDomain.InsertUserProfiles(assigns.ProfileId, assigns.UsersId);
 
                 return new Return(Suc.SuccessfullyAssignedProfile);
             }
