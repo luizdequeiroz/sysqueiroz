@@ -58,7 +58,7 @@ namespace SysQueiroz.Core.Migrations
                     Href = table.Column<string>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    superHref = table.Column<string>(nullable: true)
+                    SuperHref = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

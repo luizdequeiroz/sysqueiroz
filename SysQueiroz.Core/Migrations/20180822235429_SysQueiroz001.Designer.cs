@@ -11,8 +11,8 @@ using System;
 namespace SysQueiroz.Core.Migrations
 {
     [DbContext(typeof(SysQueirozContext))]
-    [Migration("20180821002228_SysQueiroz002")]
-    partial class SysQueiroz002
+    [Migration("20180822235429_SysQueiroz001")]
+    partial class SysQueiroz001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,7 +100,7 @@ namespace SysQueiroz.Core.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("superHref");
+                    b.Property<string>("SuperHref");
 
                     b.HasKey("Id");
 
@@ -123,24 +123,6 @@ namespace SysQueiroz.Core.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("MenuAccesses");
-                });
-
-            modelBuilder.Entity("SysQueiroz.Core.Entities.MenuMethod", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("MenuId");
-
-                    b.Property<int>("MethodId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuId");
-
-                    b.HasIndex("MethodId");
-
-                    b.ToTable("MenuMethods");
                 });
 
             modelBuilder.Entity("SysQueiroz.Core.Entities.Method", b =>
@@ -244,19 +226,6 @@ namespace SysQueiroz.Core.Migrations
                     b.HasOne("SysQueiroz.Core.Entities.User", "User")
                         .WithMany("MenuAccesses")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("SysQueiroz.Core.Entities.MenuMethod", b =>
-                {
-                    b.HasOne("SysQueiroz.Core.Entities.Menu", "Menu")
-                        .WithMany()
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SysQueiroz.Core.Entities.Method", "Method")
-                        .WithMany()
-                        .HasForeignKey("MethodId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

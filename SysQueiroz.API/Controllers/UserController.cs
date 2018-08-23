@@ -28,6 +28,213 @@ namespace SysQueiroz.API.Controllers
             profileDomain = new ProfileDomain(context);
         }
 
+        #region Inicializar dados no banco de dados
+        [HttpGet]
+        [AllowAnonymous]
+        public Return EnterInitializationData()
+        {
+            try
+            {
+                var user = new User
+                {
+                    Email = "admin",
+                    Password = "admin",
+                    Employee = new Employee
+                    {
+                        Name = "Luiz de Queiroz",
+                        Department = new Department
+                        {
+                            Name = "Desenvolvimento de Sistemas"
+                        }
+                    },
+                    MenuAccesses = new List<MenuAccess>
+                    {
+                        new MenuAccess
+                        {
+                            Menu = new Menu
+                            {
+                                Href = "listofusers",
+                                Icon = "users",
+                                Name = "Usuários",
+                                SuperHref = ""
+                            }
+                        },
+                        new MenuAccess
+                        {
+                            Menu = new Menu
+                            {
+                                Href = "listofclients",
+                                Icon = "id-card",
+                                Name = "Clientes",
+                                SuperHref = ""
+                            }
+                        },
+                        new MenuAccess
+                        {
+                            Menu = new Menu
+                            {
+                                Href = "systempermissions",
+                                Icon = "shield",
+                                Name = "Permissões",
+                                SuperHref = ""
+                            }
+                        },
+                        new MenuAccess
+                        {
+                            Menu = new Menu
+                            {
+                                Href = "profiles",
+                                Icon = "user-circle",
+                                Name = "Perfis de Usuário",
+                                SuperHref = "systempermissions"
+                            }
+                        }
+                    },
+                    UserProfiles = new List<UserProfile>
+                    {
+                        new UserProfile
+                        {
+                            Profile = new Profile
+                            {
+                                Name = "Gerenciamento de Usuários",
+                                Description = "",
+                                ProfileMethods = new List<ProfileMethod>
+                                {
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "GetAllUsers",
+                                            Description = "Listar todos os usuários do sistema."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "GetUsersEmployeesWithDepartments",
+                                            Description = "Listar todos os funcionários usuários e seus respectivos setores."
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        // new UserProfile
+                        // {
+                        //     Profile = new Profile
+                        //     {
+                        //         Name = "Gerenciamento de Clientes",
+                        //         Description = "",
+                        //         ProfileMethods = new List<ProfileMethod>
+                        //         {
+                        //             new ProfileMethod
+                        //             {
+                        //                 Method = new Method
+                        //                 {
+                        //                     Name = "GetAllClients",
+                        //                     Description = "Listar todos os clientes no sistema."
+                        //                 }
+                        //             },
+                        //             new ProfileMethod
+                        //             {
+                        //                 Method = new Method
+                        //                 {
+                        //                     Name = "SetNewClient",
+                        //                     Description = "Cadastrar um novo cliente no sistema."
+                        //                 }
+                        //             },
+                        //             new ProfileMethod
+                        //             {
+                        //                 Method = new Method
+                        //                 {
+                        //                     Name = "AssignProfile",
+                        //                     Description = "Atribuir perfil à usuário(s)"
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
+                        // },
+                        new UserProfile
+                        {
+                            Profile = new Profile
+                            {
+                                Name = "Gerenciamento de Perfis de Usuários",
+                                Description = "",
+                                ProfileMethods = new List<ProfileMethod>
+                                {
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "GetAllProfiles",
+                                            Description = "Listar todos os perfis de usuário do sistema."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "UpdateProfile",
+                                            Description = "Atualizar alterações nos dados de um perfil de usuário."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "DeleteProfile",
+                                            Description = "Deletar perfil de usuário do sistema."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "AssignProfile",
+                                            Description = "Atribuir perfil à usuário(s)"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+                var profile = new Profile
+                {
+                    Name = "Gerenciamento de Clientes",
+                    Description = "",
+                    ProfileMethods = new List<ProfileMethod>
+                    {
+                        new ProfileMethod
+                        {
+                            Method = new Method
+                            {
+                                Name = "GetAllClients",
+                                Description = "Listar todos os clientes no sistema."
+                            }
+                        },
+                        new ProfileMethod
+                        {
+                            Method = new Method
+                            {
+                                Name = "SetNewClient",
+                                Description = "Cadastrar um novo cliente no sistema."
+                            }
+                        }
+                    }
+                };
+
+                userDomain.Insert(user);
+                profileDomain.Insert(profile);
+                return new Return(Suc.InitializationDataEnteredSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+        #endregion
+
         // POST api/Login
         [HttpPost]
         [AllowAnonymous]

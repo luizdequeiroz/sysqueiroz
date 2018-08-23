@@ -7,7 +7,7 @@ namespace SysQueiroz.Core.Entities
         public string Icon { get; set; }
         public string Name { get; set; }
         public string Href { get; set; }
-        public string superHref { get; set; }
+        public string SuperHref { get; set; }
         public IList<MenuAccess> MenuAccesses { get; set; }
     }
 }

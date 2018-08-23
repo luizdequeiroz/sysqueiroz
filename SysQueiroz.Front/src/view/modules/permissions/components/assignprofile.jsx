@@ -41,8 +41,8 @@ class AssignProfile extends Component {
     }
 
     assignProfile() {
-debugger
-        requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, usersId: this.state.usersId }, 'POST')
+
+        requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, usersId: this.state.usersId }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
     }
 
     render() {
