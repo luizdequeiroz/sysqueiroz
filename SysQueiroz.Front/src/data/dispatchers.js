@@ -1,4 +1,4 @@
-import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL } from './alias/actions'
+import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL, GENERIC_SUCCESS } from './alias/actions'
 import { API } from '../Util'
 import { session } from './alias/keys'
 
@@ -12,7 +12,7 @@ import { getRequestKey, fetchDedupe } from 'fetch-dedupe'
  */
 export function setReducer(context, returnReduceKey, value) {
     const { props: { dispatch, responses } } = context
-    
+
     responses[returnReduceKey] = value
     dispatch({ type: GENERIC_RETURN, data: { ...responses } })
 }
@@ -44,14 +44,14 @@ export function showAlert(context, msg, type) {
  * Função que configura e aciona o modal do sistema (modal único do sistema, se desejar criar outros modais em simultânio com este, implementar manualmente).
  * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM)
  * @param {any} title conteúdo que configurará o título do modal
- * @param {any} body conteúdo que configurará o corpo do modal
- * @param {any} footer conteúdo que configurará o rodapé do modal
+ * @param {any} body conteúdo que configurará o corpo e o cabeçalho (se houver) do modal
+ * @param {any} size valor que configurará o tamanho do modal (lg, md, sm)
  */
-export function showModal(context, title, content) {
+export function showModal(context, title, content, size = 'lg') {
 
     const { props: { dispatch } } = context
 
-    dispatch({ type: SHOW_MODAL, config: { title, content } })
+    dispatch({ type: SHOW_MODAL, config: { title, content, size } })
 }
 
 /**
@@ -102,7 +102,7 @@ export function requestToState(context, method, returnStateKey, param = '', meth
         } else {
             if (response.status === 401) {
 
-                if(window.location.hash === '#/'){
+                if (window.location.hash === '#/') {
                     sessionStorage.clear()
                     clearReducer(context)
                 }
@@ -114,7 +114,7 @@ export function requestToState(context, method, returnStateKey, param = '', meth
         }
     }).then(json => {
         if (json.status < 0) {
-            
+
             dispatch({ type: GENERIC_FAILED, msg: json.data })
 
             responses[returnStateKey] = undefined
@@ -123,10 +123,11 @@ export function requestToState(context, method, returnStateKey, param = '', meth
             responses[returnStateKey] = json.token === null ? json : JSON.stringify(json)
             context.setState({ responses })
 
-            dispatch({ type: HIDE_MODAL_ALERT })
+            if (json.status > 0) dispatch({ type: GENERIC_SUCCESS, msg: json.data })
+            else dispatch({ type: HIDE_MODAL_ALERT })
         }
 
-        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
+        //window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
     }).catch(() => {
         responses[returnStateKey] = undefined
         context.setState({ responses })
@@ -173,11 +174,11 @@ export function requestToReducer(context, method, returnReduceKey, param = '', m
         if (response.ok) {
             if (response.status === 200)
                 console.log(response.data)
-                return response.data
+            return response.data
         } else {
-            if (response.status === 401) { 
+            if (response.status === 401) {
 
-                if(window.location.hash === '#/'){
+                if (window.location.hash === '#/') {
                     sessionStorage.clear()
                     clearReducer(context)
                 }
@@ -189,20 +190,21 @@ export function requestToReducer(context, method, returnReduceKey, param = '', m
         }
     }).then(json => {
         if (json.status < 0) {
-            
+
             dispatch({ type: GENERIC_FAILED, msg: json.data })
 
             responses[returnReduceKey] = undefined
             dispatch({ type: GENERIC_RETURN, data: { ...responses } })
         } else {
-            
+
             responses[returnReduceKey] = json.token === null ? json : JSON.stringify(json)
             dispatch({ type: GENERIC_RETURN, data: { ...responses } })
 
-            dispatch({ type: HIDE_MODAL_ALERT })
+            if (json.status > 0) dispatch({ type: GENERIC_SUCCESS, msg: json.data })
+            else dispatch({ type: HIDE_MODAL_ALERT })
         }
 
-        window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
+        //window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
     }).catch((error) => {
         responses[returnReduceKey] = undefined
         dispatch({ type: GENERIC_RETURN, data: { ...responses } })
@@ -230,7 +232,7 @@ export function requestSync(method, param = '', methodType = 'GET', msgError = '
         if (methodType === 'POST') xhr.send(JSON.stringify(param))
         else xhr.send()
 
-        if (xhr.status < 200 || xhr.status >= 300) { 
+        if (xhr.status < 200 || xhr.status >= 300) {
             throw new Error(JSON.stringify(xhr))
         } else if (xhr.readyState === 4) {
             const response = JSON.parse(xhr.responseText)

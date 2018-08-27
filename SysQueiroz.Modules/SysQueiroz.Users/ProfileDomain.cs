@@ -3,6 +3,7 @@ using SysQueiroz.Core.Entities;
 using SysQueiroz.Repository.Base;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SysQueiroz.Users
@@ -21,9 +22,9 @@ namespace SysQueiroz.Users
             Delete(profile);
         }
 
-        public void InsertUserProfiles(int profileId, IList<int> usersId)
+        public void InsertAssignsAndRemoveUnassigns(int profileId, List<int> all, IList<int> selecteds)
         {
-            foreach (var userId in usersId)
+            foreach (var userId in selecteds)
             {
                 var userProfile = new UserProfile
                 {
@@ -31,7 +32,15 @@ namespace SysQueiroz.Users
                     ProfileId = profileId
                 };
 
-                Insert(userProfile);
+                var uProfile = SelectWhere<UserProfile>(up => up.UserId == userId && up.ProfileId == profileId).FirstOrDefault();
+                if (uProfile == null) Insert(userProfile);
+                all.Remove(userId);
+            }
+
+            foreach (var userId in all)
+            {
+                var uProfile = SelectWhere<UserProfile>(up => up.UserId == userId && up.ProfileId == profileId).FirstOrDefault();
+                if (uProfile != null) Delete(uProfile);
             }
         }
     }

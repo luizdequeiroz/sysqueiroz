@@ -8,6 +8,7 @@ export const GetAllProfiles = 'GetAllProfiles'
 export const UpdateProfile = 'UpdateProfile'
 export const DeleteProfile = 'DeleteProfile'
 export const AssignProfileMethod = 'AssignProfile'
+export const GetUsersIdByProfile = 'GetUsersIdByProfile'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

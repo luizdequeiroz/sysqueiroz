@@ -33,15 +33,15 @@ class Profiles extends Component {
 
         requestToReducer(this, DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
         // atualizar redux com a alteração da tabela
-        setReducer(this, profiles, { 
+        setReducer(this, profiles, {
             data: this.props.responses[profiles].data.filter(p => p.id !== id).map(p => ({
-                    id: p.id,
-                    name: p.name,
-                    description: p.description,
-                    profileMethods: null,
-                    userProfile: null
-                }) 
-            ) 
+                id: p.id,
+                name: p.name,
+                description: p.description,
+                profileMethods: null,
+                userProfile: null
+            })
+            )
         })
     }
 
@@ -49,27 +49,29 @@ class Profiles extends Component {
 
         const { id, name, description } = row
 
-        if(newValue !== oldValue) {
+        if (newValue !== oldValue) {
             requestToReducer(this, UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
             // atualizar redux com a alteração da tabela
-            setReducer(this, profiles, { data: this.props.responses[profiles].data.map(p => {
-                if(p.id === id) {
-                    return ({
-                        id: p.id,
-                        name: name,
-                        description: description,
-                        profileMethods: null,
-                        userProfile: null
-                    })
-                } else {
-                    return p
-                }
-            }) })
+            setReducer(this, profiles, {
+                data: this.props.responses[profiles].data.map(p => {
+                    if (p.id === id) {
+                        return ({
+                            id: p.id,
+                            name: name,
+                            description: description,
+                            profileMethods: null,
+                            userProfile: null
+                        })
+                    } else {
+                        return p
+                    }
+                })
+            })
         }
     }
 
     render() {
-        
+
         const cols = [
             {
                 dataField: 'name',
@@ -92,7 +94,7 @@ class Profiles extends Component {
                 actions: (
                     <div className="btn-group">
                         <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir perfil ${p.name}`, <AssignProfile profileId={p.id} />)}>Atribuir</button>
-                        <button className="btn btn-xs btn-danger" onClick={() => this.deleteProfile(p.id)}>Deletar</button>
+                        <button className="btn btn-xs btn-danger" onClick={() => showModal(this, `Confirmar exclusão do perfil "${p.name}"?`, <button className="btn btn-danger btn-block" onClick={() => this.deleteProfile(p.id)}>Confirmar exclusão!</button>, 'sm')}>Deletar</button>
                     </div>
                 )
             }))
@@ -105,9 +107,9 @@ class Profiles extends Component {
                     <button className="btn btn-primary">NOVO</button>
                 </div>
                 <BootstrapTable
-                    keyField='id' 
-                    data={prfls} 
-                    columns={cols} 
+                    keyField='id'
+                    data={prfls}
+                    columns={cols}
                     noDataIndication="Não há perfis!"
                     cellEdit={cellEditFactory({
                         mode: 'dbclick',

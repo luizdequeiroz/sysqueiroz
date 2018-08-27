@@ -22,7 +22,16 @@ function status(state = [], action) {
 }
 
 function success(state, action) {
-    return hideModal(state, action)
+    //return hideModal(state, action)
+
+    return {
+        icon: 'fa fa-check-circle fa-2x fa-fw',
+        className: 'alert-success',
+        message: (action.payload && action.payload.message) ?
+            action.payload.message : action.msg,
+        showModal: true,
+        autohide: true
+    }
 }
 
 function proccess(state, action) {

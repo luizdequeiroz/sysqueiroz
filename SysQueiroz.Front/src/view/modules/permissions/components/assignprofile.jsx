@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { requestToReducer, closeModal } from '../../../../data/dispatchers'
-import { GetUsersEmployeesWithDepartments, AssignProfileMethod } from '../../../../data/alias/methods'
-import { usersemployeesdepartmant } from '../../../../data/alias/keys'
+import { requestToReducer, closeModal, requestToState } from '../../../../data/dispatchers'
+import { GetUsersEmployeesWithDepartments, AssignProfileMethod, GetUsersIdByProfile } from '../../../../data/alias/methods'
+import { usersemployeesdepartmant, usersidfromprofile } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -13,7 +13,7 @@ class AssignProfile extends Component {
         super(props)
 
         this.state = {
-            usersId: []
+            responses: {}
         }
 
         this.onSelect = this.onSelect.bind(this)
@@ -22,27 +22,29 @@ class AssignProfile extends Component {
     }
 
     componentDidMount() {
-        
+
         requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+        requestToState(this, GetUsersIdByProfile, usersidfromprofile, this.props.profileId)
     }
 
     onSelect(row, isSelect) {
 
         if (isSelect)
-            this.setState({ usersId: [ ...this.state.usersId, row.id ] })
-        else this.setState({ usersId: this.state.usersId.filter(id => id !== row.id) })
+            this.setState({ responses: { usersidfromprofile: { data: [...this.state.responses[usersidfromprofile].data, row.id] } } })
+        else this.setState({ responses: { usersidfromprofile: { data: this.state.responses[usersidfromprofile].data.filter(id => id !== row.id) } } })
     }
 
     onSelectAll(isSelect, rows) {
 
         if (isSelect)
-            this.setState({ usersId: rows.map(r => r.id) })
-        else this.setState({ usersId: [] })
+            this.setState({ responses: { usersidfromprofile: { data: rows.map(r => r.id) } } })
+        else this.setState({ responses: { usersidfromprofile: { data: [] } } })
     }
 
     assignProfile() {
 
-        requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, usersId: this.state.usersId }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
+        requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[usersemployeesdepartmant].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
+        closeModal(this);
     }
 
     render() {
@@ -64,6 +66,11 @@ class AssignProfile extends Component {
             ueds = this.props.responses[usersemployeesdepartmant].data
         else ueds = []
 
+        let selecteds
+        if (this.state.responses[usersidfromprofile] !== undefined)
+            selecteds = this.state.responses[usersidfromprofile].data
+        else selecteds = []
+
         return (
             <div>
                 <Modal.Body>
@@ -78,7 +85,7 @@ class AssignProfile extends Component {
                                 mode: 'checkbox',
                                 clickToSelect: true,
                                 bgColor: '#00BFFF',
-                                selected: this.state.usersId,
+                                selected: selecteds,
                                 onSelect: this.onSelect,
                                 onSelectAll: this.onSelectAll
                             }} />

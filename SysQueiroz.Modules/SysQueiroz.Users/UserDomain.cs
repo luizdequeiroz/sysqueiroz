@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;

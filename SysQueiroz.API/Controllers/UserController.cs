@@ -385,9 +385,24 @@ namespace SysQueiroz.API.Controllers
         {
             try
             {
-                profileDomain.InsertUserProfiles(assigns.ProfileId, assigns.UsersId);
+                profileDomain.InsertAssignsAndRemoveUnassigns(assigns.ProfileId, assigns.All, assigns.Selecteds);
 
                 return new Return(Suc.SuccessfullyAssignedProfile);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public Return GetUsersIdByProfile(int id)
+        {
+            try
+            {
+                var usersId = profileDomain.SelectWhere<UserProfile>(up => up.ProfileId == id).Select(up => up.UserId).ToList();
+
+                return new Return(usersId);
             }
             catch (Exception ex)
             {
