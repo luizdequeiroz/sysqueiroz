@@ -28,7 +28,7 @@ class HeaderLogin extends Component {
             showAlert(this, "E-mail e senha obrigatórios", 'warning')
         } else {
             requestToReducer(this, Login, session, { email, password }, 'POST')
-
+            //showMsgPanel(this, 'Exemplo de painel sem autohide', 'danger', true)
             /** request synchronous */
             // const response = requestSync(Login, { email, password }, 'POST')
             // if (response.code === 0) {

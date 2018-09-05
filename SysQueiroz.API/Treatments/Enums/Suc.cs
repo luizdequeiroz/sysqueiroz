@@ -17,6 +17,12 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Perfil atribuido com sucesso!")]
         SuccessfullyAssignedProfile = 4,
         [Description("Dados de inicialização inseridos com sucesso!")]
-        InitializationDataEnteredSuccessfully = 5
-    }
+        InitializationDataEnteredSuccessfully = 5,
+        [Description("Item de menu atualizado com sucesso!")]
+        MenuItemUpdatedSuccessfully = 6,
+        [Description("Item de menu deletado com sucesso!")]
+        MenuItemDeletedSuccessfully = 7,
+        [Description("Acesso a item de menu atribuido com sucesso!")]
+        SuccessfullyAssignedMenuItem = 8
+      }
 }

@@ -25,7 +25,7 @@ class Menu extends Component {
                                                 <FontAwesome name={menu.icon} size="5x" />
                                             </div>
                                             <div className="panel-body">
-                                                <label>{menu.name}</label>
+                                                <label style={{ cursor: 'pointer' }}>{menu.name}</label>
                                             </div>
                                         </div>
                                     </div>

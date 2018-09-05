@@ -40,8 +40,7 @@ class Profiles extends Component {
                 description: p.description,
                 profileMethods: null,
                 userProfile: null
-            })
-            )
+            }))
         })
     }
 

@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import status from './status'
 import responses from './responses'
 import modal from './modal'
+import messagepanel from './messagepanel'
 
 /**
  * Importa os reducers
@@ -10,7 +11,8 @@ import modal from './modal'
 const storeApp = combineReducers({
     status,
     responses,
-    modal
+    modal,
+    messagepanel
 })
 
 export default storeApp

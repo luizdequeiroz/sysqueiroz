@@ -1,4 +1,4 @@
-import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL, GENERIC_SUCCESS } from './alias/actions'
+import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL, GENERIC_SUCCESS, GENERIC_PANEL } from './alias/actions'
 import { API } from '../Util'
 import { session } from './alias/keys'
 
@@ -38,6 +38,20 @@ export function showAlert(context, msg, type) {
     const { props: { dispatch } } = context
 
     dispatch({ type: GENERIC_ALERT, data: { msg, type } })
+}
+
+/**
+ * Função que aciona um painel de mensagem.
+ * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM).
+ * @param {string} msg mensagem que deve ser apresentada no painel.
+ * @param {string} type tipo do painel.
+ * @param {bool} autohide indicador se o painel será ocultado automaticamente ou não
+ */
+export function showMsgPanel(context, msg, type, autohide = false) {
+
+    const { props: { dispatch } } = context
+
+    dispatch({ type: GENERIC_PANEL, data: { msg, type, autohide } })
 }
 
 /**
@@ -173,7 +187,7 @@ export function requestToReducer(context, method, returnReduceKey, param = '', m
     fetchDedupe(url, init, dedupeOptions).then(response => {
         if (response.ok) {
             if (response.status === 200)
-                console.log(response.data)
+                //console.log(response.data)
             return response.data
         } else {
             if (response.status === 401) {

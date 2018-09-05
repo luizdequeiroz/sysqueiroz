@@ -9,6 +9,11 @@ export const UpdateProfile = 'UpdateProfile'
 export const DeleteProfile = 'DeleteProfile'
 export const AssignProfileMethod = 'AssignProfile'
 export const GetUsersIdByProfile = 'GetUsersIdByProfile'
+export const GetAllMenusForListMenu = 'GetAllMenusForListMenu'
+export const UpdateMenu = 'UpdateMenu'
+export const DeleteMenu = 'DeleteMenu'
+export const AssignMenuMethod = 'AssignMenu'
+export const GetUsersIdByMenu = 'GetUsersIdByMenu'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

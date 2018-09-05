@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Status from './status'
+import MessagePanel from './messagepanel'
 import SysModal from './modal'
 
 import HeaderNavBar from '../modules/users/pages/headernavbar'
@@ -33,6 +34,7 @@ class Index extends Component {
             <div>
                 <HeaderNavBar />
                 <div id="main" className="container-fluid" style={{ marginTop: "70px" }}>
+                    <MessagePanel />
                     {this.props.children}
                 </div>
                 <Navbar fluid fixedBottom>

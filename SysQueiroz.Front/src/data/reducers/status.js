@@ -1,4 +1,4 @@
-import { GENERIC_FAILED, GENERIC_SUCCESS, HIDE_MODAL_ALERT, GENERIC_PROCCESS, GENERIC_ALERT } from '../alias/actions'
+import { GENERIC_FAILED, HIDE_MODAL_ALERT, GENERIC_PROCCESS, GENERIC_ALERT } from '../alias/actions'
 
 /**
  * Reducer que gerencia actions relacionadas a modal de status
@@ -6,8 +6,8 @@ import { GENERIC_FAILED, GENERIC_SUCCESS, HIDE_MODAL_ALERT, GENERIC_PROCCESS, GE
 function status(state = [], action) {
     
     switch (action.type) {
-        case GENERIC_SUCCESS:
-            return success(state, action)
+        // case GENERIC_SUCCESS:
+        //     return success(state, action)
         case GENERIC_PROCCESS:
             return proccess(state, action)
         case GENERIC_FAILED:
@@ -18,19 +18,6 @@ function status(state = [], action) {
             return hideModal(state, action)
         default:
             return state
-    }
-}
-
-function success(state, action) {
-    //return hideModal(state, action)
-
-    return {
-        icon: 'fa fa-check-circle fa-2x fa-fw',
-        className: 'alert-success',
-        message: (action.payload && action.payload.message) ?
-            action.payload.message : action.msg,
-        showModal: true,
-        autohide: true
     }
 }
 

@@ -21,11 +21,13 @@ namespace SysQueiroz.API.Controllers
     {
         private UserDomain userDomain;
         private ProfileDomain profileDomain;
+        private MenuDomain menuDomain;
 
         public UserController(SysQueirozContext context)
         {
             userDomain = new UserDomain(context);
             profileDomain = new ProfileDomain(context);
+            menuDomain = new MenuDomain(context);
         }
 
         #region Inicializar dados no banco de dados
@@ -401,6 +403,84 @@ namespace SysQueiroz.API.Controllers
             try
             {
                 var usersId = profileDomain.SelectWhere<UserProfile>(up => up.ProfileId == id).Select(up => up.UserId).ToList();
+
+                return new Return(usersId);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpGet]
+        public Return GetAllMenusForListMenu()
+        {
+            try
+            {
+                var menus = menuDomain.SelectAll<Menu>().ToList();
+                var organizedMenus = menuDomain.OrganizeHierarchically(menus);
+                if (menus.Count == 0)
+                    return new Error(Err.NoMenus);
+                else
+                    return new Return(organizedMenus);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpPost]
+        public Return UpdateMenu([FromBody] Menu m)
+        {
+            try
+            {
+                menuDomain.Update(m);
+
+                return new Return(Suc.MenuItemUpdatedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpPost]
+        public Return DeleteMenu([FromBody] int id)
+        {
+            try
+            {
+                menuDomain.DeleteMenu(id);
+
+                return new Return(Suc.MenuItemDeletedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpPost]
+        public Return AssignMenu([FromBody] Assigns assigns)
+        {
+            try
+            {
+                menuDomain.InsertAssignsAndRemoveUnassigns(assigns.MenuId, assigns.All, assigns.Selecteds);
+
+                return new Return(Suc.SuccessfullyAssignedMenuItem);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public Return GetUsersIdByMenu(int id)
+        {
+            try
+            {
+                var usersId = menuDomain.SelectWhere<MenuAccess>(ma => ma.MenuId == id).Select(ma => ma.UserId).ToList();
 
                 return new Return(usersId);
             }
