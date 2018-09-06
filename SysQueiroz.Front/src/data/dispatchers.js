@@ -45,7 +45,7 @@ export function showAlert(context, msg, type) {
  * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM).
  * @param {string} msg mensagem que deve ser apresentada no painel.
  * @param {string} type tipo do painel.
- * @param {bool} autohide indicador se o painel será ocultado automaticamente ou não
+ * @param {bool} autohide indicador se o painel será ocultado automaticamente ou não.
  */
 export function showMsgPanel(context, msg, type, autohide = false) {
 
@@ -56,16 +56,17 @@ export function showMsgPanel(context, msg, type, autohide = false) {
 
 /**
  * Função que configura e aciona o modal do sistema (modal único do sistema, se desejar criar outros modais em simultânio com este, implementar manualmente).
- * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM)
- * @param {any} title conteúdo que configurará o título do modal
- * @param {any} body conteúdo que configurará o corpo e o cabeçalho (se houver) do modal
- * @param {any} size valor que configurará o tamanho do modal (lg, md, sm)
+ * @param {any} context contexto do componente (necessário para processamentos que interagem com o DOM).
+ * @param {any} title conteúdo que configurará o título do modal.
+ * @param {any} content conteúdo que configurará o corpo e o rodapé (se houver) do modal.
+ * @param {any} closeButton indicador se o modal terá botão de fechamento.
+ * @param {any} size valor que configurará o tamanho do modal (lg, md, sm).
  */
-export function showModal(context, title, content, size = 'lg') {
+export function showModal(context, title, content, closeButton = true, size = 'lg') {
 
     const { props: { dispatch } } = context
 
-    dispatch({ type: SHOW_MODAL, config: { title, content, size } })
+    dispatch({ type: SHOW_MODAL, config: { title, content, closeButton, size } })
 }
 
 /**
@@ -137,11 +138,11 @@ export function requestToState(context, method, returnStateKey, param = '', meth
             responses[returnStateKey] = json.token === null ? json : JSON.stringify(json)
             context.setState({ responses })
 
-            if (json.status > 0) dispatch({ type: GENERIC_SUCCESS, msg: json.data })
-            else dispatch({ type: HIDE_MODAL_ALERT })
+            if (json.status > 0) dispatch({ type: GENERIC_SUCCESS, msg: json.message !== null ? json.message : json.data })
+            dispatch({ type: HIDE_MODAL_ALERT })
         }
 
-        //window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)
+        //window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 1000)
     }).catch(() => {
         responses[returnStateKey] = undefined
         context.setState({ responses })
@@ -214,8 +215,8 @@ export function requestToReducer(context, method, returnReduceKey, param = '', m
             responses[returnReduceKey] = json.token === null ? json : JSON.stringify(json)
             dispatch({ type: GENERIC_RETURN, data: { ...responses } })
 
-            if (json.status > 0) dispatch({ type: GENERIC_SUCCESS, msg: json.data })
-            else dispatch({ type: HIDE_MODAL_ALERT })
+            if (json.status > 0) dispatch({ type: GENERIC_SUCCESS, msg: json.message !== null ? json.message : json.data })
+            dispatch({ type: HIDE_MODAL_ALERT })
         }
 
         //window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 3000)

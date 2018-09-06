@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { requestToReducer, closeModal, requestToState } from '../../../../data/dispatchers'
+import { requestToReducer, closeModal, requestToState, showModal } from '../../../../data/dispatchers'
 import { GetUsersEmployeesWithDepartments, AssignProfileMethod, GetUsersIdByProfile } from '../../../../data/alias/methods'
 import { usersemployeesdepartmant, usersidfromprofile } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
+
+import RevalidarSessao from '../../../components/revalidarsessao'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 
@@ -45,6 +47,8 @@ class AssignProfile extends Component {
 
         requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[usersemployeesdepartmant].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
         closeModal(this);
+        
+        window.setTimeout(() => showModal(this, 'Revalidar sessão.', <RevalidarSessao />, false, 'md'), 3000)
     }
 
     render() {

@@ -23,6 +23,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Item de menu deletado com sucesso!")]
         MenuItemDeletedSuccessfully = 7,
         [Description("Acesso a item de menu atribuido com sucesso!")]
-        SuccessfullyAssignedMenuItem = 8
+        SuccessfullyAssignedMenuItem = 8,
+        [Description("Sessão revalidada com sucesso!")]
+        SessionRevalidatedSuccessfully = 9
       }
 }

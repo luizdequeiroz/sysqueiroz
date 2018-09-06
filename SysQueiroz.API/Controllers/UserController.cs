@@ -237,6 +237,27 @@ namespace SysQueiroz.API.Controllers
         }
         #endregion
 
+        [HttpPost]
+        [AllowAnonymous]
+        public Return Relogin([FromBody] User User)
+        {
+            try
+            {
+                var user = userDomain.GetUserWithMethodsPerProfileByEmail(User.Email);
+                if (user != null)
+                {
+                    if (user.Password == User.Password)
+                        return new Return(Suc.SessionRevalidatedSuccessfully, user.Id, user.NewToken());
+                    else return new Error(Err.WrongPassword); 
+                }
+                else return new Error(Err.UserDoesNotExist); 
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
         // POST api/Login
         [HttpPost]
         [AllowAnonymous]
@@ -249,11 +270,9 @@ namespace SysQueiroz.API.Controllers
                 {
                     if (user.Password == User.Password)
                         return new Return(user.Id, user.NewToken());
-                    else
-                        return new Error(Err.WrongPassword);
+                    else return new Error(Err.WrongPassword);
                 }
-                else
-                    return new Error(Err.UserDoesNotExist);
+                else return new Error(Err.UserDoesNotExist);
             }
             catch (Exception ex)
             {

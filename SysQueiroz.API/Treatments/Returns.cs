@@ -21,9 +21,17 @@ namespace SysQueiroz.API.Treatments
             Status = (int)suc;
             Data = suc.ToDescription();
         }
+        public Return(Suc suc, dynamic data, string token)
+        {
+            Status = (int)suc;
+            Data = data;
+            Token = token;
+            Message = suc.ToDescription();
+        }
         public int Status;
         public object Data;
         public string Token;
+        public string Message;
     }
 
     public class Error : Return

@@ -14,6 +14,7 @@ export const UpdateMenu = 'UpdateMenu'
 export const DeleteMenu = 'DeleteMenu'
 export const AssignMenuMethod = 'AssignMenu'
 export const GetUsersIdByMenu = 'GetUsersIdByMenu'
+export const Relogin = 'Relogin'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

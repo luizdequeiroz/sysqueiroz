@@ -7,9 +7,12 @@ class SysModal extends Component {
 
     render() {
         
+        const { closeButton } = this.props
+        const headProps = { closeButton }
+
         return (
-            <Modal bsSize={this.props.size} show={this.props.show} onHide={() => closeModal(this)}>
-                <Modal.Header closeButton>
+            <Modal bsSize={this.props.size} show={this.props.show} onHide={() => closeModal(this)} backdrop="static">
+                <Modal.Header { ...headProps }>
                     <Modal.Title>{this.props.title}</Modal.Title>
                 </Modal.Header>
                 {this.props.content}
@@ -24,6 +27,7 @@ function select(state) {
         show: state.reducers.modal.show,
         title: state.reducers.modal.title,
         content: state.reducers.modal.content,
+        closeButton: state.reducers.modal.closeButton,
         size: state.reducers.modal.size
     }
 }

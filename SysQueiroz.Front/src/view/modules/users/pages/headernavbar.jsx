@@ -37,9 +37,9 @@ class HeaderNavBar extends Component {
         let content
 
         if (this.props.responses[session] === undefined) {
-            content = <HeaderLogin brand={tagsBrand} />
+            content = <HeaderLogin brand={tagsBrand} fluid fixedTop pullRight />
         } else {
-            content = <HeaderLogged brand={tagsBrand} />
+            content = <HeaderLogged brand={tagsBrand} fluid fixedTop pullRight />
         }
 
         return content
