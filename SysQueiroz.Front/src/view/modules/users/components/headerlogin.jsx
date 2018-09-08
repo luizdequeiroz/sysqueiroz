@@ -3,11 +3,12 @@ import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import { showAlert, requestToReducer, closeModal, clearReducer } from '../../../../data/dispatchers';
-import { Login, Relogin } from '../../../../data/alias/methods';
-import { session } from '../../../../data/alias/keys';
+import { showAlert, requestToReducer, closeModal } from '../../../../data/dispatchers'
+import { Login, Relogin } from '../../../../data/alias/methods'
+import { session } from '../../../../data/alias/keys'
 
 import If, { Else } from '../../../components/if'
+import { SysInput } from '../../../components/syscomponents';
 
 class HeaderLogin extends Component {
 
@@ -15,20 +16,26 @@ class HeaderLogin extends Component {
         super(props)
 
         this.entrar = this.entrar.bind(this)
+    }
+
+    componentWillUpdate() {
+
+        const { entrar, props: { revalidation } } = this
 
         window.onkeypress = e => {
-            if (e.keyCode === 13) {
-                this.entrar(props.revalidation)
+             
+            if (e.keyCode === 13) {                
+                entrar(revalidation)
             }
         }
     }
 
     entrar(revalidation) {
-        const email = document.getElementById('email').value !== '' ? document.getElementById('email').value : document.getElementById('e-mobile').value
-        const password = document.getElementById('password').value !== '' ? document.getElementById('password').value : document.getElementById('s-mobile').value
+        const email = document.getElementById('email').value || document.getElementById('e-mobile').value || document.getElementById('e-revalidation').value || document.getElementById('e-revalidation-mobile').value
+        const password = document.getElementById('password').value || document.getElementById('p-mobile').value || document.getElementById('p-revalidation').value || document.getElementById('p-revalidation-mobile').value
         if (email === '' || password === '') {
             showAlert(this, "E-mail e senha obrigatórios", 'warning')
-        } else {
+        } else {            
             if (revalidation) {
                 requestToReducer(this, Relogin, session, { email, password }, 'POST')
                 closeModal(this)
@@ -52,52 +59,27 @@ class HeaderLogin extends Component {
         const NavbarProps = { fluid, fixedTop }
         const FormProps = { pullRight }
 
-        if (revalidation) {
-            window.onkeydown = e => {
-                
-                e = e || window.event
-                var isEscape = false
-                if ('key' in e) {
-                    isEscape = (e.key === 'Escape' || e.key === 'Esc')
-                } else {
-                    isEscape = (e.keyCode === 27)
-                }
-                if (isEscape) {
-                    closeModal(this)
-                    window.location.hash = ''
-                    sessionStorage.clear()
-                    clearReducer(this)
-                }
-            }
-        } else window.onkeydown = undefined
+        const email = revalidation ? 'e-revalidation' : 'email'
+        const password = revalidation ? 'p-revalidation' : 'password'
+
+        const eMobile = revalidation ? 'e-revalidation-mobile' : 'e-mobile'
+        const pMobile = revalidation ? 'p-revalidation-mobile' : 'p-mobile'        
 
         const form = (
             <div>
                 <Navbar.Form {...FormProps} className="hidden-xs">
                     <div className="form-inline">
-                        <div className="input-group hidden-xs">
-                            <label className="input-group-addon" htmlFor="email"><FontAwesome name="at" /></label>
-                            <input id="email" type="text" className="form-control" placeholder="E-mail" />
-                        </div>&nbsp;
-                        <div className="input-group hidden-xs">
-                            <label className="input-group-addon" htmlFor="password"><FontAwesome name="lock" /></label>
-                            <input id="password" type="password" className="form-control" placeholder="Senha" />
-                        </div>
+                        <SysInput className="hidden-xs" id={email} label={<FontAwesome name="at" />} type="text" placeholder="E-mail" />&nbsp;
+                        <SysInput className="hidden-xs" id={password} label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
                         <button type="submit" className="btn btn-link" onClick={() => this.entrar(revalidation)}>Entrar</button>
                     </div>
                 </Navbar.Form>
                 <Nav className="hidden-sm hidden-md hidden-lg">
                     <NavItem>
-                        <div className="input-group">
-                            <label className="input-group-addon" htmlFor="email"><FontAwesome name="at" /></label>
-                            <input id="e-mobile" type="text" className="form-control" placeholder="E-mail" />
-                        </div>
+                        <SysInput id={eMobile} label={<FontAwesome name="at" />} type="text" placeholder="E-mail" />
                     </NavItem>
                     <NavItem>
-                        <div className="input-group">
-                            <label className="input-group-addon" htmlFor="password"><FontAwesome name="lock" /></label>
-                            <input id="s-mobile" type="password" className="form-control" placeholder="Senha" />
-                        </div>
+                        <SysInput id={pMobile} label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
                     </NavItem>
                     <NavItem>
                         <button className="btn btn-link btn-block" onClick={() => this.entrar(revalidation)}>Entrar</button>

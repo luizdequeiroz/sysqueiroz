@@ -6,7 +6,8 @@ const _img = require('../../../public/images/logo.png')
 
 import HeaderLogin from '../modules/users/components/headerlogin'
 
-import { closeModal, clearReducer } from '../../data/dispatchers';
+import { closeModal, clearReducer, setReducer } from '../../data/dispatchers';
+import { session } from '../../data/alias/keys';
 
 class RevalidarSessao extends Component {
 
@@ -21,6 +22,11 @@ class RevalidarSessao extends Component {
         window.location.hash = ''
         sessionStorage.clear()
         clearReducer(this)
+    }
+
+    componentWillMount = () => {
+        sessionStorage.clear()
+        setReducer(this, session, undefined)
     }
 
     render() {

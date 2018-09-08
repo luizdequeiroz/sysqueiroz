@@ -14,7 +14,7 @@ namespace SysQueiroz.Core.Provider
         public string Subject { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }     
-        public int ExpiryInMinutes { get; set; } = 5;
+        public int ExpiryInMinutes { get; set; } = 60;
         private Dictionary<string, string> Claims { get; set; } = new Dictionary<string, string>();
 
         public TokenBuilder AddClaim(string type, string value)

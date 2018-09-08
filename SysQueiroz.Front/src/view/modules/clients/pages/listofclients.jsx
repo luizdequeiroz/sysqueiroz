@@ -8,7 +8,7 @@ import { GetAllClients } from '../../../../data/alias/methods'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 
-import SysButton from '../../../components/sysbutton'
+import { SysButton } from '../../../components/syscomponents'
 
 class ListOfClients extends Component {
 

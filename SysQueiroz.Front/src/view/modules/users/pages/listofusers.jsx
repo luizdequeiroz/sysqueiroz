@@ -7,7 +7,7 @@ import { requestToReducer, showModal } from '../../../../data/dispatchers'
 import { GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
-import SysButton from '../../../components/sysbutton'
+import { SysButton } from '../../../components/syscomponents'
 import UserForm from '../components/userform'
 
 class ListOfUsers extends Component {
@@ -45,9 +45,9 @@ class ListOfUsers extends Component {
                     {
                         props => (
                             <div>
-                                <div class="input-group">
+                                <div className="input-group">
                                     <SearchBar {...props.searchProps} placeholder="Buscar usuários..." />
-                                    <span class="input-group-btn">                                    
+                                    <span className="input-group-btn">                                    
                                         <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo usuário', <UserForm />, true, 'lg')} />
                                     </span>
                                 </div>

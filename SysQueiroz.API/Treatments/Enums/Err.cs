@@ -27,6 +27,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Múltiplos erros!")]
         MultipleErrors = -11,
         [Description("Não há menus!")]
-        NoMenus = 0
-      }
+        NoMenus = -12,
+        [Description("Usuário já existe!")]
+        UserAlreadyExists = -13
+    }
 }

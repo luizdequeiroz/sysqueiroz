@@ -1,4 +1,4 @@
-export const API = 'http://localhost:5000/api'
+export const API = 'http://localhost:5000/api'//'http://192.168.11.9/SysQueirozAPI/api'
 
 /**
  * Função para transformar um objeto em parâmetros de url (var1=valor1)

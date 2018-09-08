@@ -75,5 +75,14 @@ namespace SysQueiroz.Users
 
             return result;
         }
+
+        public bool InsertNewUser(User user)
+        {
+            var us = SelectWhere<User>(u => u.Email == user.Email).FirstOrDefault();
+            if (us != null) return false;
+
+            Insert(user);
+            return true;
+        }
     }
 }

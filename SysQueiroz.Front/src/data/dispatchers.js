@@ -129,7 +129,8 @@ export function requestToState(context, method, returnStateKey, param = '', meth
         }
     }).then(json => {
         if (json.status < 0) {
-
+            
+            console.error(json.data)
             dispatch({ type: GENERIC_FAILED, msg: json.data })
 
             responses[returnStateKey] = undefined
@@ -206,6 +207,7 @@ export function requestToReducer(context, method, returnReduceKey, param = '', m
     }).then(json => {
         if (json.status < 0) {
 
+            console.error(json.data)
             dispatch({ type: GENERIC_FAILED, msg: json.data })
 
             responses[returnReduceKey] = undefined

@@ -549,5 +549,20 @@ namespace SysQueiroz.API.Controllers
                 return new Error(ex);
             }
         }
+
+        [HttpPost]
+        public Return SetNewUser([FromBody] User user)
+        {
+            try
+            {
+                var ok = userDomain.InsertNewUser(user);
+                if(ok) return new Return(Suc.UserSuccessfullyRegistered);
+                else return new Error(Err.UserAlreadyExists);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ class SysModal extends Component {
         const headProps = { closeButton }
 
         return (
-            <Modal bsSize={size} show={show} onHide={() => closeModal(this)} backdrop="static">
+            <Modal bsSize={size} show={show} onHide={() => closeModal(this)} backdrop="static" keyboard={false}>
                 <Modal.Header {...headProps}>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
