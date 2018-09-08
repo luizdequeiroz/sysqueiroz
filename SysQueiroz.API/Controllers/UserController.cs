@@ -90,6 +90,16 @@ namespace SysQueiroz.API.Controllers
                                 Name = "Perfis de Usuário",
                                 SuperHref = "systempermissions"
                             }
+                        },
+                        new MenuAccess
+                        {
+                            Menu = new Menu
+                            {
+                                Href = "menus",
+                                Icon = "bars",
+                                Name = "Itens de Menu",
+                                SuperHref = "systempermissions"
+                            }
                         }
                     },
                     UserProfiles = new List<UserProfile>
@@ -144,14 +154,6 @@ namespace SysQueiroz.API.Controllers
                         //                     Name = "SetNewClient",
                         //                     Description = "Cadastrar um novo cliente no sistema."
                         //                 }
-                        //             },
-                        //             new ProfileMethod
-                        //             {
-                        //                 Method = new Method
-                        //                 {
-                        //                     Name = "AssignProfile",
-                        //                     Description = "Atribuir perfil à usuário(s)"
-                        //                 }
                         //             }
                         //         }
                         //     }
@@ -194,6 +196,49 @@ namespace SysQueiroz.API.Controllers
                                         {
                                             Name = "AssignProfile",
                                             Description = "Atribuir perfil à usuário(s)"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        new UserProfile
+                        {
+                            Profile = new Profile
+                            {
+                                Name = "Gerenciamento de Itens de Menu",
+                                Description = "",
+                                ProfileMethods = new List<ProfileMethod>
+                                {
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "GetAllMenusForListMenu",
+                                            Description = "Listar todos os itens de menu do sistema, hierarquicamente estruturado."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "UpdateMenuItem",
+                                            Description = "Atualizar alterações nos dados de um item de menu do sistema."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "DeleteMenuItem",
+                                            Description = "Deletar item de menu do sistema."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "AssignMenuItem",
+                                            Description = "Atribuir acesso a item de menu à usuário(s)"
                                         }
                                     }
                                 }
@@ -248,9 +293,9 @@ namespace SysQueiroz.API.Controllers
                 {
                     if (user.Password == User.Password)
                         return new Return(Suc.SessionRevalidatedSuccessfully, user.Id, user.NewToken());
-                    else return new Error(Err.WrongPassword); 
+                    else return new Error(Err.WrongPassword);
                 }
-                else return new Error(Err.UserDoesNotExist); 
+                else return new Error(Err.UserDoesNotExist);
             }
             catch (Exception ex)
             {
@@ -289,8 +334,7 @@ namespace SysQueiroz.API.Controllers
                 var user = userDomain.SelectByID<User>(id);
                 if (user == null)
                     return new Error(Err.UserDoesNotExist);
-                else
-                    return new Return(user.Without("Password"));
+                else return new Return(user.Without("Password"));
             }
             catch (Exception ex)
             {
@@ -307,8 +351,7 @@ namespace SysQueiroz.API.Controllers
                 var users = userDomain.SelectAll<User>().ToList();
                 if (users.Count == 0)
                     return new Error(Err.NoUsers);
-                else
-                    return new Return(users);
+                else return new Return(users);
             }
             catch (Exception ex)
             {
@@ -362,8 +405,7 @@ namespace SysQueiroz.API.Controllers
                 var profiles = profileDomain.SelectAll<Profile>().ToList();
                 if (profiles.Count == 0)
                     return new Error(Err.NoProfiles);
-                else
-                    return new Return(profiles);
+                else return new Return(profiles);
             }
             catch (Exception ex)
             {
@@ -440,8 +482,7 @@ namespace SysQueiroz.API.Controllers
                 var organizedMenus = menuDomain.OrganizeHierarchically(menus);
                 if (menus.Count == 0)
                     return new Error(Err.NoMenus);
-                else
-                    return new Return(organizedMenus);
+                else return new Return(organizedMenus);
             }
             catch (Exception ex)
             {
@@ -450,7 +491,7 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpPost]
-        public Return UpdateMenu([FromBody] Menu m)
+        public Return UpdateMenuItem([FromBody] Menu m)
         {
             try
             {
@@ -465,11 +506,11 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpPost]
-        public Return DeleteMenu([FromBody] int id)
+        public Return DeleteMenuItem([FromBody] int id)
         {
             try
             {
-                menuDomain.DeleteMenu(id);
+                menuDomain.DeleteMenuItem(id);
 
                 return new Return(Suc.MenuItemDeletedSuccessfully);
             }
@@ -480,7 +521,7 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpPost]
-        public Return AssignMenu([FromBody] Assigns assigns)
+        public Return AssignMenuItem([FromBody] Assigns assigns)
         {
             try
             {

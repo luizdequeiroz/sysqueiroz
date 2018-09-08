@@ -17,7 +17,7 @@ namespace SysQueiroz.Users
             _context = context;
         }
 
-        public void DeleteMenu(int id)
+        public void DeleteMenuItem(int id)
         {
             var menu = SelectByID<Menu>(id);
             Delete(menu);

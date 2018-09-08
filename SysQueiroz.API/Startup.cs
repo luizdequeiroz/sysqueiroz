@@ -88,7 +88,7 @@ namespace SysQueiroz.API
 
             services.AddMvc();
 
-            StartupRepository.Init(Configuration.GetConnectionString("dbtest"));
+            StartupRepository.Init(Configuration.GetConnectionString("sysqueiroz"));
             StartupRepository.Configure(services);
         }
 

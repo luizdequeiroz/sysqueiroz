@@ -18,7 +18,7 @@ namespace SysQueiroz.Users
 
         public User GetUserWithMethodsPerProfileByEmail(string email)
         {
-            return SelectWhere<User>(u => u.Email == email).Select(u => new User 
+            return SelectWhere<User>(u => u.Email == email).Select(u => new User
             {
                 Id = u.Id,
                 Password = u.Password,
@@ -59,20 +59,19 @@ namespace SysQueiroz.Users
         public IList<Menu> GetMenuByUserId(int id)
         {
             var menuAccesses = SelectWhere<MenuAccess>(a => a.User.Id == id);
-            var menus = menuAccesses.Select(a => a.Menu).ToList();
+            var menus = menuAccesses.Select(a => a.Menu).OrderBy(a => a.Name).ToList();
             return menus;
         }
 
         public IList<dynamic> GetUsersEmployeesWithDepartments()
         {
             var result = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => new
-                {         
-                    id = e.User.Id,   
-                    name = e.Name,
-                    email = e.User.Email,
-                    departmentName = d.Name
-                }
-            ).ToList<dynamic>();
+            {
+                id = e.User.Id,
+                name = e.Name,
+                email = e.User.Email,
+                departmentName = d.Name
+            }).ToList<dynamic>();
 
             return result;
         }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { requestToReducer, closeModal, requestToState } from '../../../../data/dispatchers'
-import { GetUsersEmployeesWithDepartments, AssignMenuMethod, GetUsersIdByMenu } from '../../../../data/alias/methods'
+import { GetUsersEmployeesWithDepartments, AssignMenuItem, GetUsersIdByMenu } from '../../../../data/alias/methods'
 import { usersemployeesdepartmant, usersidfrommenu } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
 
@@ -43,7 +43,7 @@ class AssignMenu extends Component {
 
     assignMenu() {
 
-        requestToReducer(this, AssignMenuMethod, 'ssgn_menu', { menuId: this.props.menuId, all: this.props.responses[usersemployeesdepartmant].data.map(u => u.id), selecteds: this.state.responses[usersidfrommenu].data }, 'POST', true, "Atribuindo menus aos usuários selecionados...")
+        requestToReducer(this, AssignMenuItem, 'ssgn_menu', { menuId: this.props.menuId, all: this.props.responses[usersemployeesdepartmant].data.map(u => u.id), selecteds: this.state.responses[usersidfrommenu].data }, 'POST', true, "Atribuindo menus aos usuários selecionados...")
         closeModal(this);
     }
 

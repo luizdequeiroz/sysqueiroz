@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import { connect } from 'react-redux'
-import { closeModal } from '../../data/dispatchers';
+import { closeModal } from '../../data/dispatchers'
 
 class SysModal extends Component {
 
     render() {
-        
-        const { closeButton } = this.props
+
+        const { show, title, content, closeButton, size } = this.props
         const headProps = { closeButton }
 
         return (
-            <Modal bsSize={this.props.size} show={this.props.show} onHide={() => closeModal(this)} backdrop="static">
-                <Modal.Header { ...headProps }>
-                    <Modal.Title>{this.props.title}</Modal.Title>
+            <Modal bsSize={size} show={show} onHide={() => closeModal(this)} backdrop="static">
+                <Modal.Header {...headProps}>
+                    <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
-                {this.props.content}
+                {content}
             </Modal>
         )
     }

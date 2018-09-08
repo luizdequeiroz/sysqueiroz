@@ -3,11 +3,11 @@ import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import { showAlert, requestToReducer, closeModal } from '../../../../data/dispatchers';
+import { showAlert, requestToReducer, closeModal, clearReducer } from '../../../../data/dispatchers';
 import { Login, Relogin } from '../../../../data/alias/methods';
 import { session } from '../../../../data/alias/keys';
 
-import If from '../../../components/if'
+import If, { Else } from '../../../components/if'
 
 class HeaderLogin extends Component {
 
@@ -28,7 +28,7 @@ class HeaderLogin extends Component {
         const password = document.getElementById('password').value !== '' ? document.getElementById('password').value : document.getElementById('s-mobile').value
         if (email === '' || password === '') {
             showAlert(this, "E-mail e senha obrigatórios", 'warning')
-        } else {            
+        } else {
             if (revalidation) {
                 requestToReducer(this, Relogin, session, { email, password }, 'POST')
                 closeModal(this)
@@ -52,9 +52,28 @@ class HeaderLogin extends Component {
         const NavbarProps = { fluid, fixedTop }
         const FormProps = { pullRight }
 
+        if (revalidation) {
+            window.onkeydown = e => {
+                
+                e = e || window.event
+                var isEscape = false
+                if ('key' in e) {
+                    isEscape = (e.key === 'Escape' || e.key === 'Esc')
+                } else {
+                    isEscape = (e.keyCode === 27)
+                }
+                if (isEscape) {
+                    closeModal(this)
+                    window.location.hash = ''
+                    sessionStorage.clear()
+                    clearReducer(this)
+                }
+            }
+        } else window.onkeydown = undefined
+
         const form = (
             <div>
-                <Navbar.Form { ...FormProps } className="hidden-xs">
+                <Navbar.Form {...FormProps} className="hidden-xs">
                     <div className="form-inline">
                         <div className="input-group hidden-xs">
                             <label className="input-group-addon" htmlFor="email"><FontAwesome name="at" /></label>
@@ -88,20 +107,20 @@ class HeaderLogin extends Component {
         )
 
         return (
-            <Navbar { ...NavbarProps } >
+            <Navbar {...NavbarProps} >
                 <If condition={this.props.brand !== undefined}>
                     <Navbar.Header>
-                            <Navbar.Brand>
-                                {this.props.brand}
-                            </Navbar.Brand>
+                        <Navbar.Brand>
+                            {this.props.brand}
+                        </Navbar.Brand>
                         <Navbar.Toggle />
                     </Navbar.Header>
                     <Navbar.Collapse>
                         {form}
                     </Navbar.Collapse>
-                </If>
-                <If condition={this.props.brand === undefined}>
-                    {form}
+                    <Else>
+                        {form}
+                    </Else>
                 </If>
             </Navbar>
         )

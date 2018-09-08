@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { requestToReducer, setReducer, showModal } from '../../../../data/dispatchers'
-import { GetAllMenusForListMenu, UpdateMenu, DeleteMenu } from '../../../../data/alias/methods'
+import { GetAllMenusForListMenu, UpdateMenuItem, DeleteMenuItem } from '../../../../data/alias/methods'
 import { menus } from '../../../../data/alias/keys'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -32,7 +32,7 @@ class Menus extends Component {
 
     deleteMenu(id) {
 
-        requestToReducer(this, DeleteMenu, 'dlt_menu', id, 'POST', true, "Deletando menu...")
+        requestToReducer(this, DeleteMenuItem, 'dlt_menu', id, 'POST', true, "Deletando menu...")
         // atualizar redux com a alteração da tabela
         setReducer(this, menus, {
             data: this.props.responses[menus].data.filter(m => m.id !== id).map(m => ({
@@ -41,7 +41,8 @@ class Menus extends Component {
                 icon: m.icon, 
                 name: m.name,
                 superHref: m.superHref,
-                menuAccesses: null
+                menuAccesses: null,
+                subMenus: m.subMenus
             }))
         })
     }
@@ -51,7 +52,7 @@ class Menus extends Component {
         const { id, href, icon, name, superHref } = row
 
         if (newValue !== oldValue) {
-            requestToReducer(this, UpdateMenu, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
+            requestToReducer(this, UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
             // atualizar redux com a alteração da tabela
             setReducer(this, menus, {
                 data: this.props.responses[menus].data.map(m => {
@@ -62,7 +63,8 @@ class Menus extends Component {
                             icon: m.icon,
                             name: name,
                             superHref: m.superHref,
-                            menuAccesses: null
+                            menuAccesses: null,
+                            subMenus: m.subMenus
                         })
                     } else {
                         return m

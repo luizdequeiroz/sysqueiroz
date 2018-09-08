@@ -11,7 +11,7 @@ using System;
 namespace SysQueiroz.Core.Migrations
 {
     [DbContext(typeof(SysQueirozContext))]
-    [Migration("20180905120244_SysQueiroz001")]
+    [Migration("20180905230310_SysQueiroz001")]
     partial class SysQueiroz001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
