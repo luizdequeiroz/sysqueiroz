@@ -5,6 +5,7 @@ import { closeModal, requestToReducer, requestToState } from '../../../../data/d
 import { GetUser, SetNewUser } from '../../../../data/alias/methods'
 import { user } from '../../../../data/alias/keys'
 import { SysInput } from '../../../components/syscomponents'
+import { entrar } from './headerlogin';
 
 class UserForm extends Component {
 
@@ -23,6 +24,8 @@ class UserForm extends Component {
         }
     }
 
+    componentWillUnmount = () => window.onkeypress = entrar
+
     componentDidMount() {
 
         const { edit, userId } = this.props
@@ -30,6 +33,8 @@ class UserForm extends Component {
             this.setState({ buttonSave: 'Alterar', actionUser: this.alterUser })
             requestToReducer(this, GetUser, user, userId)
         } else this.setState({ actionUser: this.saveUser })
+        
+        window.onkeypress = undefined
     }
 
     saveUser() {

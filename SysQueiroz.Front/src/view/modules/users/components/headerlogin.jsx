@@ -10,27 +10,25 @@ import { session } from '../../../../data/alias/keys'
 import If, { Else } from '../../../components/if'
 import { SysInput } from '../../../components/syscomponents';
 
+export var entrar
+
 class HeaderLogin extends Component {
 
     constructor(props) {
         super(props)
 
         this.entrar = this.entrar.bind(this)
-    }
 
-    componentWillUpdate() {
-
-        const { entrar, props: { revalidation } } = this
-
-        window.onkeypress = e => {
-             
-            if (e.keyCode === 13) {                
-                entrar(revalidation)
+        entrar = (e, revalidation) => {             
+            if (e.keyCode === 13) {                                
+                this.entrar(revalidation)
             }
         }
+
+        window.onkeypress = entrar
     }
 
-    entrar(revalidation) {
+    entrar(revalidation = false) {
         const email = document.getElementById('email').value || document.getElementById('e-mobile').value || document.getElementById('e-revalidation').value || document.getElementById('e-revalidation-mobile').value
         const password = document.getElementById('password').value || document.getElementById('p-mobile').value || document.getElementById('p-revalidation').value || document.getElementById('p-revalidation-mobile').value
         if (email === '' || password === '') {
