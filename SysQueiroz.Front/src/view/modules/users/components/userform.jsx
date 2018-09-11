@@ -24,7 +24,11 @@ class UserForm extends Component {
         }
     }
 
-    componentWillUnmount = () => window.onkeypress = entrar
+    componentWillUnmount = () => window.onkeypress = (e) => {
+        if (e.keyCode === 13) {
+            entrar(this)
+        }
+    }
 
     componentDidMount() {
 

@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome'
 import { connect } from 'react-redux'
 
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
-import { showAlert, requestToReducer, closeModal } from '../../../../data/dispatchers'
+import { showAlert, requestToReducer, requestToState } from '../../../../data/dispatchers'
 import { Login, Relogin } from '../../../../data/alias/methods'
 import { session } from '../../../../data/alias/keys'
 
@@ -19,26 +19,26 @@ class HeaderLogin extends Component {
 
         this.entrar = this.entrar.bind(this)
 
-        entrar = (e, revalidation) => {             
+        window.onkeypress = (e) => {             
             if (e.keyCode === 13) {                                
-                this.entrar(revalidation)
+                this.entrar()
             }
         }
 
-        window.onkeypress = entrar
+        entrar = this.entrar
     }
 
-    entrar(revalidation = false) {
-        const email = document.getElementById('email').value || document.getElementById('e-mobile').value || document.getElementById('e-revalidation').value || document.getElementById('e-revalidation-mobile').value
-        const password = document.getElementById('password').value || document.getElementById('p-mobile').value || document.getElementById('p-revalidation').value || document.getElementById('p-revalidation-mobile').value
+    entrar(context = this, revalidation = false) {
+        
+        const email = document.getElementById('email').value || document.getElementById('e-mobile').value
+        const password = document.getElementById('password').value || document.getElementById('p-mobile').value
         if (email === '' || password === '') {
-            showAlert(this, "E-mail e senha obrigatórios", 'warning')
+            showAlert(context, "E-mail e senha obrigatórios", 'warning')
         } else {            
             if (revalidation) {
-                requestToReducer(this, Relogin, session, { email, password }, 'POST')
-                closeModal(this)
+                requestToState(context, Relogin, session, { email, password }, 'POST')
             } else {
-                requestToReducer(this, Login, session, { email, password }, 'POST')
+                requestToReducer(context, Login, session, { email, password }, 'POST')
             }
             //showMsgPanel(this, 'Exemplo de painel sem autohide', 'danger', true)
             /** request synchronous */
@@ -53,34 +53,28 @@ class HeaderLogin extends Component {
 
     render() {
 
-        const { fluid, fixedTop, pullRight, revalidation } = this.props
+        const { fluid, fixedTop, pullRight, revalidation, context } = this.props
         const NavbarProps = { fluid, fixedTop }
-        const FormProps = { pullRight }
-
-        const email = revalidation ? 'e-revalidation' : 'email'
-        const password = revalidation ? 'p-revalidation' : 'password'
-
-        const eMobile = revalidation ? 'e-revalidation-mobile' : 'e-mobile'
-        const pMobile = revalidation ? 'p-revalidation-mobile' : 'p-mobile'        
+        const FormProps = { pullRight }      
 
         const form = (
             <div>
                 <Navbar.Form {...FormProps} className="hidden-xs">
                     <div className="form-inline">
-                        <SysInput className="hidden-xs" id={email} label={<FontAwesome name="at" />} type="text" placeholder="E-mail" />&nbsp;
-                        <SysInput className="hidden-xs" id={password} label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
-                        <button type="submit" className="btn btn-link" onClick={() => this.entrar(revalidation)}>Entrar</button>
+                        <SysInput className="hidden-xs" id="email" label={<FontAwesome name="at" />} type="text" placeholder="E-mail" />&nbsp;
+                        <SysInput className="hidden-xs" id="password" label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
+                        <button type="submit" className="btn btn-link" onClick={() => this.entrar(context, revalidation)}>Entrar</button>
                     </div>
                 </Navbar.Form>
                 <Nav className="hidden-sm hidden-md hidden-lg">
                     <NavItem>
-                        <SysInput id={eMobile} label={<FontAwesome name="at" />} type="text" placeholder="E-mail" />
+                        <SysInput id="e-mobile" label={<FontAwesome name="at" />} type="text" placeholder="E-mail" />
                     </NavItem>
                     <NavItem>
-                        <SysInput id={pMobile} label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
+                        <SysInput id="p-mobile" label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
                     </NavItem>
                     <NavItem>
-                        <button className="btn btn-link btn-block" onClick={() => this.entrar(revalidation)}>Entrar</button>
+                        <button className="btn btn-link btn-block" onClick={() => this.entrar(context, revalidation)}>Entrar</button>
                     </NavItem>
                 </Nav>
             </div>

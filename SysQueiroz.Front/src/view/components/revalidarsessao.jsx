@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 
-const _img = require('../../../public/images/logo.png')
-
-import HeaderLogin from '../modules/users/components/headerlogin'
+import HeaderLogin, { entrar } from '../modules/users/components/headerlogin'
 
 import { closeModal, clearReducer, setReducer } from '../../data/dispatchers';
 import { session } from '../../data/alias/keys';
@@ -13,6 +11,12 @@ class RevalidarSessao extends Component {
 
     constructor(props) {
         super(props)
+
+        this.state = {
+            responses: {},
+            message: "",
+            showPanel: false
+        }
 
         this.sair = this.sair.bind(this)
     }
@@ -24,9 +28,26 @@ class RevalidarSessao extends Component {
         clearReducer(this)
     }
 
-    componentWillMount = () => {
-        sessionStorage.clear()
-        setReducer(this, session, undefined)
+    componentWillUnmount = () => window.onkeypress = (e) => {
+        if (e.keyCode === 13) {
+            entrar()
+        }
+    }
+
+    componentDidMount = () => window.onkeypress = (e) => {
+        if (e.keyCode === 13) {
+            entrar(this, true)
+        }
+    }
+
+    componentWillUpdate() {
+
+        const { responses } = this.state
+        const { status } = responses[session] !== undefined ? JSON.parse(responses[session]) : { status: 0 }
+        if (status > 0) {
+            closeModal(this)
+            setReducer(this, session, responses[session])
+        }
     }
 
     render() {
@@ -35,8 +56,8 @@ class RevalidarSessao extends Component {
             <div>
                 <Modal.Body>
                     <fieldset>
-                        <legend>Essa operação requere uma revalidação de sessão.</legend>
-                        <HeaderLogin revalidation />
+                        <legend>Essa operação requer uma revalidação de sessão.</legend>
+                        <HeaderLogin revalidation context={this} />
                         <h6>Se você não revalidar a sessão, você será redirecionado para a tela de login do sistema.</h6>
                         <h6>Não se preocupe, sua operação não está comprometida. Ela já foi efetuada!</h6>
                     </fieldset>

@@ -5,10 +5,9 @@ import MessagePanel from './messagepanel'
 import SysModal from './modal'
 
 import HeaderNavBar from '../modules/users/pages/headernavbar'
+import FooterNavBar from '../modules/users/components/footernavbar'
 import { session } from '../../data/alias/keys'
 import { setReducer } from '../../data/dispatchers'
-
-import { Navbar } from 'react-bootstrap'
 
 class Index extends Component {
     keyCode = ""
@@ -37,13 +36,7 @@ class Index extends Component {
                     <MessagePanel />
                     {this.props.children}
                 </div>
-                <Navbar fluid fixedBottom>
-                    <div className="text-center">
-                        <div className="navbar-footer">
-                            <p>SysQueirozTeam &copy; Todos os direitos reservados.<br /><span className="badge">Versão 1.0</span></p>
-                        </div>
-                    </div>
-                </Navbar>
+                <FooterNavBar />
                 <Status />
                 <SysModal />
             </div>
