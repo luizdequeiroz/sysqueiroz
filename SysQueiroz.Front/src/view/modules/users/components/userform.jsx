@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
-import { closeModal, requestToReducer, requestToState } from '../../../../data/dispatchers'
-import { GetUser, SetNewUser } from '../../../../data/alias/methods'
-import { user } from '../../../../data/alias/keys'
-import { SysInput } from '../../../components/syscomponents'
+import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
+import { GetUser, SetNewUser, GetAllEmployeesForNewUser, GetAllDepartments, GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods'
+import { user, employeesForNewUser, departments, usersemployeesdepartmant } from '../../../../data/alias/keys'
+import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
 import { entrar } from './headerlogin';
+import If, { Else } from '../../../components/if';
 
 class UserForm extends Component {
 
@@ -20,13 +21,15 @@ class UserForm extends Component {
             buttonSave: 'Cadastrar',
             actionUser: undefined,
             employeeValidation: undefined,
-            departmentValidation: undefined
+            departmentValidation: undefined,
+            newEmployee: false,
+            newDepartment: false
         }
     }
 
     componentWillUnmount = () => window.onkeypress = (e) => {
         if (e.keyCode === 13) {
-            entrar(this)
+            entrar()
         }
     }
 
@@ -35,49 +38,77 @@ class UserForm extends Component {
         const { edit, userId } = this.props
         if (edit) {
             this.setState({ buttonSave: 'Alterar', actionUser: this.alterUser })
-            requestToReducer(this, GetUser, user, userId)
-        } else this.setState({ actionUser: this.saveUser })
-        
+            requestToState(this, GetUser, user, userId)
+        } else {
+            requestToState(this, GetAllEmployeesForNewUser, employeesForNewUser)
+            this.setState({ actionUser: this.saveUser })
+        }
+
         window.onkeypress = undefined
     }
 
     saveUser() {
 
-        //const employeeId = document.getElementById('employeeId').value || document.getElementById('eId-mobile').value
-        //const name = document.getElementById('name').value || document.getElementById('n-mobile').value
-        const email = document.getElementById('email').value || document.getElementById('e-mobile').value
-        const password = document.getElementById('password').value || document.getElementById('p-mobile').value
-        //const departmentId = document.getElementById('departmentId').value || document.getElementById('d-mobile').value
-        //const departmentName = document.getElementById('departmentName').value || document.getElementById('dId-mobile').value
+        let employeeId = '', name, departmentId = '', departmentName
+        let employeeValidation, departmentValidation, emailPasswordValidation
+        const email = document.getElementById('email').value
+        const password = document.getElementById('password').value
 
         let valid = true
-        // if (employeeId.trim() === '' && name.trim() === '') {
-        //     valid = false
-        //     this.setState({ employeeValidation: 'Dados de funcionário obrigatórios!' })
-        // }
-        // if (departmentId.trim() === '' && departmentName.trim() === '') {
-        //     valid = false
-        //     this.setState({ departmentValidation: 'Dados de setor obrigatórios!' })
-        // }
-        if (email.trim() === '' || password.trim() === '') {
-            valid = false
-            this.setState({ emailPasswordValidation: 'E-mail e senha obrigatórios!' })
+
+        if (this.state.newEmployee) {
+            name = document.getElementById('name').value
+
+            if (this.state.newDepartment) {
+                departmentName = document.getElementById('departmentName').value
+            } else {
+                departmentId = document.getElementById('department').value
+            }
+
+            if ((departmentId.trim() === '' && departmentName.trim() === '') || departmentId.trim() === 'Selecione') {
+                valid = false
+                departmentValidation = 'Dados de setor obrigatórios!'
+            }
+        } else {
+            employeeId = document.getElementById('employee').value
         }
 
+        if ((employeeId.trim() === '' && name.trim() === '') || employeeId.trim() === 'Selecione') {
+            valid = false
+            employeeValidation = 'Dados de funcionário obrigatórios! '
+        }
+
+        if (email.trim() === '' || password.trim() === '') {
+            valid = false
+            emailPasswordValidation = 'E-mail e senha obrigatórios!'
+        }
+        
         if (valid) {
 
             const user = {
                 email,
                 password,
-                //employeeId: employeeId || null,
-                // employee: {
-                //     name: name || null,
-                //     departmentId: departmentId || null,
-                //     department: { name: departmentName || null }
-                // }
+                employeeId: employeeId || 0,
+                employee: employeeId === '' ? {
+                    name: name,
+                    departmentId: departmentId || 0,
+                    department: departmentId === '' ? { name: departmentName } : null
+                } : null
             }
 
             requestToState(this, SetNewUser, 'rgstr_user', user, 'POST', true)
+        } else {
+            this.setState({ employeeValidation, departmentValidation, emailPasswordValidation })
+        }
+    }
+
+    componentWillUpdate() {
+
+        const { responses } = this.state
+        const { status } = responses['rgstr_user'] !== undefined ? responses['rgstr_user'] : { status: 0 }
+        if (status > 0) {
+            requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+            closeModal(this)
         }
     }
 
@@ -87,24 +118,68 @@ class UserForm extends Component {
 
     render() {
 
-        const { responses } = this.props
+        const { responses } = this.state
         const u = responses[user] !== undefined ? responses[user].data : {
             email: '',
             password: ''
         }
 
+        const optnsEmpl = (
+            u.employee !== undefined ? [u.employee] : (
+                responses[employeesForNewUser] !== undefined ? responses[employeesForNewUser].data : []
+            )
+        ).map(e => ({ value: e.id, text: `${e.name} - ${e.departmentName}` }))
+
+        const optnsDepa = (
+            responses[departments] !== undefined ? responses[departments].data : []
+        ).map(d => ({ value: d.id, text: d.name }))
+
         return (
             <div>
                 <Modal.Body>
                     <div className="form-group">
+                        <small className="text-danger">{this.state.employeeValidation}</small>
+                        <small className="text-danger">{this.state.departmentValidation}</small>
+                        <If condition={this.state.newEmployee}>
+                            <div className="form-inline">
+                                <div className="input-group">
+                                    <SysInput id="name" label="Nome" type="text" placeholder="Nome do funcionário." />
+                                    <div className="input-group-btn">
+                                        <SysButton type="primary" text={<i className="fa fa-minus-circle" />} textHover="Existente" action={() => this.setState({ newEmployee: false, newDepartment: false })} size="sm" />
+                                    </div>
+                                </div>&nbsp;
+                                <If condition={this.state.newDepartment} childrenCountIsOne>
+                                    <SysInput id="departmentName" label="Setor" type="text" placeholder="Nome do setor." />
+                                    <Else childrenCountIsOne>
+                                        <div className="input-group">
+                                            <SysSelect id="department" label="Setor" options={optnsDepa} />
+                                            <div className="input-group-btn">
+                                                <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => this.setState({ newDepartment: true })} size="sm" />
+                                            </div>
+                                        </div>
+                                    </Else>
+                                </If>
+                            </div>
+                            <Else childrenCountIsOne>
+                                <div className="form-inline">
+                                    <div className="input-group">
+                                        <SysSelect id="employee" label="Funcionário" options={optnsEmpl} />
+                                        <div className="input-group-btn">
+                                            <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => {
+                                                requestToState(this, GetAllDepartments, departments)
+                                                this.setState({ newEmployee: true })
+                                            }} size="sm" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </Else>
+                        </If>
+                    </div>
+                    <div className="form-group">
                         <small className="text-danger">{this.state.emailPasswordValidation}</small>
                         <div className="form-inline">
-                            <SysInput defaultValue={u.email} className="hidden-xs" id="email" label="E-mail" type="text" placeholder="E-mail de acesso." />&nbsp;
-                            <SysInput defaultValue={u.password} className="hidden-xs" id="password" label="Senha" type="password" placeholder="Senha de acesso." />
-                        </div>
-                        <div className="hidden-sm hidden-md hidden-lg">
-                            <SysInput defaultValue={u.email} id="e-mobile" label="E-mail" type="text" placeholder="E-mail de acesso." /><br />
-                            <SysInput defaultValue={u.password} id="p-mobile" label="Senha" type="password" placeholder="Senha de acesso." />
+                            <SysInput defaultValue={u.email} id="email" label="E-mail" type="text" placeholder="E-mail de acesso." />&nbsp;
+                            <SysInput defaultValue={u.password} id="password" label="Senha" type="password" placeholder="Senha de acesso." />
                         </div>
                     </div>
                 </Modal.Body>

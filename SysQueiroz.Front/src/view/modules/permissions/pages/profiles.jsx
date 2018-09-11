@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { requestToReducer, setReducer, showModal } from '../../../../data/dispatchers'
+import { requestToReducer, setReducer, showModal, closeModal } from '../../../../data/dispatchers'
 import { GetAllProfiles, UpdateProfile, DeleteProfile } from '../../../../data/alias/methods'
 import { profiles } from '../../../../data/alias/keys'
 
@@ -9,6 +9,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import cellEditFactory from 'react-bootstrap-table2-editor'
 
 import AssignProfile from '../components/assignprofile'
+import Modal from 'react-bootstrap/lib/Modal'
 
 class Profiles extends Component {
 
@@ -93,7 +94,14 @@ class Profiles extends Component {
                 actions: (
                     <div className="btn-group">
                         <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir perfil ${p.name}`, <AssignProfile profileId={p.id} />)}>Atribuir</button>
-                        <button className="btn btn-xs btn-danger" onClick={() => showModal(this, `Confirmar exclusão do perfil "${p.name}"?`, <button className="btn btn-danger btn-block" onClick={() => this.deleteProfile(p.id)}>Confirmar exclusão!</button>, 'sm')}>Deletar</button>
+                        <button className="btn btn-xs btn-danger" onClick={() => showModal(this, `Confirmar exclusão do perfil "${p.name}"?`, (
+                            <Modal.Footer>
+                                <div className="btn-group">
+                                    <button className="btn btn-danger" onClick={() => this.deleteProfile(p.id)}>Confirmar exclusão!</button>
+                                    <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar exclusão!</button>
+                                </div>
+                            </Modal.Footer>
+                        ), true, 'md')}>Deletar</button>
                     </div>
                 )
             }))
@@ -101,10 +109,12 @@ class Profiles extends Component {
 
         return (
             <fieldset>
-                <legend>Lista de Perfis de Usuário</legend>
-                <div className="pull-right">
-                    <button className="btn btn-primary">NOVO</button>
-                </div>
+                <legend>
+                    Lista de Perfis de Usuário
+                    <div className="pull-right">
+                        <button className="btn btn-primary btn-sm">NOVO</button>
+                    </div>
+                </legend>
                 <BootstrapTable
                     keyField='id'
                     data={prfls}

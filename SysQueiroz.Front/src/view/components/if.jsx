@@ -4,7 +4,7 @@ export default class If extends Component {
 
     render() {
 
-        const { children, condition } = this.props
+        const { children, condition, childrenCountIsOne } = this.props
 
         const lastIndex = children.length - 1
         const ifElse = children[lastIndex].type.name === 'Else'
@@ -12,15 +12,15 @@ export default class If extends Component {
         const contentElse = ifElse ? children[lastIndex].props.children : false
 
         if (condition) {
-            return <div>{contentIf}</div>
+            return childrenCountIsOne ? contentIf : <div>{contentIf}</div>
         } else {
-            return <div>{contentElse}</div>
+            return contentElse
         }
     }
 }
 
 export class Else extends Component {    
-    render = () => <div>{this.props.children}</div>
+    render = () => this.props.childrenCountIsOne ? this.props.children : <div>{this.props.children}</div>
 }
 
 // export default props => {

@@ -38,7 +38,7 @@ class Menus extends Component {
             data: this.props.responses[menus].data.filter(m => m.id !== id).map(m => ({
                 id: m.id,
                 href: m.href,
-                icon: m.icon, 
+                icon: m.icon,
                 name: m.name,
                 superHref: m.superHref,
                 menuAccesses: null,
@@ -117,7 +117,7 @@ class Menus extends Component {
                         blurToSave: true,
                         afterSaveCell: this.saveMenu
                     })}
-                    expandRow={{ 
+                    expandRow={{
                         renderer: this.subTable,
                         nonExpandable: mns.filter(sm => sm.subMenus.length === 0).map(sm => sm.id),
                         showExpandColumn: true,
@@ -130,12 +130,12 @@ class Menus extends Component {
     }
 
     expandHeaderColumnIconRender({ isAnyExpands }) {
-        if(isAnyExpands) return <i className="fa fa-minus-square" />
+        if (isAnyExpands) return <i className="fa fa-minus-square" />
         else return <i className="fa fa-plus-square" />
     }
 
     expandColumnIconRender({ expanded }) {
-        if(expanded) return <i className="fa fa-minus-circle" />
+        if (expanded) return <i className="fa fa-minus-circle" />
         else return <i className="fa fa-plus-circle" />
     }
 
@@ -176,10 +176,12 @@ class Menus extends Component {
 
         return (
             <fieldset>
-                <legend>Lista de Itens de Menu</legend>
-                <div className="pull-right">
-                    <button className="btn btn-primary">NOVO</button>
-                </div>
+                <legend>
+                    Lista de Itens de Menu
+                    <div className="pull-right">
+                        <button className="btn btn-primary btn-sm">NOVO</button>
+                    </div>
+                </legend>
                 <BootstrapTable
                     keyField='id'
                     data={mns}
@@ -190,7 +192,7 @@ class Menus extends Component {
                         blurToSave: true,
                         afterSaveCell: this.saveMenu
                     })}
-                    expandRow={{ 
+                    expandRow={{
                         renderer: this.subTable,
                         nonExpandable: mns.filter(sm => sm.subMenus.length === 0).map(sm => sm.id),
                         showExpandColumn: true,

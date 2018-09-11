@@ -29,6 +29,10 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Não há menus!")]
         NoMenus = -12,
         [Description("Usuário já existe!")]
-        UserAlreadyExists = -13
-    }
+        UserAlreadyExists = -13,
+        [Description("Não há funcionários!")]
+        NoEmployees = -14,
+        [Description("Não há setores!")]
+        NoDepartments = 0
+      }
 }

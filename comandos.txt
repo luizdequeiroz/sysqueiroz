@@ -5,3 +5,5 @@ Para aplicar a migration (gerar a(s) tabela(s)):
 	No VSS2017 -> Update-Database {NomeMigration}
 
 *Tudo isso no contexto do Core
+
+Para adicionar novo projeto módulo na solution -> dotnet sln add .\{project}.Modules\{project}.{module}\{project}.{module}.csproj

@@ -16,6 +16,8 @@ export const AssignMenuItem = 'AssignMenuItem'
 export const GetUsersIdByMenu = 'GetUsersIdByMenu'
 export const Relogin = 'Relogin'
 export const SetNewUser = 'SetNewUser'
+export const GetAllEmployees = 'GetAllEmployees'
+export const GetAllDepartments = 'GetAllDepartments'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

@@ -17,6 +17,7 @@
     <ProjectReference Include="..\SysQueiroz.Core\SysQueiroz.Core.csproj" />
     <ProjectReference Include="..\SysQueiroz.Modules\SysQueiroz.Users\SysQueiroz.Users.csproj" />
     <ProjectReference Include="..\SysQueiroz.Modules\SysQueiroz.Clients\SysQueiroz.Clients.csproj" />
+    <ProjectReference Include="..\SysQueiroz.Modules\SysQueiroz.Company\SysQueiroz.Company.csproj" />
   </ItemGroup>
 
 </Project>

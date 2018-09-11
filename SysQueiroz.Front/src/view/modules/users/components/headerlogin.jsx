@@ -40,14 +40,6 @@ class HeaderLogin extends Component {
             } else {
                 requestToReducer(context, Login, session, { email, password }, 'POST')
             }
-            //showMsgPanel(this, 'Exemplo de painel sem autohide', 'danger', true)
-            /** request synchronous */
-            // const response = requestSync(Login, { email, password }, 'POST')
-            // if (response.code === 0) {
-            //     setReducer(this, session, response.data)
-            // } else {
-            //     showAlert(this, response.message, response.type)
-            // }
         }
     }
 

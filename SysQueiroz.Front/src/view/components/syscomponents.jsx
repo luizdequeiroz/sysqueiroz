@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+//#region SysInput
 export class SysInput extends Component {
 
     render() {
@@ -15,7 +16,8 @@ export class SysInput extends Component {
         )
     }
 }
-
+//#endregion
+//#region SysButton
 export class SysButton extends Component {
 
     constructor(props) {
@@ -30,11 +32,11 @@ export class SysButton extends Component {
 
     render() {
 
-        const { type, action } = this.props
+        const { type, size, className, action } = this.props
         const { originalText, text, textHover } = this.state
 
         return <button
-            className={`btn btn-${type}`}
+            className={`btn btn-${type} btn-${size} ${className}`}
             onMouseOver={() => {
                 this.setState({ text: textHover })
             }}
@@ -50,5 +52,31 @@ SysButton.defaultProps = {
     type: 'default',
     text: 'click here',
     textHover: undefined,
-    action: undefined
+    action: undefined,
+    size: 'md'
 }
+//#endregion
+//#region SysSelect
+export class SysSelect extends Component {
+
+    render() {
+
+        const { className, id, label, options } = this.props
+
+        return (
+            <div className={`input-group ${className}`}>
+                <label className="input-group-addon" htmlFor={id}>{label}</label>
+                <select className="form-control" id={id} >
+                    <option>Selecione</option>
+                    {options.map(o => (
+                        <option key={o.value} value={o.value}>{o.text}</option>
+                    ))}
+                </select>
+            </div>
+        )
+    }
+}
+SysSelect.defaultProps = {
+    options: []
+}
+//#endregion
