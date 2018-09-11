@@ -22,9 +22,6 @@ function status(state = [], action) {
 }
 
 function proccess(state, action) {
-    // if (action.payload && action.payload.autohide) {
-    //     window.setTimeout(hideModal, 3000)
-    // }
 
     return {
         icon: 'fa fa-cog fa-2x fa-spin fa-fw',

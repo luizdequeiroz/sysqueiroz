@@ -1,12 +1,8 @@
 import { createStore, compose, applyMiddleware, combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
-// import createSagaMiddleware from 'redux-saga'
 import { persistState } from 'redux-devtools'
 import reducers from '../reducers'
 import DevTools from '../../view/containers/DevTools'
-// import rootSaga from '../sagas'
-
-// const sagaMiddleware = createSagaMiddleware()
 
 const enhancer = compose(
   DevTools.instrument(),
@@ -17,7 +13,7 @@ const enhancer = compose(
   )
 )
 
-// Inicialização da Store do Redux, e aplicando, ou não, a instância do Saga
+// Inicialização da Store do Redux
 export default function configureStore(middleware) {
   const store = createStore(
       combineReducers({
@@ -25,7 +21,6 @@ export default function configureStore(middleware) {
         routing: routerReducer
       }),
       enhancer,
-      // applyMiddleware(sagaMiddleware),
       applyMiddleware(middleware)
     );
 
@@ -34,6 +29,5 @@ export default function configureStore(middleware) {
       store.replaceReducer(require('../reducers').default)
     )
   }
-  // sagaMiddleware.run(rootSaga)
   return store
 }
