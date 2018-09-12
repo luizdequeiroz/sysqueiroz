@@ -40,6 +40,7 @@ class UserForm extends Component {
             this.setState({ buttonSave: 'Alterar', actionUser: this.alterUser })
             requestToState(this, GetUser, user, userId)
         } else {
+            debugger
             requestToState(this, GetAllEmployeesForNewUser, employeesForNewUser)
             this.setState({ actionUser: this.saveUser })
         }

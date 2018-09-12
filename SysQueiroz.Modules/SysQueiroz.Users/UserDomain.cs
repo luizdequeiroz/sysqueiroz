@@ -65,14 +65,14 @@ namespace SysQueiroz.Users
 
         public IList<dynamic> GetUsersEmployeesWithDepartments()
         {
-            var result = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => new
-            {
-                id = e.User.Id,
+            var employees = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => e);
+            var result = employees.Select(e => new {
+                id = e.User != null ? e.User.Id : 0,
+                employeeId = e.Id,
                 name = e.Name,
-                email = e.User.Email,
-                departmentName = d.Name
+                email = e.User != null ? e.User.Email : "",
+                departmentName = e.Department.Name
             }).ToList<dynamic>();
-
             return result;
         }
 
