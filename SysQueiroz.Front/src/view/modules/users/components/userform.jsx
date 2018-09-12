@@ -5,8 +5,8 @@ import { closeModal, requestToState, requestToReducer } from '../../../../data/d
 import { GetUser, SetNewUser, GetAllEmployeesForNewUser, GetAllDepartments, GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods'
 import { user, employeesForNewUser, departments, usersemployeesdepartmant } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
-import { entrar } from './headerlogin';
-import If, { Else } from '../../../components/if';
+import { entrar } from './headerlogin'
+import If, { Else } from '../../../components/if'
 
 class UserForm extends Component {
 
@@ -20,8 +20,9 @@ class UserForm extends Component {
             responses: {},
             buttonSave: 'Cadastrar',
             actionUser: undefined,
-            employeeValidation: undefined,
-            departmentValidation: undefined,
+            employeeValidation: '',
+            departmentValidation: '',
+            emailPasswordValidation: '',
             newEmployee: false,
             newDepartment: false
         }
@@ -37,10 +38,11 @@ class UserForm extends Component {
 
         const { edit, userId } = this.props
         if (edit) {
+
             this.setState({ buttonSave: 'Alterar', actionUser: this.alterUser })
             requestToState(this, GetUser, user, userId)
         } else {
-            debugger
+
             requestToState(this, GetAllEmployeesForNewUser, employeesForNewUser)
             this.setState({ actionUser: this.saveUser })
         }
@@ -68,7 +70,7 @@ class UserForm extends Component {
 
             if ((departmentId.trim() === '' && departmentName.trim() === '') || departmentId.trim() === 'Selecione') {
                 valid = false
-                departmentValidation = 'Dados de setor obrigatórios!'
+                departmentValidation = 'Setor obrigatório!'
             }
         } else {
             employeeId = document.getElementById('employee').value
@@ -76,14 +78,14 @@ class UserForm extends Component {
 
         if ((employeeId.trim() === '' && name.trim() === '') || employeeId.trim() === 'Selecione') {
             valid = false
-            employeeValidation = 'Dados de funcionário obrigatórios! '
+            employeeValidation = 'Funcionário obrigatório! '
         }
 
         if (email.trim() === '' || password.trim() === '') {
             valid = false
             emailPasswordValidation = 'E-mail e senha obrigatórios!'
         }
-        
+
         if (valid) {
 
             const user = {

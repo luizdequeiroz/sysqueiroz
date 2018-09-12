@@ -41,7 +41,7 @@ class ListOfUsers extends Component {
         return (
             <fieldset>
                 <legend>Lista de Usuários</legend>
-                <ToolkitProvider keyField='email' data={ueds} columns={cols}>
+                <ToolkitProvider keyField='email' data={ueds} columns={cols} search>
                     {
                         props => (
                             <div>

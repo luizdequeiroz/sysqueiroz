@@ -48,9 +48,9 @@ class ListOfClients extends Component {
                     {
                         props => (
                             <div>
-                                <div class="input-group">
+                                <div className="input-group">
                                     <SearchBar {...props.searchProps} placeholder="Buscar cliente..." />
-                                    <span class="input-group-btn">                                    
+                                    <span className="input-group-btn">                                    
                                         <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => alert("Novo cliente!")} />
                                     </span>
                                 </div>
