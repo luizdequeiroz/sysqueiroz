@@ -27,6 +27,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Sessão revalidada com sucesso!")]
         SessionRevalidatedSuccessfully = 9,
         [Description("Usuário cadastrado com sucesso!")]
-        UserSuccessfullyRegistered = 10
-    }
+        UserSuccessfullyRegistered = 10,
+        [Description("Item de menu criado com sucesso!")]
+        MenuItemSuccessfullyCreated = 11
+      }
 }

@@ -64,5 +64,14 @@ namespace SysQueiroz.Users
 
             return superMenus;
         }
-    }
+
+        public bool InsertNewMenuItem(Menu menu)
+        {
+            var mi = SelectWhere<Menu>(m => m.Href == menu.Href && m.Name == menu.Name).FirstOrDefault();
+            if (mi != null) return false;
+
+            Insert(menu);
+            return true;
+        }
+      }
 }

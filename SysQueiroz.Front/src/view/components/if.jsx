@@ -6,8 +6,11 @@ export default class If extends Component {
 
         const { children, condition, childrenCountIsOne } = this.props
 
-        const lastIndex = children.length - 1
-        const ifElse = children[lastIndex].type.name === 'Else'
+        let lastIndex, child
+        if (children.length !== undefined)
+            lastIndex = children.length - 1
+        else child = children
+        const ifElse = child !== undefined ? false : children[lastIndex].type.name === 'Else'
         const contentIf = ifElse ? children.filter(c => c.type.name !== 'Else') : children
         const contentElse = ifElse ? children[lastIndex].props.children : false
 

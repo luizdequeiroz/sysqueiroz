@@ -1,20 +1,29 @@
 import React, { Component } from 'react'
+import If from './if';
 
 //#region SysInput
 export class SysInput extends Component {
 
     render() {
 
-        const { defaultValue, className, id, label, type, placeholder } = this.props
+        const { defaultValue, className, id, label, type, placeholder, textValidation } = this.props
         const inputProps = { defaultValue, id, type, placeholder }
 
         return (
-            <div className={`input-group ${className}`}>
-                <label className="input-group-addon" htmlFor={id}>{label}</label>
-                <input className="form-control" { ...inputProps } />
+            <div className="form-group">
+                <If condition={textValidation !== ''}>
+                    <div className="h6 text-danger" style={{ marginTop: '-13px', marginBottom: '0px' }}>{textValidation}</div>
+                </If>
+                <div className={`input-group ${className}`}>
+                    <label className="input-group-addon" htmlFor={id}>{label}</label>
+                    <input className="form-control" {...inputProps} />
+                </div>
             </div>
         )
     }
+}
+SysInput.defaultProps = {
+    textValidation: ''
 }
 //#endregion
 //#region SysButton
@@ -61,20 +70,28 @@ export class SysSelect extends Component {
 
     render() {
 
-        const { className, id, label, options } = this.props
+        const { className, id, label, options, textValidation } = this.props
 
         return (
-            <div className={`input-group ${className}`}>
-                <label className="input-group-addon" htmlFor={id}>{label}</label>
-                <select className="form-control" id={id} >
-                    <option>Selecione</option>
-                    {options.map(o => (
-                        <option key={o.value} value={o.value}>{o.text}</option>
-                    ))}
-                </select>
+            <div className="form-group">
+                <If condition={textValidation !== ''}>
+                    <div className="h6 text-danger" style={{ marginTop: '-13px', marginBottom: '0px' }}>{textValidation}</div>
+                </If>
+                <div className={`input-group ${className}`}>
+                    <label className="input-group-addon" htmlFor={id}>{label}</label>
+                    <select className="form-control" id={id} >
+                        <option>Selecione</option>
+                        {options.map(o => (
+                            <option key={o.value} value={o.value}>{o.text}</option>
+                        ))}
+                    </select>
+                </div>
             </div>
         )
     }
+}
+SysSelect.defaultProps = {
+    textValidation: ''
 }
 SysSelect.defaultProps = {
     options: []

@@ -556,8 +556,23 @@ namespace SysQueiroz.API.Controllers
             try
             {
                 var ok = userDomain.InsertNewUser(user);
-                if(ok) return new Return(Suc.UserSuccessfullyRegistered);
+                if (ok) return new Return(Suc.UserSuccessfullyRegistered);
                 else return new Error(Err.UserAlreadyExists);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpPost]
+        public Return SetNewMenuItem([FromBody] Menu menu)
+        {
+            try
+            {
+                var ok = menuDomain.InsertNewMenuItem(menu);
+                if (ok) return new Return(Suc.MenuItemSuccessfullyCreated);
+                else return new Error(Err.MenuItemAlreadyExists);
             }
             catch (Exception ex)
             {
