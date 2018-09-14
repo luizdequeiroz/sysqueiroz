@@ -18,6 +18,9 @@ export const Relogin = 'Relogin'
 export const SetNewUser = 'SetNewUser'
 export const GetAllEmployeesForNewUser = 'GetAllEmployeesForNewUser'
 export const GetAllDepartments = 'GetAllDepartments'
+export const GetMenuItem = 'GetMenuItem'
+export const GetAllMenuItensForNewMenuItem = 'GetAllMenuItensForNewMenuItem'
+export const SetNewMenuItem = 'SetNewMenuItem'
 
 // Modulo Client
 export const GetAllClients = 'GetAllClients'

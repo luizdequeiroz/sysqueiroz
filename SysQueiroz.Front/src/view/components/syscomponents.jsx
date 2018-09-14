@@ -8,13 +8,20 @@ export class SysInput extends Component {
 
         const { defaultValue, className, id, label, type, placeholder, textValidation } = this.props
         const inputProps = { defaultValue, id, type, placeholder }
+        const validationError = textValidation !== ''
+
+        const divInputProps = {
+            className: `input-group ${className}`
+        }
+
+        divInputProps.style = validationError ? { border: 'solid 1px red', borderRadius: '4px' } : undefined
 
         return (
             <div className="form-group">
-                <If condition={textValidation !== ''}>
+                <If condition={validationError}>
                     <div className="h6 text-danger" style={{ marginTop: '-13px', marginBottom: '0px' }}>{textValidation}</div>
                 </If>
-                <div className={`input-group ${className}`}>
+                <div { ...divInputProps }>
                     <label className="input-group-addon" htmlFor={id}>{label}</label>
                     <input className="form-control" {...inputProps} />
                 </div>
@@ -70,17 +77,24 @@ export class SysSelect extends Component {
 
     render() {
 
-        const { className, id, label, options, textValidation } = this.props
+        const { className, id, label, options, textValidation, firstOption } = this.props
+        const validationError = textValidation !== ''
+
+        const divInputProps = {
+            className: `input-group ${className}`
+        }
+
+        divInputProps.style = validationError ? { border: 'solid 1px red', borderRadius: '4px' } : undefined
 
         return (
             <div className="form-group">
                 <If condition={textValidation !== ''}>
                     <div className="h6 text-danger" style={{ marginTop: '-13px', marginBottom: '0px' }}>{textValidation}</div>
                 </If>
-                <div className={`input-group ${className}`}>
+                <div { ...divInputProps }>
                     <label className="input-group-addon" htmlFor={id}>{label}</label>
                     <select className="form-control" id={id} >
-                        <option>Selecione</option>
+                        <option>{firstOption}</option>
                         {options.map(o => (
                             <option key={o.value} value={o.value}>{o.text}</option>
                         ))}
@@ -91,9 +105,8 @@ export class SysSelect extends Component {
     }
 }
 SysSelect.defaultProps = {
-    textValidation: ''
-}
-SysSelect.defaultProps = {
-    options: []
+    options: [],
+    textValidation: '',
+    firstOption: 'Selecione'
 }
 //#endregion

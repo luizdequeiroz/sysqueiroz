@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { GetUser, SetNewUser, GetAllEmployeesForNewUser, GetAllDepartments, GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods'
-import { user, employeesForNewUser, departments, usersemployeesdepartmant } from '../../../../data/alias/keys'
-import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
-import { entrar } from './headerlogin'
+import { GetAllMenusForListMenu, GetMenuItem, GetAllMenuItensForNewMenuItem, SetNewMenuItem } from '../../../../data/alias/methods'
+import { menus, menuitem, menuItensForNewMenuItem } from '../../../../data/alias/keys'
+import { SysInput, SysSelect } from '../../../components/syscomponents'
+import { entrar } from '../../users/components/headerlogin'
 import If, { Else } from '../../../components/if'
 
 class MenuForm extends Component {
@@ -82,82 +82,53 @@ class MenuForm extends Component {
         }
     }
 
+    alterMenu() {
+        alert("Alterar item de menu!")
+    }
+
     componentWillUpdate() {
 
         const { responses } = this.state
-        const { status } = responses['rgstr_user'] !== undefined ? responses['rgstr_user'] : { status: 0 }
+        const { status } = responses['rgstr_menu_item'] !== undefined ? responses['rgstr_menu_item'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+            requestToReducer(this, GetAllMenusForListMenu, menus)
             closeModal(this)
         }
-    }
-
-    alterUser() {
-        alert("Alterar usuário!")
     }
 
     render() {
 
         const { responses } = this.state
-        const u = responses[user] !== undefined ? responses[user].data : {
-            email: '',
-            password: ''
+        const m = responses[menuitem] !== undefined ? responses[menuitem].data : {
+            href: '',
+            icon: '',
+            name: '',
+            superHref: ''
         }
 
-        const optnsEmpl = (
-            u.employee !== undefined ? [u.employee] : (
-                responses[employeesForNewUser] !== undefined ? responses[employeesForNewUser].data : []
-            )
-        ).map(e => ({ value: e.id, text: `${e.name} - ${e.departmentName}` }))
-
-        const optnsDepa = (
-            responses[departments] !== undefined ? responses[departments].data : []
-        ).map(d => ({ value: d.id, text: d.name }))
+        const optnsMenuItens = (
+            responses[menuItensForNewMenuItem] !== undefined ? responses[menuItensForNewMenuItem].data : []
+        ).map(d => ({ value: d.href, text: d.name }))
 
         return (
             <div>
                 <Modal.Body>
                     <div className="form-group">
-                        <If condition={this.state.newEmployee}>
+                        <If condition={this.state.newSuperMenu}>
                             <div className="form-inline">
-                                <div className="input-group">
-                                    <SysInput id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.employeeValidation} />
-                                    <div className="input-group-btn">
-                                        <SysButton type="primary" text={<i className="fa fa-minus-circle" />} textHover="Existente" action={() => this.setState({ newEmployee: false, newDepartment: false })} size="sm" />
-                                    </div>
-                                </div>&nbsp;
-                                <If condition={this.state.newDepartment} childrenCountIsOne>
-                                    <SysInput id="departmentName" label="Setor" type="text" placeholder="Nome do setor." textValidation={this.state.departmentValidation} />
-                                    <Else childrenCountIsOne>
-                                        <div className="input-group">
-                                            <SysSelect id="department" label="Setor" options={optnsDepa} textValidation={this.state.departmentValidation} />
-                                            <div className="input-group-btn">
-                                                <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => this.setState({ newDepartment: true })} size="sm" />
-                                            </div>
-                                        </div>
-                                    </Else>
-                                </If>
+                                <h4>É o gera!</h4>
                             </div>
                             <Else childrenCountIsOne>
-                                <div className="form-inline">
-                                    <div className="input-group">
-                                        <SysSelect id="employee" label="Funcionário" options={optnsEmpl} textValidation={this.state.employeeValidation} />
-                                        <div className="input-group-btn">
-                                            <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => {
-                                                requestToState(this, GetAllDepartments, departments)
-                                                this.setState({ newEmployee: true })
-                                            }} size="sm" />
-                                        </div>
-                                    </div>
-                                </div>
+                                <SysSelect id="superHref" label="Item de menu superior" firstOption="Nenhum" options={optnsMenuItens} />
                             </Else>
                         </If>
                     </div>
                     <div className="form-group">
                         <div className="form-inline">
-                            <SysInput defaultValue={u.href} id="href" label="Href" type="text" placeholder="Href do item de menu." textValidation={this.state.hrefValidation} />&nbsp;
-                            <SysInput defaultValue={u.icon} id="icon" label="Ícone" type="text" placeholder="Ícone do item de menu." textValidation={this.state.iconValidation} />&nbsp;
-                            <SysInput defaultValue={u.name} id="name" label="Nome" type="text" placeholder="Nome do item de menu." textValidation={this.state.nameValidation} />
+                            <small className="h2 hidden-xs">&nbsp;&nbsp;&#10551;&nbsp;&nbsp;</small>
+                            <SysInput defaultValue={m.href} id="href" label="Href" type="text" placeholder="Href do item de menu." textValidation={this.state.hrefValidation} /><small className="hidden-xs">&nbsp;</small>
+                            <SysInput defaultValue={m.icon} id="icon" label="Ícone" type="text" placeholder="Ícone do item de menu." textValidation={this.state.iconValidation} /><small className="hidden-xs">&nbsp;</small>
+                            <SysInput defaultValue={m.name} id="name" label="Nome" type="text" placeholder="Nome do item de menu." textValidation={this.state.nameValidation} />
                         </div>
                     </div>
                 </Modal.Body>

@@ -9,5 +9,6 @@ namespace SysQueiroz.Core.Entities
         public string Href { get; set; }
         public string SuperHref { get; set; }
         public IList<MenuAccess> MenuAccesses { get; set; }
+        public bool IsSuperItem { get; set; }
     }
 }

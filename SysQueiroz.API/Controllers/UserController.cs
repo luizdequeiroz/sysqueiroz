@@ -579,5 +579,19 @@ namespace SysQueiroz.API.Controllers
                 return new Error(ex);
             }
         }
+
+        [HttpGet]
+        public Return GetAllMenuItensForNewMenuItem() 
+        {
+            try
+            {
+                var superMenuItens = menuDomain.SelectAll<Menu>().Where(m => m.IsSuperItem).ToList();
+                return new Return(superMenuItens);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
     }
 }

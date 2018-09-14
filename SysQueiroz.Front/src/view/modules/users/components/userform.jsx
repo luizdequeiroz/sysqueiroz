@@ -111,6 +111,10 @@ class UserForm extends Component {
         }
     }
 
+    alterUser() {
+        alert("Alterar usuário!")
+    }
+
     componentWillUpdate() {
 
         const { responses } = this.state
@@ -119,10 +123,6 @@ class UserForm extends Component {
             requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
             closeModal(this)
         }
-    }
-
-    alterUser() {
-        alert("Alterar usuário!")
     }
 
     render() {

@@ -10,6 +10,7 @@ import cellEditFactory from 'react-bootstrap-table2-editor'
 
 import AssignProfile from '../components/assignprofile'
 import Modal from 'react-bootstrap/lib/Modal'
+import { SysButton } from '../../../components/syscomponents';
 
 class Profiles extends Component {
 
@@ -33,6 +34,7 @@ class Profiles extends Component {
     deleteProfile(id) {
 
         requestToReducer(this, DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
+        closeModal(this)
         // atualizar redux com a alteração da tabela
         setReducer(this, profiles, {
             data: this.props.responses[profiles].data.filter(p => p.id !== id).map(p => ({
@@ -112,7 +114,7 @@ class Profiles extends Component {
                 <legend>
                     Lista de Perfis de Usuário
                     <div className="pull-right">
-                        <button className="btn btn-primary btn-sm">NOVO</button>
+                        <SysButton type="primary" size="sm" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo perfil de usuário', <h1>É o gera!</h1>, true, 'lg')} />
                     </div>
                 </legend>
                 <BootstrapTable
