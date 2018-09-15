@@ -17,7 +17,7 @@ import './App.css'
 import menu from '../view/modules/menu'
 import listofusers from '../view/modules/users/pages/listofusers'
 import listofclients from '../view/modules/clients/pages/listofclients'
-import systempermissions from '../view/modules/permissions/pages/systempermissions'
+import { systempermissionsmenu, systemcompanymenu } from '../view/modules/submenu'
 import profiles from '../view/modules/permissions/pages/profiles'
 import menus from '../view/modules/permissions/pages/menus';
 
@@ -35,9 +35,12 @@ class App extends Component {
               <Route path="/menu" component={menu} />
               <Route path="/listofusers" component={listofusers} />
               <Route path="/listofclients" component={listofclients} />
-              <Route path="/systempermissions" component={systempermissions} />
               <Route path="/profiles" component={profiles} />
               <Route path="/menus" component={menus} />
+              
+              {/* submenus */}
+              <Route path="/systempermissions" component={systempermissionsmenu} />
+              <Route path="/systemcompany" component={systemcompanymenu} />
             </Route>
           </Router>
           <DevTools />

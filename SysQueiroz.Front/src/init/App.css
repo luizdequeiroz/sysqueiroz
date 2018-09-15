@@ -70,7 +70,7 @@
 }
 
 .text-xs-center {
-    text-align: center!important;
+    text-align: center !important;
 }
 
 .dropdown-menu>div>li>a {
@@ -109,7 +109,7 @@
 }
 
 .text-xs-right {
-    text-align: right!important;
+    text-align: right !important;
 }
 
 @font-face {
@@ -126,6 +126,7 @@
     .col-md-offset-2 {
         margin-left: 0;
     }
+
     .col-md-10 {
         width: 80.333333%;
     }
@@ -140,6 +141,7 @@
         max-width: 75%;
         float: left;
     }
+
     .col-md-3 {
         -webkit-box-flex: 0;
         -webkit-flex: 0 0 25%;
@@ -154,11 +156,11 @@
 }
 
 .text-muted {
-    color: #818a91!important;
+    color: #818a91 !important;
 }
 
 .simditor-body {
-    min-height: auto!important
+    min-height: auto !important
 }
 
 input[type='radio'] {
@@ -167,4 +169,94 @@ input[type='radio'] {
 
 input[type='checkbox'] {
     transform: scale(1.5);
+}
+
+/***** checkbox style *****/
+
+/* The sys-checkbox */
+.sys-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.sys-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto
+        /*25px*/
+    ;
+    width: auto
+        /*25px*/
+    ;
+    background-color: #eee;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    white-space: nowrap;
+    margin-top: -11px;
+}
+
+/* On mouse-over, add a grey background color */
+.sys-checkbox:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.sys-checkbox input:checked~.checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    /* content: ""; */
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.sys-checkbox input:checked~.checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.sys-checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    color: white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+@media (max-width: 767px) {
+    .checkmark {
+        position: relative;
+        width: 100%;
+        margin-top: 0;
+        text-align: center;
+        left: -5%;
+        top: 0;
+    }
 }

@@ -581,6 +581,7 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public Return GetAllMenuItensForNewMenuItem() 
         {
             try

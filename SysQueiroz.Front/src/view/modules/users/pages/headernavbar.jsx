@@ -31,7 +31,7 @@ class HeaderNavBar extends Component {
         const tagsBrand = (
             <span>
                 <img role="presentation" src={_img} width="30px" />
-                &nbsp;<a href="#"><b>React Base{/*CL Promotora*/}</b></a> {/*<i className="h6">(SysQueiroz)</i>*/}
+                &nbsp;<a href="#"><b>CL Promotora</b></a> <i className="h6">(SysQueiroz)</i>
             </span>
         )
         let content

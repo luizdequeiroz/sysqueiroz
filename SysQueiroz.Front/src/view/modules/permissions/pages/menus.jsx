@@ -36,9 +36,8 @@ class Menus extends Component {
     deleteMenu(id) {
 
         requestToReducer(this, DeleteMenuItem, 'dlt_menu', id, 'POST', true, "Deletando menu...")
-        closeModal(this)
         // atualizar redux com a alteração da tabela
-        requestToReducer(this, GetAllMenusForListMenu, menus)
+        setTimeout(() => requestToReducer(this, GetAllMenusForListMenu, menus), 1000); 
         // setReducer(this, menus, {
         //     data: this.props.responses[menus].data.filter(m => m.id !== id).map(m => ({
         //         id: m.id,
@@ -50,6 +49,7 @@ class Menus extends Component {
         //         subMenus: m.subMenus
         //     }))
         // })
+        closeModal(this)
     }
 
     saveMenu(oldValue, newValue, row, column) {
@@ -59,23 +59,24 @@ class Menus extends Component {
         if (newValue !== oldValue) {
             requestToReducer(this, UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
             // atualizar redux com a alteração da tabela
-            setReducer(this, menus, {
-                data: this.props.responses[menus].data.map(m => {
-                    if (m.id === id) {
-                        return ({
-                            id: m.id,
-                            href: m.href,
-                            icon: m.icon,
-                            name: name,
-                            superHref: m.superHref,
-                            menuAccesses: null,
-                            subMenus: m.subMenus
-                        })
-                    } else {
-                        return m
-                    }
-                })
-            })
+            requestToReducer(this, GetAllMenusForListMenu, menus)
+            // setReducer(this, menus, {
+            //     data: this.props.responses[menus].data.map(m => {
+            //         if (m.id === id) {
+            //             return ({
+            //                 id: m.id,
+            //                 href: m.href,
+            //                 icon: m.icon,
+            //                 name: name,
+            //                 superHref: m.superHref,
+            //                 menuAccesses: null,
+            //                 subMenus: m.subMenus
+            //             })
+            //         } else {
+            //             return m
+            //         }
+            //     })
+            // })
         }
     }
 
