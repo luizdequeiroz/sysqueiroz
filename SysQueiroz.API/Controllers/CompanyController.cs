@@ -22,7 +22,6 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public Return GetAllEmployeesForNewUser()
         {
             try
@@ -39,7 +38,6 @@ namespace SysQueiroz.API.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public Return GetAllDepartments() 
         {
             try
@@ -50,6 +48,52 @@ namespace SysQueiroz.API.Controllers
                 else return new Return(departments);
             }
             catch (Exception ex)    
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpGet]
+        public Return GetEmployeesWithDepartments() 
+        {
+            try
+            {
+                var employeesDepartment = employeeDomain.GetEmployeesWithDepartments();
+
+                return new Return(employeesDepartment);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public Return GetEmployee(int id)
+        {
+            try
+            {
+                var employee = employeeDomain.SelectByID<Employee>(id);
+                if (employee == null)
+                    return new Error(Err.EmployeeDoesNotExist);
+                else return new Return(employee);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        [HttpPost]
+        public Return SetNewEmployee([FromBody] Employee employee)
+        {
+            try
+            {
+                var ok = employeeDomain.InsertNewEmployee(employee);
+                if (ok) return new Return(Suc.EmployeeSuccessfullyRegistered);
+                else return new Error(Err.EmployeeAlreadyExists);
+            }
+            catch (Exception ex)
             {
                 return new Error(ex);
             }

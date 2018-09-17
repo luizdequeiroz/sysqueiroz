@@ -97,11 +97,11 @@ namespace SysQueiroz.Core.Migrations
 
                     b.Property<string>("Icon");
 
+                    b.Property<bool>("IsSuperItem");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("SuperHref");
-
-                    b.Property<bool>("isSuperItem");
 
                     b.HasKey("Id");
 

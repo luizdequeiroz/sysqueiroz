@@ -17,9 +17,12 @@ import './App.css'
 import menu from '../view/modules/menu'
 import listofusers from '../view/modules/users/pages/listofusers'
 import listofclients from '../view/modules/clients/pages/listofclients'
-import { systempermissionsmenu, systemcompanymenu } from '../view/modules/submenu'
 import profiles from '../view/modules/permissions/pages/profiles'
-import menus from '../view/modules/permissions/pages/menus';
+import menus from '../view/modules/permissions/pages/menus'
+import listofemployees from '../view/modules/employees/pages/listofemployees'
+
+// SUBMENUS
+import { systempermissionsmenu, systemcompanymenu } from '../view/modules/supermenu'
 
 const store = configureStore(routerMiddleware(hashHistory))
 
@@ -37,8 +40,9 @@ class App extends Component {
               <Route path="/listofclients" component={listofclients} />
               <Route path="/profiles" component={profiles} />
               <Route path="/menus" component={menus} />
+              <Route path="/listofemployees" component={listofemployees} />
               
-              {/* submenus */}
+              {/* supermenus */}
               <Route path="/systempermissions" component={systempermissionsmenu} />
               <Route path="/systemcompany" component={systemcompanymenu} />
             </Route>

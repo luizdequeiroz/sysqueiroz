@@ -29,6 +29,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Usuário cadastrado com sucesso!")]
         UserSuccessfullyRegistered = 10,
         [Description("Item de menu criado com sucesso!")]
-        MenuItemSuccessfullyCreated = 11
+        MenuItemSuccessfullyCreated = 11,
+        [Description("Funcionário cadastrado com sucesso!")]
+        EmployeeSuccessfullyRegistered = 12
       }
 }

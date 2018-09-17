@@ -43,34 +43,14 @@ namespace SysQueiroz.API.Controllers
                     Password = "admin",
                     Employee = new Employee
                     {
-                        Name = "Luiz de Queiroz",
+                        Name = "Administrador",
                         Department = new Department
                         {
-                            Name = "Desenvolvimento de Sistemas"
+                            Name = "Administração de Sistema"
                         }
                     },
                     MenuAccesses = new List<MenuAccess>
-                    {
-                        new MenuAccess
-                        {
-                            Menu = new Menu
-                            {
-                                Href = "listofusers",
-                                Icon = "users",
-                                Name = "Usuários",
-                                SuperHref = ""
-                            }
-                        },
-                        new MenuAccess
-                        {
-                            Menu = new Menu
-                            {
-                                Href = "listofclients",
-                                Icon = "id-card",
-                                Name = "Clientes",
-                                SuperHref = ""
-                            }
-                        },
+                    {          
                         new MenuAccess
                         {
                             Menu = new Menu
@@ -78,9 +58,10 @@ namespace SysQueiroz.API.Controllers
                                 Href = "systempermissions",
                                 Icon = "shield",
                                 Name = "Permissões",
-                                SuperHref = ""
+                                SuperHref = "",
+                                IsSuperItem = true
                             }
-                        },
+                        },                
                         new MenuAccess
                         {
                             Menu = new Menu
@@ -88,76 +69,13 @@ namespace SysQueiroz.API.Controllers
                                 Href = "profiles",
                                 Icon = "user-circle",
                                 Name = "Perfis de Usuário",
-                                SuperHref = "systempermissions"
-                            }
-                        },
-                        new MenuAccess
-                        {
-                            Menu = new Menu
-                            {
-                                Href = "menus",
-                                Icon = "bars",
-                                Name = "Itens de Menu",
-                                SuperHref = "systempermissions"
+                                SuperHref = "systempermissions",
+                                IsSuperItem = false
                             }
                         }
                     },
                     UserProfiles = new List<UserProfile>
-                    {
-                        new UserProfile
-                        {
-                            Profile = new Profile
-                            {
-                                Name = "Gerenciamento de Usuários",
-                                Description = "",
-                                ProfileMethods = new List<ProfileMethod>
-                                {
-                                    new ProfileMethod
-                                    {
-                                        Method = new Method
-                                        {
-                                            Name = "GetAllUsers",
-                                            Description = "Listar todos os usuários do sistema."
-                                        }
-                                    },
-                                    new ProfileMethod
-                                    {
-                                        Method = new Method
-                                        {
-                                            Name = "GetUsersEmployeesWithDepartments",
-                                            Description = "Listar todos os funcionários usuários e seus respectivos setores."
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        // new UserProfile
-                        // {
-                        //     Profile = new Profile
-                        //     {
-                        //         Name = "Gerenciamento de Clientes",
-                        //         Description = "",
-                        //         ProfileMethods = new List<ProfileMethod>
-                        //         {
-                        //             new ProfileMethod
-                        //             {
-                        //                 Method = new Method
-                        //                 {
-                        //                     Name = "GetAllClients",
-                        //                     Description = "Listar todos os clientes no sistema."
-                        //                 }
-                        //             },
-                        //             new ProfileMethod
-                        //             {
-                        //                 Method = new Method
-                        //                 {
-                        //                     Name = "SetNewClient",
-                        //                     Description = "Cadastrar um novo cliente no sistema."
-                        //                 }
-                        //             }
-                        //         }
-                        //     }
-                        // },
+                    {                        
                         new UserProfile
                         {
                             Profile = new Profile
@@ -171,7 +89,7 @@ namespace SysQueiroz.API.Controllers
                                         Method = new Method
                                         {
                                             Name = "GetAllProfiles",
-                                            Description = "Listar todos os perfis de usuário do sistema."
+                                            Description = "Listar todos os perfis de usuário."
                                         }
                                     },
                                     new ProfileMethod
@@ -179,7 +97,7 @@ namespace SysQueiroz.API.Controllers
                                         Method = new Method
                                         {
                                             Name = "UpdateProfile",
-                                            Description = "Atualizar alterações nos dados de um perfil de usuário."
+                                            Description = "Atualizar perfil de usuário."
                                         }
                                     },
                                     new ProfileMethod
@@ -187,7 +105,7 @@ namespace SysQueiroz.API.Controllers
                                         Method = new Method
                                         {
                                             Name = "DeleteProfile",
-                                            Description = "Deletar perfil de usuário do sistema."
+                                            Description = "Deletar perfil de usuário."
                                         }
                                     },
                                     new ProfileMethod
@@ -195,84 +113,272 @@ namespace SysQueiroz.API.Controllers
                                         Method = new Method
                                         {
                                             Name = "AssignProfile",
-                                            Description = "Atribuir perfil à usuário(s)"
+                                            Description = "Atribuir perfil de usuário à usuários marcados."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "GetUsersIdByProfile",
+                                            Description = "Listar usuários que possuem perfil de usuário informado (id)."
+                                        }
+                                    },
+                                    new ProfileMethod
+                                    {
+                                        Method = new Method
+                                        {
+                                            Name = "GetAllUsers",
+                                            Description = "Listar todos os usuários."
                                         }
                                     }
                                 }
                             }
-                        },
-                        new UserProfile
-                        {
-                            Profile = new Profile
-                            {
-                                Name = "Gerenciamento de Itens de Menu",
-                                Description = "",
-                                ProfileMethods = new List<ProfileMethod>
-                                {
-                                    new ProfileMethod
-                                    {
-                                        Method = new Method
-                                        {
-                                            Name = "GetAllMenusForListMenu",
-                                            Description = "Listar todos os itens de menu do sistema, hierarquicamente estruturado."
-                                        }
-                                    },
-                                    new ProfileMethod
-                                    {
-                                        Method = new Method
-                                        {
-                                            Name = "UpdateMenuItem",
-                                            Description = "Atualizar alterações nos dados de um item de menu do sistema."
-                                        }
-                                    },
-                                    new ProfileMethod
-                                    {
-                                        Method = new Method
-                                        {
-                                            Name = "DeleteMenuItem",
-                                            Description = "Deletar item de menu do sistema."
-                                        }
-                                    },
-                                    new ProfileMethod
-                                    {
-                                        Method = new Method
-                                        {
-                                            Name = "AssignMenuItem",
-                                            Description = "Atribuir acesso a item de menu à usuário(s)"
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        }                        
                     }
-                };
-                var profile = new Profile
-                {
-                    Name = "Gerenciamento de Clientes",
-                    Description = "",
-                    ProfileMethods = new List<ProfileMethod>
-                    {
-                        new ProfileMethod
-                        {
-                            Method = new Method
-                            {
-                                Name = "GetAllClients",
-                                Description = "Listar todos os clientes no sistema."
-                            }
-                        },
-                        new ProfileMethod
-                        {
-                            Method = new Method
-                            {
-                                Name = "SetNewClient",
-                                Description = "Cadastrar um novo cliente no sistema."
-                            }
-                        }
-                    }
-                };
-
+                };                
                 userDomain.Insert(user);
-                profileDomain.Insert(profile);
+
+                var profiles = new List<Profile>{
+                    new Profile
+                    {
+                        Name = "Gerenciamento de Usuários",
+                        Description = "",
+                        ProfileMethods = new List<ProfileMethod>
+                        {
+                            new ProfileMethod
+                            {
+                                MethodId = 6
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetAllDepartments",
+                                    Description = "Listar todos os setores."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetUsersEmployeesWithDepartments",
+                                    Description = "Listar todos os usuários que são funcionários com nome de seus setores."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "SetNewUser",
+                                    Description = "Inserir novo usuário."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method 
+                                {
+                                    Name = "GetUser",
+                                    Description = "Carregar usuário pelo id."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method 
+                                {
+                                    Name = "GetAllEmployeesForNewUser",
+                                    Description = "Listar funcionários que não possuem usuário (para cadastro de usuário)."
+                                }
+                            }
+                        }
+                    },
+                    new Profile
+                    {
+                        Name = "Gerenciamento de Itens de Menu",
+                        Description = "",
+                        ProfileMethods = new List<ProfileMethod>
+                        {
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetAllMenusForListMenu",
+                                    Description = "Listar todos os itens de menu hierarquicamente organizados."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "UpdateMenuItem",
+                                    Description = "Atualizar item de menu."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "DeleteMenuItem",
+                                    Description = "Deletar item de menu."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "AssignMenuItem",
+                                    Description = "Atribuir acesso a item de menu à usuários marcados."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetUsersIdByMenu",
+                                    Description = "Listar usuários que possuem acesso à item de menu informado (id)."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetAllMenuItensForNewMenuItem",
+                                    Description = "Listar itens de menu que são hierarquicamente superiores."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "SetNewMenuItem",
+                                    Description = "Inserir novo item de menu."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetMenuItem",
+                                    Description = "Carregar item de menu pelo id."
+                                }
+                            }
+                        }
+                    },
+                    new Profile
+                    {
+                        Name = "Gerenciamento de Funcionários",
+                        Description = "",
+                        ProfileMethods = new List<ProfileMethod>
+                        {
+                            new ProfileMethod
+                            {
+                                MethodId = 6
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetEmployeesWithDepartments",
+                                    Description = "Listar todos os funcionários com nomes de seus setores."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "SetNewEmployee",
+                                    Description = "Inserir novo funcionário."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetEmployee",
+                                    Description = "Carregar funcionário pelo id."
+                                }
+                            }
+                        }
+                    },
+                    new Profile
+                    {
+                        Name = "Gerenciamento de Clientes",
+                        Description = "",
+                        ProfileMethods = new List<ProfileMethod>
+                        {
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "GetAllClients",
+                                    Description = "Listar todos os clientes."
+                                }
+                            },
+                            new ProfileMethod
+                            {
+                                Method = new Method
+                                {
+                                    Name = "SetNewClient",
+                                    Description = "Inserir novo cliente."
+                                }
+                            }
+                        }
+                    }
+                };
+                foreach(var profile in profiles) profileDomain.Insert(profile);
+
+                var menus = new List<Menu>{
+                    new Menu
+                    {
+                        Href = "listofusers",
+                        Icon = "users",
+                        Name = "Usuários",
+                        SuperHref = "",
+                        IsSuperItem = false
+                    },            
+                    new Menu
+                    {
+                        Href = "menus",
+                        Icon = "bars",
+                        Name = "Itens de Menu",
+                        SuperHref = "systempermissions",
+                        IsSuperItem = false
+                    },
+                    new Menu
+                    {
+                        Href = "systemcompany",
+                        Icon = "building",
+                        Name = "Empresa",
+                        SuperHref = "",
+                        IsSuperItem = true
+                    },
+                    new Menu
+                    {
+                        Href = "listofclients",
+                        Icon = "id-card",
+                        Name = "Clientes",
+                        SuperHref = "systemcompany",
+                        IsSuperItem = false
+                    },  
+                    new Menu
+                    {
+                        Href = "listofemployees",
+                        Icon = "user-circle-o",
+                        Name = "Funcionários",
+                        SuperHref = "systemcompany",
+                        IsSuperItem = false
+                    },
+                    new Menu
+                    {
+                        Href = "listofoutsourced",
+                        Icon = "outdent",
+                        Name = "Terceiros",
+                        SuperHref = "systemcompany",
+                        IsSuperItem = false
+                    }
+                };
+                foreach(var menu in menus) menuDomain.Insert(menu);
+
                 return new Return(Suc.InitializationDataEnteredSuccessfully);
             }
             catch (Exception ex)
@@ -348,7 +454,7 @@ namespace SysQueiroz.API.Controllers
         {
             try
             {
-                var users = userDomain.SelectAll<User>().ToList();
+                var users = userDomain.SelectAllUsersEmployeesOrNot();
                 if (users.Count == 0)
                     return new Error(Err.NoUsers);
                 else return new Return(users);

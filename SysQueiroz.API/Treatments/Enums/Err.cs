@@ -35,6 +35,8 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Não há setores!")]
         NoDepartments = 0,
         [Description("Item de menu já existe!")]
-        MenuItemAlreadyExists = -15
+        MenuItemAlreadyExists = -15,
+        [Description("Funcionário já existe!")]
+        EmployeeAlreadyExists = -16
       }
 }

@@ -11,7 +11,7 @@ using System;
 namespace SysQueiroz.Core.Migrations
 {
     [DbContext(typeof(SysQueirozContext))]
-    [Migration("20180905230310_SysQueiroz001")]
+    [Migration("20180917205726_SysQueiroz001")]
     partial class SysQueiroz001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,8 @@ namespace SysQueiroz.Core.Migrations
                     b.Property<string>("Href");
 
                     b.Property<string>("Icon");
+
+                    b.Property<bool>("IsSuperItem");
 
                     b.Property<string>("Name");
 

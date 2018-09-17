@@ -84,5 +84,18 @@ namespace SysQueiroz.Users
             Insert(user);
             return true;
         }
+
+        public IList<dynamic> SelectAllUsersEmployeesOrNot()
+        {
+            var users = SelectAll<User>().Select(u => new
+            {
+                Id = u.Id,
+                Name = u.Employee != null ? u.Employee.Name : "[Não funcionário]",
+                Email = u.Email,
+                DepartmentName = u.Employee != null ? u.Employee.Department.Name : "[Não funcionário]"
+            }).ToList<dynamic>();
+
+            return users;          
+        }
     }
 }

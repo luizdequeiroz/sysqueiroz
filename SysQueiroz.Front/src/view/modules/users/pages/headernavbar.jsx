@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-const _img = require('../../../../../public/images/logo.png')
+const _img = require('../../../../../public/images/_logo.png')
 
 import HeaderLogin from '../components/headerlogin'
 import HeaderLogged from '../components/headerlogged'
@@ -31,7 +31,8 @@ class HeaderNavBar extends Component {
         const tagsBrand = (
             <span>
                 <img role="presentation" src={_img} width="30px" />
-                &nbsp;<a href="#"><b>CL Promotora</b></a> <i className="h6">(SysQueiroz)</i>
+                &nbsp;<a href="#"><b>React Base</b></a>
+                {/* &nbsp;<a href="#"><b>CL Promotora</b></a> <i className="h6">(SysQueiroz)</i> */}
             </span>
         )
         let content

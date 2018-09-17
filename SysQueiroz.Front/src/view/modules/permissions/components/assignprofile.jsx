@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { requestToReducer, closeModal, requestToState, showModal } from '../../../../data/dispatchers'
-import { GetUsersEmployeesWithDepartments, AssignProfileMethod, GetUsersIdByProfile } from '../../../../data/alias/methods'
-import { usersemployeesdepartmant, usersidfromprofile } from '../../../../data/alias/keys'
+import { AssignProfileMethod, GetUsersIdByProfile, GetAllUsers } from '../../../../data/alias/methods'
+import { users, usersidfromprofile } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
 
 import RevalidarSessao from '../../../components/revalidarsessao'
@@ -25,7 +25,7 @@ class AssignProfile extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+        requestToReducer(this, GetAllUsers, users)
         requestToState(this, GetUsersIdByProfile, usersidfromprofile, this.props.profileId)
     }
 
@@ -45,7 +45,7 @@ class AssignProfile extends Component {
 
     assignProfile() {
 
-        requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[usersemployeesdepartmant].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
+        requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[users].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
         closeModal(this);
         
         window.setTimeout(() => showModal(this, 'Revalidar sessão.', <RevalidarSessao />, false, 'md'), 3000)
@@ -66,8 +66,8 @@ class AssignProfile extends Component {
             }
         ]
         let ueds
-        if (this.props.responses[usersemployeesdepartmant] !== undefined)
-            ueds = this.props.responses[usersemployeesdepartmant].data
+        if (this.props.responses[users] !== undefined)
+            ueds = this.props.responses[users].data
         else ueds = []
 
         let selecteds

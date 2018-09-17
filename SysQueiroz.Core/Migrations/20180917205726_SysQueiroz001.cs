@@ -57,6 +57,7 @@ namespace SysQueiroz.Core.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Href = table.Column<string>(nullable: true),
                     Icon = table.Column<string>(nullable: true),
+                    IsSuperItem = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     SuperHref = table.Column<string>(nullable: true)
                 },
