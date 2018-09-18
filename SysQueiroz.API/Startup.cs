@@ -12,6 +12,9 @@ using System.Text;
 using SysQueiroz.Core.Entities;
 using SysQueiroz.API.Treatments.Enums;
 using System.Linq;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
 
 namespace SysQueiroz.API
 {
@@ -66,10 +69,10 @@ namespace SysQueiroz.API
                         {
                             Console.WriteLine($"OnTokenValidated {context.SecurityToken}");
 
-                            if(context.IsPublicMethod(Configuration))
+                            if (context.IsPublicMethod(Configuration))
                                 context.Success();
-                            else if (context.ItsAllowed()) 
-                                context.Success();                            
+                            else if (context.ItsAllowed())
+                                context.Success();
                             else context.Fail(Err.UserDoesNotHavePermission.ToDescription());
 
                             return Task.CompletedTask;
@@ -80,13 +83,37 @@ namespace SysQueiroz.API
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("UserAccess",
-                    policy => {
+                    policy =>
+                    {
                         policy.RequireClaim("UserId");
                         policy.RequireClaim("UserMethods");
                     });
             });
 
             services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "SysQueiroz API",
+                        Version = "1.0.0.0",
+                        Description = "Serviço de sistema SysQueiroz em formato API REST ASP.NET Core.",
+                        Contact = new Contact
+                        {
+                            Name = "Luiz de Queiroz",
+                            Email = "oluizdequeiroz@gmail.com"
+                        }
+                    }
+                );
+
+                string applicationPath = PlatformServices.Default.Application.ApplicationBasePath;
+                string applicationName = PlatformServices.Default.Application.ApplicationName;
+                string xmlApplicationDocPath = Path.Combine(applicationPath, $"{applicationName}.xml");
+
+                c.IncludeXmlComments(xmlApplicationDocPath);
+            });
 
             StartupRepository.Init(Configuration.GetConnectionString("development"));
             StartupRepository.Configure(services);
@@ -106,6 +133,12 @@ namespace SysQueiroz.API
             app.UseStaticFiles();
 
             app.UseMvc();
-        }        
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SysQueiroz API");
+            });
+        }
     }
 }
