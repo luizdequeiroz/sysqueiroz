@@ -1,8 +1,11 @@
 import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL, GENERIC_SUCCESS, GENERIC_PANEL } from './alias/actions'
-import { API } from '../Util'
+
 import { session } from './alias/keys'
 
 import { getRequestKey, fetchDedupe } from 'fetch-dedupe'
+
+export const API = process.env.REACT_APP_API_DEVELOP
+// export const API = process.env.REACT_APP_API_PRODUCT
 
 /**
  * Função que armazena um valor em um reducer cuja key foi especificada.
