@@ -22,7 +22,7 @@ import menus from '../view/modules/permissions/pages/menus'
 import listofemployees from '../view/modules/employees/pages/listofemployees'
 
 // SUBMENUS
-import { systempermissionsmenu, systemcompanymenu } from '../view/modules/supermenu'
+import { systempermissions, systemcompany } from '../view/modules/supermenus'
 
 const store = configureStore(routerMiddleware(hashHistory))
 
@@ -43,8 +43,8 @@ class App extends Component {
               <Route path="/listofemployees" component={listofemployees} />
               
               {/* supermenus */}
-              <Route path="/systempermissions" component={systempermissionsmenu} />
-              <Route path="/systemcompany" component={systemcompanymenu} />
+              <Route path="/systempermissions" component={systempermissions} />
+              <Route path="/systemcompany" component={systemcompany} />
             </Route>
           </Router>
           <DevTools />

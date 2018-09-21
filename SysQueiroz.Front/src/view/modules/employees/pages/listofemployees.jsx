@@ -38,7 +38,7 @@ class ListOfEmployees extends Component {
         return (
             <fieldset>
                 <legend>Lista de Funcionários</legend>
-                <ToolkitProvider keyField='email' data={eds} columns={cols} search>
+                <ToolkitProvider keyField='id' data={eds} columns={cols} search>
                     {
                         props => (
                             <div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { GetEmployeesWithDepartments, GetEmployee, SetNewEmployee } from '../../../../data/alias/methods'
+import { GetEmployeesWithDepartments, GetEmployee, SetNewEmployee, GetAllDepartments } from '../../../../data/alias/methods'
 import { departments, employeesdepartmant, employee } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
@@ -39,12 +39,16 @@ class EmployeeForm extends Component {
 
             this.setState({ buttonSave: 'Alterar', actionEmployee: this.alterEmployee })
             requestToState(this, GetEmployee, employee, employeeId)
+        } else {
+
+            requestToState(this, GetAllDepartments, departments)
+            this.setState({ actionEmployee: this.saveEmployee })
         }
 
         window.onkeypress = undefined
     }
 
-    saveUser() {
+    saveEmployee() {
 
         let departmentId = '', departmentName
         let nameValidation = '', departmentValidation = ''
@@ -110,14 +114,15 @@ class EmployeeForm extends Component {
         return (
             <div>
                 <Modal.Body>
-                    <div className="form-group">
-                        <If condition={this.state.newDepartment} childrenCountIsOne>
-                            <div className="form-inline">
+                    <div className="form-inline">
+                        <If condition={this.state.newDepartment}>
+                            <div className="input-group">
                                 <SysInput id="departmentName" label="Setor" type="text" placeholder="Nome do setor." textValidation={this.state.departmentValidation} />
                                 <div className="input-group-btn">
                                     <SysButton type="primary" text={<i className="fa fa-minus-circle" />} textHover="Existente" action={() => this.setState({ newDepartment: false })} size="sm" />
-                                </div>
+                                </div>&nbsp;
                             </div>
+                            <SysInput defaultValue={e.name} id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />
                             <Else childrenCountIsOne>
                                 <div className="input-group">
                                     <SysSelect id="department" label="Setor" options={optnsDepa} textValidation={this.state.departmentValidation} />
@@ -125,13 +130,9 @@ class EmployeeForm extends Component {
                                         <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => this.setState({ newDepartment: true })} size="sm" />
                                     </div>
                                 </div>
+                                <SysInput defaultValue={e.name} id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />
                             </Else>
                         </If>
-                    </div>
-                    <div className="form-group">
-                        <div className="form-inline">
-                            <SysInput defaultValue={e.name} id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />&nbsp;
-                        </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
