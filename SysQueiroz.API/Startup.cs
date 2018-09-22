@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using SysQueiroz.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -139,7 +139,7 @@ namespace SysQueiroz.API
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SysQueiroz API");
+                c.SwaggerEndpoint("v1/swagger.json", "SysQueiroz API");
             });
         }
     }
