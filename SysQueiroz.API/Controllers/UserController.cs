@@ -15,6 +15,9 @@ using SysQueiroz.API.Bodies.Users;
 
 namespace SysQueiroz.API.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[action]")]
     [Authorize(Policy = "UserAccess")]
     public class UserController : Controller
@@ -23,6 +26,10 @@ namespace SysQueiroz.API.Controllers
         private ProfileDomain profileDomain;
         private MenuDomain menuDomain;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public UserController(SysQueirozContext context)
         {
             userDomain = new UserDomain(context);
@@ -31,6 +38,10 @@ namespace SysQueiroz.API.Controllers
         }
 
         #region Inicializar dados no banco de dados
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public Return EnterInitializationData()
@@ -50,7 +61,7 @@ namespace SysQueiroz.API.Controllers
                         }
                     },
                     MenuAccesses = new List<MenuAccess>
-                    {          
+                    {
                         new MenuAccess
                         {
                             Menu = new Menu
@@ -61,7 +72,7 @@ namespace SysQueiroz.API.Controllers
                                 SuperHref = "",
                                 IsSuperItem = true
                             }
-                        },                
+                        },
                         new MenuAccess
                         {
                             Menu = new Menu
@@ -75,7 +86,7 @@ namespace SysQueiroz.API.Controllers
                         }
                     },
                     UserProfiles = new List<UserProfile>
-                    {                        
+                    {
                         new UserProfile
                         {
                             Profile = new Profile
@@ -134,9 +145,9 @@ namespace SysQueiroz.API.Controllers
                                     }
                                 }
                             }
-                        }                        
+                        }
                     }
-                };                
+                };
                 userDomain.Insert(user);
 
                 var profiles = new List<Profile>{
@@ -176,7 +187,7 @@ namespace SysQueiroz.API.Controllers
                             },
                             new ProfileMethod
                             {
-                                Method = new Method 
+                                Method = new Method
                                 {
                                     Name = "GetUser",
                                     Description = "Carregar usuário pelo id."
@@ -184,7 +195,7 @@ namespace SysQueiroz.API.Controllers
                             },
                             new ProfileMethod
                             {
-                                Method = new Method 
+                                Method = new Method
                                 {
                                     Name = "GetAllEmployeesForNewUser",
                                     Description = "Listar funcionários que não possuem usuário (para cadastro de usuário)."
@@ -325,7 +336,7 @@ namespace SysQueiroz.API.Controllers
                         }
                     }
                 };
-                foreach(var profile in profiles) profileDomain.Insert(profile);
+                foreach (var profile in profiles) profileDomain.Insert(profile);
 
                 var menus = new List<Menu>{
                     new Menu
@@ -335,7 +346,7 @@ namespace SysQueiroz.API.Controllers
                         Name = "Usuários",
                         SuperHref = "",
                         IsSuperItem = false
-                    },            
+                    },
                     new Menu
                     {
                         Href = "menus",
@@ -359,7 +370,7 @@ namespace SysQueiroz.API.Controllers
                         Name = "Clientes",
                         SuperHref = "systemcompany",
                         IsSuperItem = false
-                    },  
+                    },
                     new Menu
                     {
                         Href = "listofemployees",
@@ -377,7 +388,7 @@ namespace SysQueiroz.API.Controllers
                         IsSuperItem = false
                     }
                 };
-                foreach(var menu in menus) menuDomain.Insert(menu);
+                foreach (var menu in menus) menuDomain.Insert(menu);
 
                 return new Return(Suc.InitializationDataEnteredSuccessfully);
             }
@@ -388,6 +399,11 @@ namespace SysQueiroz.API.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="User"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public Return Relogin([FromBody] User User)
@@ -409,7 +425,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
-        // POST api/Login
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="User"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public Return Login([FromBody] User User)
@@ -431,7 +451,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
-        // GET api/GetUser/1
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUser(int id)
         {
@@ -448,7 +472,10 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
-        // GET api/GetAllUsers
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public Return GetAllUsers()
         {
@@ -465,6 +492,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUserSessionDatasByUserId(int id)
         {
@@ -488,6 +520,10 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public Return GetUsersEmployeesWithDepartments()
         {
@@ -503,6 +539,10 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public Return GetAllProfiles()
         {
@@ -519,6 +559,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return UpdateProfile([FromBody] Profile p)
         {
@@ -534,6 +579,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return DeleteProfile([FromBody] int id)
         {
@@ -549,6 +599,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assigns"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return AssignProfile([FromBody] Assigns assigns)
         {
@@ -564,6 +619,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUsersIdByProfile(int id)
         {
@@ -579,6 +639,10 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public Return GetAllMenusForListMenu()
         {
@@ -596,6 +660,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return UpdateMenuItem([FromBody] Menu m)
         {
@@ -611,6 +680,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return DeleteMenuItem([FromBody] int id)
         {
@@ -626,6 +700,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="assigns"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return AssignMenuItem([FromBody] Assigns assigns)
         {
@@ -641,6 +720,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUsersIdByMenu(int id)
         {
@@ -656,6 +740,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return SetNewUser([FromBody] User user)
         {
@@ -671,6 +760,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="menu"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return SetNewMenuItem([FromBody] Menu menu)
         {
@@ -686,9 +780,13 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public Return GetAllMenuItensForNewMenuItem() 
+        public Return GetAllMenuItensForNewMenuItem()
         {
             try
             {

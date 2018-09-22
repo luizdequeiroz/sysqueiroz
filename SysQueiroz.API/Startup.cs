@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using SysQueiroz.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,7 +21,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SysQueiroz.API
 {
-    public class Startup
+    class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -117,7 +117,7 @@ namespace SysQueiroz.API
                 c.IncludeXmlComments(xmlApplicationDocPath);
             });
 
-            StartupCore.Init(Configuration.GetConnectionString("development"));
+            StartupCore.Init(Configuration.GetConnectionString("production"));
             StartupCore.Configure(services);
         }
 

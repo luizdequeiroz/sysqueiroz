@@ -4,8 +4,8 @@ import { session } from './alias/keys'
 
 import { getRequestKey, fetchDedupe } from 'fetch-dedupe'
 
-export const API = process.env.REACT_APP_API_DEVELOP
-// export const API = process.env.REACT_APP_API_PRODUCT
+// export const API = process.env.REACT_APP_API_DEVELOP
+export const API = process.env.REACT_APP_API_PRODUCT
 
 /**
  * Função que armazena um valor em um reducer cuja key foi especificada.

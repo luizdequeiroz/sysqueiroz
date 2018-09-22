@@ -12,18 +12,28 @@ using SysQueiroz.Core.Entities;
 
 namespace SysQueiroz.API.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[action]")]
     [Authorize(Policy = "UserAccess")]
     public class ClientController : Controller
     {
         private ClientDomain clientDomain;
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public ClientController(SysQueirozContext context)
         {
             clientDomain = new ClientDomain(context);
         }
 
-        // GET api/GetAllClients
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public Return GetAllClients()
         {
@@ -41,6 +51,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return SetNewClient([FromBody] Client client)
         {

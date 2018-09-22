@@ -30,9 +30,8 @@ class HeaderNavBar extends Component {
 
         const tagsBrand = (
             <span>
-                <img role="presentation" src={_img} width="30px" />
-                <i>&nbsp;</i><a href="#"><b>React Base</b></a>
-                {/* <i>&nbsp;</i><a href="#"><b>CL Promotora</b></a> <i className="h6">(SysQueiroz)</i> */}
+                <img alt="presentation" src={_img} width="30px" />
+                <i>&nbsp;</i><a href="#/"><b>CL Promotora</b></a> <i className="h6">(SysQueiroz)</i>
             </span>
         )
         let content

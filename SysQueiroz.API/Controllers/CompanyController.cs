@@ -9,18 +9,29 @@ using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
 
 namespace SysQueiroz.API.Controllers
-{    
+{
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[action]")]
     [Authorize(Policy = "UserAccess")]
     public class CompanyController : Controller
     {
         private EmployeeDomain employeeDomain;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public CompanyController(SysQueirozContext context)
         {
             employeeDomain = new EmployeeDomain(context);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public Return GetAllEmployeesForNewUser()
         {
@@ -37,8 +48,12 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public Return GetAllDepartments() 
+        public Return GetAllDepartments()
         {
             try
             {
@@ -47,14 +62,18 @@ namespace SysQueiroz.API.Controllers
                     return new Error(Err.NoDepartments);
                 else return new Return(departments);
             }
-            catch (Exception ex)    
+            catch (Exception ex)
             {
                 return new Error(ex);
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public Return GetEmployeesWithDepartments() 
+        public Return GetEmployeesWithDepartments()
         {
             try
             {
@@ -68,6 +87,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetEmployee(int id)
         {
@@ -84,6 +108,11 @@ namespace SysQueiroz.API.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <returns></returns>
         [HttpPost]
         public Return SetNewEmployee([FromBody] Employee employee)
         {

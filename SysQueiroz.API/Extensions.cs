@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace SysQueiroz.API
 {
-    public static class Extensions
+    static class Extensions
     {
         public static bool ItsAllowed(this TokenValidatedContext context)
         {
