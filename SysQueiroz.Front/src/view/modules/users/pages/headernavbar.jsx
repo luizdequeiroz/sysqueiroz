@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-const _img = require('../../../../../public/images/_logo.png')
-
 import HeaderLogin from '../components/headerlogin'
 import HeaderLogged from '../components/headerlogged'
 
 import { session, usersessiondatas } from '../../../../data/alias/keys'
 import { GetUserSessionDatasByUserId } from '../../../../data/alias/methods'
 import { requestToReducer, setReducer } from '../../../../data/dispatchers'
+
+const _img = require('../../../../www/imgs/logo.png')
 
 class HeaderNavBar extends Component {
 

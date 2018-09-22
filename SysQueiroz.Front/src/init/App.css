@@ -114,12 +114,12 @@
 
 @font-face {
     font-family: 'Glyphicons Halflings';
-    src: url(../../public/fonts/glyphicons-halflings-regular.eot);
+    src: url(../www/eots/glyphicons-halflings-regular.eot)
 }
 
 @font-face {
     font-family: 'FontAwesome';
-    src: url('../../public/fonts/fontawesome-webfont.eot');
+    src: url(../www/eots/fontawesome-webfont.eot)
 }
 
 @media (min-width: 992px) {

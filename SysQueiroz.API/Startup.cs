@@ -15,12 +15,14 @@ using System.Linq;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
+using Microsoft.EntityFrameworkCore.Design;
+using SysQueiroz.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace SysQueiroz.API
 {
     public class Startup
     {
-        //private static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=dbtest;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"; //"Server=(localdb)\mssqllocaldb;Database=dbtest;Trusted_Connection=True;ConnectRetryCount=0";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -115,8 +117,8 @@ namespace SysQueiroz.API
                 c.IncludeXmlComments(xmlApplicationDocPath);
             });
 
-            StartupRepository.Init(Configuration.GetConnectionString("development"));
-            StartupRepository.Configure(services);
+            StartupCore.Init(Configuration.GetConnectionString("development"));
+            StartupCore.Configure(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
