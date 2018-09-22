@@ -11,5 +11,11 @@ export default function configureStore(middleware) {
       }),
       applyMiddleware(middleware)
     )
+
+  if (module.hot) {
+    module.hot.accept('../reducers', () => 
+      store.replaceReducer(require('../reducers').default)
+    )
+  } 
   return store
 }

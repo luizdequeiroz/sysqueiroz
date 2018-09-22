@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { routerMiddleware } from 'react-router-redux'
 import { Route, IndexRoute, Router, hashHistory } from 'react-router'
 import { Provider } from 'react-redux'
-import DevTools from '../view/containers/DevTools'
 
 // CONTAINERS
 import Index from '../view/templates/index'
@@ -24,6 +23,10 @@ import listofemployees from '../view/modules/employees/pages/listofemployees'
 // SUBMENUS
 import { systempermissions, systemcompany } from '../view/modules/supermenus'
 
+//
+import If from '../view/components/if'
+import DevTools from '../view/containers/DevTools'
+
 const store = configureStore(routerMiddleware(hashHistory))
 
 class App extends Component {
@@ -41,13 +44,15 @@ class App extends Component {
               <Route path="/profiles" component={profiles} />
               <Route path="/menus" component={menus} />
               <Route path="/listofemployees" component={listofemployees} />
-              
+
               {/* supermenus */}
               <Route path="/systempermissions" component={systempermissions} />
               <Route path="/systemcompany" component={systemcompany} />
             </Route>
           </Router>
-          <DevTools />
+          <If condition={process.env.NODE_ENV !== 'production'}>
+            <DevTools />
+          </If>
         </div>
       </Provider>
     )

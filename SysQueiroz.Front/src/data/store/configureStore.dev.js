@@ -22,7 +22,7 @@ export default function configureStore(middleware) {
       }),
       enhancer,
       applyMiddleware(middleware)
-    );
+    )
 
   if (module.hot) {
     module.hot.accept('../reducers', () =>
