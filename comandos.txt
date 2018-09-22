@@ -7,3 +7,5 @@ Para aplicar a migration (gerar a(s) tabela(s)):
 *Tudo isso no contexto do Core
 
 Para adicionar novo projeto módulo na solution -> dotnet sln add .\{project}.Modules\{project}.{module}\{project}.{module}.csproj
+
+Para publicar no iis localhost (no contexto do projeto API) -> dotnet publish -o C:\inetpub\wwwroot\SysQueirozAPI
