@@ -13,7 +13,7 @@ using SysQueiroz.Core.Entities;
 namespace SysQueiroz.API.Controllers
 {
     /// <summary>
-    /// 
+    /// Controller referente ao Módulo Cliente
     /// </summary>
     [Route("api/[action]")]
     [Authorize(Policy = "UserAccess")]
@@ -22,18 +22,16 @@ namespace SysQueiroz.API.Controllers
         private ClientDomain clientDomain;
         
         /// <summary>
-        /// 
+        /// Construtor referente ao controller do Módulo Cliente
         /// </summary>
-        /// <param name="context"></param>
         public ClientController(SysQueirozContext context)
         {
             clientDomain = new ClientDomain(context);
         }
 
         /// <summary>
-        /// 
+        /// Listar todos os clientes
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public Return GetAllClients()
         {
@@ -52,10 +50,9 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Insere um novo cliente.
         /// </summary>
-        /// <param name="client"></param>
-        /// <returns></returns>
+        /// <param name="client">Dados do cliente.</param>
         [HttpPost]
         public Return SetNewClient([FromBody] Client client)
         {

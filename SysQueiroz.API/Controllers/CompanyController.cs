@@ -11,7 +11,7 @@ using SysQueiroz.Core.Entities;
 namespace SysQueiroz.API.Controllers
 {
     /// <summary>
-    /// 
+    /// Controller referente ao Módulo Empresa
     /// </summary>
     [Route("api/[action]")]
     [Authorize(Policy = "UserAccess")]
@@ -20,24 +20,22 @@ namespace SysQueiroz.API.Controllers
         private EmployeeDomain employeeDomain;
 
         /// <summary>
-        /// 
+        /// Construtor referente ao controller do Módulo Empresa
         /// </summary>
-        /// <param name="context"></param>
         public CompanyController(SysQueirozContext context)
         {
             employeeDomain = new EmployeeDomain(context);
         }
 
         /// <summary>
-        /// 
+        /// Listar todos os funcionários que não possuem conta de usuário no sistema. Geralmente com a finalidade de popular um combobox para criação de usuário para funcionário.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        public Return GetAllEmployeesForNewUser()
+        public Return GetAllEmployeesWithoutUser()
         {
             try
             {
-                var employees = employeeDomain.SelectAllWithDepartmentsNameForNewUser();
+                var employees = employeeDomain.SelectAllEmployeesWithDepartmentsNameWithoutUser();
                 if (employees.Count == 0)
                     return new Error(Err.NoEmployees);
                 else return new Return(employees);
@@ -49,9 +47,8 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Listar todos os setores.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public Return GetAllDepartments()
         {
@@ -69,15 +66,14 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Listar funcionários e seus respectivos setores.
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public Return GetEmployeesWithDepartments()
         {
             try
             {
-                var employeesDepartment = employeeDomain.GetEmployeesWithDepartments();
+                var employeesDepartment = employeeDomain.SelectAllEmployeesWithDepartments();
 
                 return new Return(employeesDepartment);
             }
@@ -88,10 +84,9 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Consultar dados de um funcionário pelo id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id do funcionário a ser consultado.</param>
         [HttpGet("{id}")]
         public Return GetEmployee(int id)
         {
@@ -109,10 +104,9 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Inserir um novo funcionário.
         /// </summary>
         /// <param name="employee"></param>
-        /// <returns></returns>
         [HttpPost]
         public Return SetNewEmployee([FromBody] Employee employee)
         {

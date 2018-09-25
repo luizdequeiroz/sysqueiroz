@@ -11,7 +11,7 @@ export default class If extends Component {
             lastIndex = children.length - 1
         else child = children
         const ifElse = child !== undefined ? false : children[lastIndex].props.elementName === 'Else'
-        const contentIf = ifElse ? children.filter(c => c.props.elementName !== 'Else') : children
+        const contentIf = ifElse ? children.filter(c => c.props !== undefined).filter(c => c.props.elementName !== 'Else') : children
         const contentElse = ifElse ? children[lastIndex].props.children : false
 
         if (condition) {

@@ -16,7 +16,7 @@ namespace SysQueiroz.Users
             _context = context;
         }
 
-        public User GetUserWithMethodsPerProfileByEmail(string email)
+        public User SelectUserWithMethodsPerProfileByEmail(string email)
         {
             return SelectWhere<User>(u => u.Email == email).Select(u => new User
             {
@@ -39,7 +39,7 @@ namespace SysQueiroz.Users
             }).FirstOrDefault();
         }
 
-        public Employee GetEmployeeByUserId(int id)
+        public Employee SelectEmployeeByUserId(int id)
         {
             var user = SelectWhere<User>(u => u.Id == id);
             var employee = user.Select(u => u.Employee.Without("Department")).FirstOrDefault();
@@ -47,7 +47,7 @@ namespace SysQueiroz.Users
             return employee;
         }
 
-        public Department GetDepartmentByUserId(int id)
+        public Department SelectDepartmentByUserId(int id)
         {
             var user = SelectWhere<User>(u => u.Id == id);
             var employee = user.Select(u => u.Employee);
@@ -56,14 +56,14 @@ namespace SysQueiroz.Users
             return department;
         }
 
-        public IList<Menu> GetMenuByUserId(int id)
+        public IList<Menu> SelectMenuByUserId(int id)
         {
             var menuAccesses = SelectWhere<MenuAccess>(a => a.User.Id == id);
             var menus = menuAccesses.Select(a => a.Menu).OrderBy(a => a.Name).ToList();
             return menus;
         }
 
-        public IList<dynamic> GetUsersEmployeesWithDepartments()
+        public IList<dynamic> SelectUsersEmployeesWithDepartments()
         {
             var employees = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => e);
             var result = employees.Select(e => new {

@@ -29,7 +29,6 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="context"></param>
         public UserController(SysQueirozContext context)
         {
             userDomain = new UserDomain(context);
@@ -402,19 +401,18 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="User"></param>
-        /// <returns></returns>
+        /// <param name="user"></param>
         [HttpPost]
         [AllowAnonymous]
-        public Return Relogin([FromBody] User User)
+        public Return Relogin([FromBody] User user)
         {
             try
             {
-                var user = userDomain.GetUserWithMethodsPerProfileByEmail(User.Email);
-                if (user != null)
+                var _user = userDomain.SelectUserWithMethodsPerProfileByEmail(user.Email);
+                if (_user != null)
                 {
-                    if (user.Password == User.Password)
-                        return new Return(Suc.SessionRevalidatedSuccessfully, user.Id, user.NewToken());
+                    if (_user.Password == user.Password)
+                        return new Return(Suc.SessionRevalidatedSuccessfully, _user.Id, _user.NewToken());
                     else return new Error(Err.WrongPassword);
                 }
                 else return new Error(Err.UserDoesNotExist);
@@ -428,19 +426,18 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="User"></param>
-        /// <returns></returns>
+        /// <param name="user"></param>
         [HttpPost]
         [AllowAnonymous]
-        public Return Login([FromBody] User User)
+        public Return Login([FromBody] User user)
         {
             try
             {
-                var user = userDomain.GetUserWithMethodsPerProfileByEmail(User.Email);
-                if (user != null)
+                var _user = userDomain.SelectUserWithMethodsPerProfileByEmail(user.Email);
+                if (_user != null)
                 {
-                    if (user.Password == User.Password)
-                        return new Return(user.Id, user.NewToken());
+                    if (_user.Password == user.Password)
+                        return new Return(_user.Id, _user.NewToken());
                     else return new Error(Err.WrongPassword);
                 }
                 else return new Error(Err.UserDoesNotExist);
@@ -455,7 +452,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUser(int id)
         {
@@ -475,7 +471,6 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public Return GetAllUsers()
         {
@@ -496,15 +491,14 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUserSessionDatasByUserId(int id)
         {
             try
             {
-                var employee = userDomain.GetEmployeeByUserId(id);
-                var department = userDomain.GetDepartmentByUserId(id);
-                var menu = userDomain.GetMenuByUserId(id);
+                var employee = userDomain.SelectEmployeeByUserId(id);
+                var department = userDomain.SelectDepartmentByUserId(id);
+                var menu = userDomain.SelectMenuByUserId(id);
 
                 if (employee == null)
                     return new Error(Err.EmployeeDoesNotExist);
@@ -523,13 +517,12 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public Return GetUsersEmployeesWithDepartments()
         {
             try
             {
-                var usersEmployeesDepartment = userDomain.GetUsersEmployeesWithDepartments();
+                var usersEmployeesDepartment = userDomain.SelectUsersEmployeesWithDepartments();
 
                 return new Return(usersEmployeesDepartment);
             }
@@ -542,7 +535,6 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public Return GetAllProfiles()
         {
@@ -562,14 +554,13 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
+        /// <param name="profile"></param>
         [HttpPost]
-        public Return UpdateProfile([FromBody] Profile p)
+        public Return UpdateProfile([FromBody] Profile profile)
         {
             try
             {
-                profileDomain.Update(p);
+                profileDomain.Update(profile);
 
                 return new Return(Suc.ProfileUpdatedSuccessfully);
             }
@@ -583,7 +574,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpPost]
         public Return DeleteProfile([FromBody] int id)
         {
@@ -603,7 +593,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="assigns"></param>
-        /// <returns></returns>
         [HttpPost]
         public Return AssignProfile([FromBody] Assigns assigns)
         {
@@ -623,7 +612,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUsersIdByProfile(int id)
         {
@@ -642,7 +630,6 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public Return GetAllMenusForListMenu()
         {
@@ -663,14 +650,13 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="m"></param>
-        /// <returns></returns>
+        /// <param name="menu"></param>
         [HttpPost]
-        public Return UpdateMenuItem([FromBody] Menu m)
+        public Return UpdateMenuItem([FromBody] Menu menu)
         {
             try
             {
-                menuDomain.Update(m);
+                menuDomain.Update(menu);
 
                 return new Return(Suc.MenuItemUpdatedSuccessfully);
             }
@@ -684,7 +670,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpPost]
         public Return DeleteMenuItem([FromBody] int id)
         {
@@ -704,7 +689,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="assigns"></param>
-        /// <returns></returns>
         [HttpPost]
         public Return AssignMenuItem([FromBody] Assigns assigns)
         {
@@ -724,7 +708,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
         [HttpGet("{id}")]
         public Return GetUsersIdByMenu(int id)
         {
@@ -744,7 +727,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="user"></param>
-        /// <returns></returns>
         [HttpPost]
         public Return SetNewUser([FromBody] User user)
         {
@@ -764,7 +746,6 @@ namespace SysQueiroz.API.Controllers
         /// 
         /// </summary>
         /// <param name="menu"></param>
-        /// <returns></returns>
         [HttpPost]
         public Return SetNewMenuItem([FromBody] Menu menu)
         {
@@ -783,7 +764,6 @@ namespace SysQueiroz.API.Controllers
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public Return GetAllMenuItensForNewMenuItem()

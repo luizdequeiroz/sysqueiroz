@@ -15,7 +15,7 @@ namespace SysQueiroz.Company
             _context = context;
         }
 
-        public IList<dynamic> SelectAllWithDepartmentsNameForNewUser()
+        public IList<dynamic> SelectAllEmployeesWithDepartmentsNameWithoutUser()
         {
             var result = SelectAll<Employee>().Where(e => e.User == null).Select(e => new {
                 id = e.Id,
@@ -27,7 +27,7 @@ namespace SysQueiroz.Company
             return result;
         }
 
-        public IList<dynamic> GetEmployeesWithDepartments()
+        public IList<dynamic> SelectAllEmployeesWithDepartments()
         {
             var employees = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => e);
             var result = employees.Select(e => new {

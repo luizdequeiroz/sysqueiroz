@@ -129,7 +129,7 @@ export class SysSelect extends Component {
     render() {
 
         const { inputStyleError } = this.state
-        const { className, id, label, options, textValidation, firstOption } = this.props
+        const { className, id, label, options, textValidation, firstOption, children } = this.props
         const validationError = textValidation !== ''
 
         const divInputProps = {
@@ -147,9 +147,9 @@ export class SysSelect extends Component {
                     <label className="input-group-addon" htmlFor={id}>{label}</label>
                     <select className="form-control" id={id} onChange={this.validate}>
                         <option>{firstOption}</option>
-                        {options.map(o => (
+                        {children === undefined ? options.map(o => (
                             <option key={o.value} value={o.value}>{o.text}</option>
-                        ))}
+                        )) : children}
                     </select>
                 </div>
             </div>
@@ -174,7 +174,7 @@ export class SysCheck extends Component {
         return (
             <div className="form-group">
                 <label className="sys-checkbox">
-                    <input type="checkbox" { ...inputProps } />
+                    <input type="checkbox" {...inputProps} />
                     <small className="checkmark h5 form-control">{text}</small>
                 </label>
             </div>
