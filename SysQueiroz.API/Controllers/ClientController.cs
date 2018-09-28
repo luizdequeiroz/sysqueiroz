@@ -41,7 +41,7 @@ namespace SysQueiroz.API.Controllers
                 if (clients.Count == 0)
                     return new Error(Err.NoClients);
                 else
-                    return new Return(clients);
+                    return new Success(clients);
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace SysQueiroz.API.Controllers
                 {
                     clientDomain.Insert(client);
 
-                    return new Return(Suc.ClientSuccessfullyRegistered);
+                    return new Success(Suc.ClientSuccessfullyRegistered);
                 }
                 else
                 {

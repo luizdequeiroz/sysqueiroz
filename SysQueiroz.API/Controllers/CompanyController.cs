@@ -28,7 +28,7 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// Listar todos os funcionários que não possuem conta de usuário no sistema. Geralmente com a finalidade de popular um combobox para criação de usuário para funcionário.
+        /// Listar todos os funcionários que não possuem conta de usuário no sistema.
         /// </summary>
         [HttpGet]
         public Return GetAllEmployeesWithoutUser()
@@ -38,7 +38,7 @@ namespace SysQueiroz.API.Controllers
                 var employees = employeeDomain.SelectAllEmployeesWithDepartmentsNameWithoutUser();
                 if (employees.Count == 0)
                     return new Error(Err.NoEmployees);
-                else return new Return(employees);
+                else return new Success(employees);
             }
             catch (Exception ex)
             {
@@ -57,7 +57,7 @@ namespace SysQueiroz.API.Controllers
                 var departments = employeeDomain.SelectAll<Department>().ToList();
                 if (departments.Count == 0)
                     return new Error(Err.NoDepartments);
-                else return new Return(departments);
+                else return new Success(departments);
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace SysQueiroz.API.Controllers
             {
                 var employeesDepartment = employeeDomain.SelectAllEmployeesWithDepartments();
 
-                return new Return(employeesDepartment);
+                return new Success(employeesDepartment);
             }
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace SysQueiroz.API.Controllers
                 var employee = employeeDomain.SelectByID<Employee>(id);
                 if (employee == null)
                     return new Error(Err.EmployeeDoesNotExist);
-                else return new Return(employee);
+                else return new Success(employee);
             }
             catch (Exception ex)
             {
@@ -113,7 +113,7 @@ namespace SysQueiroz.API.Controllers
             try
             {
                 var ok = employeeDomain.InsertNewEmployee(employee);
-                if (ok) return new Return(Suc.EmployeeSuccessfullyRegistered);
+                if (ok) return new Success(Suc.EmployeeSuccessfullyRegistered);
                 else return new Error(Err.EmployeeAlreadyExists);
             }
             catch (Exception ex)

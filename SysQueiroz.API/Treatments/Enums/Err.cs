@@ -91,6 +91,11 @@ namespace SysQueiroz.API.Treatments.Enums
         /// 
         /// </summary>
         [Description("Funcionário já existe!")]
-        EmployeeAlreadyExists = -17
+        EmployeeAlreadyExists = -17,
+        /// <summary>
+        /// 
+        /// </summary>
+        [Description("Item de Menu não existe!")]
+        MenuItemDoesNotExist = -18
       }
 }
