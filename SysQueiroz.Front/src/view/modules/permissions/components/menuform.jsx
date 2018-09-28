@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { GetAllMenusForListMenu, GetMenuItem, GetAllMenuItensForNewMenuItem, SetNewMenuItem } from '../../../../data/alias/methods'
+import { GetAllHierarchicallyOrganizedMenuItems, GetMenuItem, GetAllMenuItemsWhereSuperItems, SetNewMenuItem } from '../../../../data/alias/methods'
 import { menus, menuitem, menuItensForNewMenuItem } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysCheck, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
@@ -41,7 +41,7 @@ class MenuForm extends Component {
             requestToState(this, GetMenuItem, menuitem, menuId)
         } else {
 
-            requestToState(this, GetAllMenuItensForNewMenuItem, menuItensForNewMenuItem)
+            requestToState(this, GetAllMenuItemsWhereSuperItems, menuItensForNewMenuItem)
             this.setState({ actionMenu: this.saveMenu })
         }
 
@@ -87,7 +87,7 @@ class MenuForm extends Component {
         const { responses } = this.state
         const { status } = responses['rgstr_menu_item'] !== undefined ? responses['rgstr_menu_item'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, GetAllMenusForListMenu, menus)
+            requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
             closeModal(this)
         }
     }

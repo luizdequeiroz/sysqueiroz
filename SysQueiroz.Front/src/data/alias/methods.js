@@ -27,12 +27,12 @@ export const GetUsersIdByProfile = 'GetUsersIdByProfile' // Listar usuários que
 //#endregion
 
 //#region Perfil Gerenciamento de Itens de Menu
-export const GetAllMenusForListMenu = 'GetAllMenusForListMenu' // Listar todos os itens de menu hierarquicamente organizados
+export const GetAllHierarchicallyOrganizedMenuItems = 'GetAllHierarchicallyOrganizedMenuItems' // Listar todos os itens de menu hierarquicamente organizados
 export const UpdateMenuItem = 'UpdateMenuItem' // Atualizar item de menu
 export const DeleteMenuItem = 'DeleteMenuItem' // Deletar item de menu
 export const AssignMenuItem = 'AssignMenuItem' // Atribuir acesso a item de menu à usuários marcados
 export const GetUsersIdByMenu = 'GetUsersIdByMenu' // Listar usuários que possuem acesso à item de menu informado (id)
-export const GetAllMenuItensForNewMenuItem = 'GetAllMenuItensForNewMenuItem' // Listar itens de menu que são hierarquicamente superiores
+export const GetAllMenuItemsWhereSuperItems = 'GetAllMenuItemsWhereSuperItems' // Listar itens de menu que são hierarquicamente superiores
 export const SetNewMenuItem = 'SetNewMenuItem' // Inserir novo item de menu
 
 export const GetMenuItem = 'GetMenuItem' // Carregar item de menu pelo id

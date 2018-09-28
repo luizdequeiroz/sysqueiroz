@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 
 import { requestToReducer, setReducer, showModal, closeModal } from '../../../../data/dispatchers'
-import { GetAllMenusForListMenu, UpdateMenuItem, DeleteMenuItem } from '../../../../data/alias/methods'
+import { GetAllHierarchicallyOrganizedMenuItems, UpdateMenuItem, DeleteMenuItem } from '../../../../data/alias/methods'
 import { menus } from '../../../../data/alias/keys'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -25,7 +25,7 @@ class Menus extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetAllMenusForListMenu, menus)
+        requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
     }
 
     componentWillUnmount() {
@@ -37,18 +37,7 @@ class Menus extends Component {
 
         requestToReducer(this, DeleteMenuItem, 'dlt_menu', id, 'POST', true, "Deletando menu...")
         // atualizar redux com a alteração da tabela
-        setTimeout(() => requestToReducer(this, GetAllMenusForListMenu, menus), 1000); 
-        // setReducer(this, menus, {
-        //     data: this.props.responses[menus].data.filter(m => m.id !== id).map(m => ({
-        //         id: m.id,
-        //         href: m.href,
-        //         icon: m.icon,
-        //         name: m.name,
-        //         superHref: m.superHref,
-        //         menuAccesses: null,
-        //         subMenus: m.subMenus
-        //     }))
-        // })
+        setTimeout(() => requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus), 1000);
         closeModal(this)
     }
 
@@ -59,24 +48,7 @@ class Menus extends Component {
         if (newValue !== oldValue) {
             requestToReducer(this, UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
             // atualizar redux com a alteração da tabela
-            requestToReducer(this, GetAllMenusForListMenu, menus)
-            // setReducer(this, menus, {
-            //     data: this.props.responses[menus].data.map(m => {
-            //         if (m.id === id) {
-            //             return ({
-            //                 id: m.id,
-            //                 href: m.href,
-            //                 icon: m.icon,
-            //                 name: name,
-            //                 superHref: m.superHref,
-            //                 menuAccesses: null,
-            //                 subMenus: m.subMenus
-            //             })
-            //         } else {
-            //             return m
-            //         }
-            //     })
-            // })
+            requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
         }
     }
 
@@ -91,6 +63,10 @@ class Menus extends Component {
                 text: 'Caminho',
                 editable: false
             }, {
+                dataField: 'icon',
+                text: 'Ícone',
+                editable: false
+            }, {
                 dataField: 'actions',
                 text: 'Ações',
                 editable: false
@@ -102,15 +78,15 @@ class Menus extends Component {
             // adicionando propriedade para mostrar botão(ões) em coluna da tabela
             actions: (
                 <div className="btn-group">
-                    <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir menu ${m.name}`, <AssignMenu menuId={m.id} />)}>Atribuir</button>
-                    <button className="btn btn-xs btn-danger" onClick={() => showModal(this, `Confirmar exclusão do menu "${m.name}"?`, (
-                            <Modal.Footer>
-                                <div className="btn-group">
-                                    <button className="btn btn-danger" onClick={() => this.deleteMenu(m.id)}>Confirmar exclusão!</button>
-                                    <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar exclusão!</button>
-                                </div>
-                            </Modal.Footer>
-                        ), 'sm')}>Deletar</button>
+                    <SysButton type="primary" size="xs" text="Atribuir" action={() => showModal(this, `Atribuir menu ${m.name}`, <AssignMenu menuId={m.id} />)} />
+                    <SysButton type="danger" size="xs" text="Deletar" action={() => showModal(this, `Confirmar exclusão do menu "${m.name}"?`, (
+                        <Modal.Footer>
+                            <div className="btn-group">
+                                <SysButton type="danger" size="md" text="Confirmar exclusão!" action={() => this.deleteMenu(m.id)} />
+                                <SysButton type="default" size="md" text="Cancelar exclusão!" action={() => closeModal(this)} />
+                            </div>
+                        </Modal.Footer>
+                    ), 'sm')} />
                 </div>
             )
         }))
@@ -165,7 +141,8 @@ class Menus extends Component {
             }, {
                 dataField: 'actions',
                 text: 'Ações',
-                editable: false
+                editable: false,
+                headerStyle: { width: '180px' }
             }
         ]
 
@@ -176,15 +153,15 @@ class Menus extends Component {
                 // adicionando propriedade para mostrar botão(ões) em coluna da tabela
                 actions: (
                     <div className="btn-group">
-                        <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir menu ${m.name}`, <AssignMenu menuId={m.id} />)}>Atribuir</button>
-                        <button className="btn btn-xs btn-danger" onClick={() => showModal(this, `Confirmar exclusão do menu "${m.name}"?`, (
+                        <SysButton type="primary" size="xs" text="Atribuir" action={() => showModal(this, `Atribuir menu ${m.name}`, <AssignMenu menuId={m.id} />)} />
+                        <SysButton type="danger" size="xs" text="Deletar" action={() => showModal(this, `Confirmar exclusão do menu "${m.name}"?`, (
                             <Modal.Footer>
                                 <div className="btn-group">
-                                    <button className="btn btn-danger" onClick={() => this.deleteMenu(m.id)}>Confirmar exclusão!</button>
-                                    <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar exclusão!</button>
+                                    <SysButton type="danger" size="md" text="Confirmar exclusão!" action={() => this.deleteMenu(m.id)} />
+                                    <SysButton type="default" size="md" text="Cancelar exclusão!" action={() => closeModal(this)} />
                                 </div>
                             </Modal.Footer>
-                        ), 'sm')}>Deletar</button>
+                        ), 'sm')} />
                     </div>
                 )
             }))
