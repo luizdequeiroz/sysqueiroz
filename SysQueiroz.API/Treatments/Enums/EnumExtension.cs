@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace SysQueiroz.API.Treatments.Enums
 {
-    public static class EnumDescription
+    static class EnumDescription
     {
         public static string ToDescription<T>(this T source)
         {

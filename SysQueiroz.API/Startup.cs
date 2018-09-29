@@ -8,12 +8,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SecurityKeyFromCore = SysQueiroz.Core.Provider.SecurityKey;
+using System.Text;
+using SysQueiroz.Core.Entities;
+using SysQueiroz.API.Treatments.Enums;
+using System.Linq;
+using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
+using Microsoft.EntityFrameworkCore.Design;
+using SysQueiroz.Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace SysQueiroz.API
 {
-    public class Startup
+    class Startup
     {
-        //private static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=dbtest;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"; //"Server=(localdb)\mssqllocaldb;Database=dbtest;Trusted_Connection=True;ConnectRetryCount=0";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -47,7 +56,7 @@ namespace SysQueiroz.API
 
                         ValidIssuer = "security.sysqueirozteam.com.br",
                         ValidAudience = "security.sysqueirozteam.com.br",
-                        IssuerSigningKey = SecurityKeyFromCore.Create("ljfb.4c0d3t3am.dotnetcore")
+                        IssuerSigningKey = SecurityKeyFromCore.Create("lllc.5y5qu31r0zt3am.dotnetcore")
                     };
 
                     option.Events = new JwtBearerEvents
@@ -55,11 +64,19 @@ namespace SysQueiroz.API
                         OnAuthenticationFailed = context =>
                         {
                             Console.WriteLine($"OnAuthenticationFailed: {context.Exception.Message}");
+
                             return Task.CompletedTask;
                         },
                         OnTokenValidated = context =>
                         {
                             Console.WriteLine($"OnTokenValidated {context.SecurityToken}");
+
+                            if (context.IsPublicMethod(Configuration))
+                                context.Success();
+                            else if (context.ItsAllowed())
+                                context.Success();
+                            else context.Fail(Err.UserDoesNotHavePermission.ToDescription());
+
                             return Task.CompletedTask;
                         }
                     };
@@ -67,14 +84,41 @@ namespace SysQueiroz.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("User",
-                    policy => policy.RequireClaim("UserId"));
+                options.AddPolicy("UserAccess",
+                    policy =>
+                    {
+                        policy.RequireClaim("UserId");
+                        policy.RequireClaim("UserMethods");
+                    });
             });
 
             services.AddMvc();
 
-            StartupRepository.Init(Configuration.GetConnectionString("sysqueiroz"));
-            StartupRepository.Configure(services);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1",
+                    new Info
+                    {
+                        Title = "SysQueiroz API",
+                        Version = "1.0.0.0",
+                        Description = "Serviço de sistema SysQueiroz em formato API REST ASP.NET Core.",
+                        Contact = new Contact
+                        {
+                            Name = "Luiz de Queiroz",
+                            Email = "oluizdequeiroz@gmail.com"
+                        }
+                    }
+                );
+
+                string applicationPath = PlatformServices.Default.Application.ApplicationBasePath;
+                string applicationName = PlatformServices.Default.Application.ApplicationName;
+                string xmlApplicationDocPath = Path.Combine(applicationPath, $"{applicationName}.xml");
+
+                c.IncludeXmlComments(xmlApplicationDocPath);
+            });
+
+            StartupCore.Init(Configuration.GetConnectionString("development"));
+            StartupCore.Configure(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +135,12 @@ namespace SysQueiroz.API
             app.UseStaticFiles();
 
             app.UseMvc();
-        }        
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("v1/swagger.json", "SysQueiroz API");
+            });
+        }
     }
 }

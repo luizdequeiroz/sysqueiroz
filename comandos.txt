@@ -1,0 +1,11 @@
+Para gerar migrations -> dotnet ef --startup-project ..\{project}.API\{project}.API.csproj migrations add {NomeMigration}
+
+Para aplicar a migration (gerar a(s) tabela(s)):
+	No VSCode -> dotnet ef --startup-project ..\{project}.API\{project}.API.csproj database update [{NomeMigration}]
+	No VSS2017 -> Update-Database {NomeMigration}
+
+*Tudo isso no contexto do Core
+
+Para adicionar novo projeto módulo na solution -> dotnet sln add .\{project}.Modules\{project}.{module}\{project}.{module}.csproj
+
+Para publicar no iis localhost (no contexto do projeto API) -> dotnet publish -o C:\inetpub\wwwroot\SysQueirozAPI

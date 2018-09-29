@@ -1,16 +1,14 @@
-using System;
-using SysQueiroz.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace SysQueiroz.Repository
+namespace SysQueiroz.Core
 {
-    public class StartupRepository : IDesignTimeDbContextFactory<SysQueirozContext>
+    public class StartupCore : IDesignTimeDbContextFactory<SysQueirozContext>
     {
         private static string _connectionString;
 
-        public static void Init(string connectionString) 
+        public static void Init(string connectionString)
         {
             _connectionString = connectionString;
         }
@@ -19,7 +17,7 @@ namespace SysQueiroz.Repository
         {           
             services.AddDbContext<SysQueirozContext>(options => options.UseSqlServer(_connectionString));
         }
-
+        
         public SysQueirozContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<SysQueirozContext>();

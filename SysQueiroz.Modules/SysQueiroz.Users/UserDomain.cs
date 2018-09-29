@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
+using SysQueiroz.Core.Utils;
 using SysQueiroz.Repository.Base;
 
 namespace SysQueiroz.Users
@@ -14,46 +16,86 @@ namespace SysQueiroz.Users
             _context = context;
         }
 
-        public User GetUserByEmail(string email)
+        public User SelectUserWithMethodsPerProfileByEmail(string email)
         {
-            return SelectWhere<User>(u => u.Email == email).FirstOrDefault();
+            return SelectWhere<User>(u => u.Email == email).Select(u => new User
+            {
+                Id = u.Id,
+                Password = u.Password,
+                Email = u.Email,
+                UserProfiles = u.UserProfiles.Select(up => new UserProfile
+                {
+                    Profile = new Profile
+                    {
+                        ProfileMethods = up.Profile.ProfileMethods.Select(pm => new ProfileMethod
+                        {
+                            Method = new Method
+                            {
+                                Name = pm.Method.Name
+                            }
+                        }).ToList()
+                    }
+                }).ToList()
+            }).FirstOrDefault();
         }
 
-        public Employee GetEmployeeByUserId(int id)
+        public Employee SelectEmployeeByUserId(int id)
         {
             var user = SelectWhere<User>(u => u.Id == id);
-            var employee = user.Select(u => u.Employee).FirstOrDefault();
+            var employee = user.Select(u => u.Employee.Without("Department")).FirstOrDefault();
 
             return employee;
         }
 
-        public Department GetDepartmentByUserId(int id)
+        public Department SelectDepartmentByUserId(int id)
         {
             var user = SelectWhere<User>(u => u.Id == id);
             var employee = user.Select(u => u.Employee);
-            var department = employee.Select(e => e.Department).FirstOrDefault();
+            var department = employee.Select(e => e.Department.Without("Employees")).FirstOrDefault();
 
             return department;
         }
 
-        public IList<Menu> GetMenuByUserId(int id)
+        public IList<Menu> SelectMenuByUserId(int id)
         {
-            var authorizations = SelectWhere<Authorization>(a => a.User.Id == id);
-            var menus = authorizations.Select(a => a.Menu).ToList();
+            var menuAccesses = SelectWhere<MenuAccess>(a => a.User.Id == id);
+            var menus = menuAccesses.Select(a => a.Menu).OrderBy(a => a.Name).ToList();
             return menus;
         }
 
-        public IList<dynamic> GetUsersEmployeesWithDepartments()
+        public IList<dynamic> SelectUsersEmployeesWithDepartments()
         {
-            var result = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => new
-                {            
-                    name = e.Name,
-                    email = e.User.Email,
-                    departmentName = d.Name
-                }
-            ).ToList<dynamic>();
-
+            var employees = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => e);
+            var result = employees.Select(e => new {
+                id = e.User != null ? e.User.Id : 0,
+                employeeId = e.Id,
+                name = e.Name,
+                email = e.User != null ? e.User.Email : "",
+                departmentName = e.Department.Name
+            }).ToList<dynamic>();
             return result;
+        }
+
+        public bool InsertNewUser(User user)
+        {
+            var us = SelectWhere<User>(u => u.Email == user.Email).FirstOrDefault();
+            if (us != null) return false;
+
+            Insert(user);
+            return true;
+        }
+
+        public IList<dynamic> SelectAllUsersEmployeesOrNot()
+        {
+            var users = SelectAll<User>().Select(u => new
+            {
+                Id = u.Id,
+                Name = u.Employee != null ? u.Employee.Name : "[Não funcionário]",
+                Email = u.Email,
+                DepartmentName = u.Employee != null ? u.Employee.Department.Name : "[Não funcionário]"
+            }).ToList<dynamic>();
+
+            return users;          
         }
     }
 }
