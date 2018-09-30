@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { requestToReducer, closeModal, requestToState } from '../../../../data/dispatchers'
-import {  AssignMenuItem, GetProfilesIdByMenu, GetAllProfiles } from '../../../../data/alias/methods'
+import { AssignMenuItem, GetProfilesIdByMenu, GetAllProfiles } from '../../../../data/alias/methods'
 import { profiles, profilesidfrommenu } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
 
@@ -28,13 +28,10 @@ class AssignMenu extends Component {
     }
 
     onSelect(row, isSelect) {
-debugger
-        if (isSelect) {
+
+        if (isSelect)
             this.setState({ responses: { profilesidfrommenu: { data: [...this.state.responses[profilesidfrommenu].data, row.id] } } })
-        }
-        else {
-            this.setState({ responses: { profilesidfrommenu: { data: this.state.responses[profilesidfrommenu].data.filter(id => id !== row.id) } } })
-        }
+        else this.setState({ responses: { profilesidfrommenu: { data: this.state.responses[profilesidfrommenu].data.filter(id => id !== row.id) } } })
     }
 
     onSelectAll(isSelect, rows) {
