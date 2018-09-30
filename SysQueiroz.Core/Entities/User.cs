@@ -11,7 +11,6 @@ namespace SysQueiroz.Core.Entities
         public string Password { get; set; }
         [ForeignKey("Employee")] public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
-        public IList<MenuAccess> MenuAccesses { get; set; }
         public IList<UserProfile> UserProfiles { get; set; }
     }
 }

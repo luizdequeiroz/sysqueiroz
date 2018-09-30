@@ -31,7 +31,7 @@ export const GetAllHierarchicallyOrganizedMenuItems = 'GetAllHierarchicallyOrgan
 export const UpdateMenuItem = 'UpdateMenuItem' // Atualizar item de menu
 export const DeleteMenuItem = 'DeleteMenuItem' // Deletar item de menu
 export const AssignMenuItem = 'AssignMenuItem' // Atribuir acesso a item de menu à usuários marcados
-export const GetUsersIdByMenu = 'GetUsersIdByMenu' // Listar usuários que possuem acesso à item de menu informado (id)
+export const GetProfilesIdByMenu = 'GetProfilesIdByMenu' // Listar usuários que possuem acesso à item de menu informado (id)
 export const GetAllMenuItemsWhereSuperItems = 'GetAllMenuItemsWhereSuperItems' // Listar itens de menu que são hierarquicamente superiores
 export const SetNewMenuItem = 'SetNewMenuItem' // Inserir novo item de menu
 

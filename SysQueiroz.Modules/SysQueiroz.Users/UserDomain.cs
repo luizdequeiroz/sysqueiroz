@@ -56,13 +56,6 @@ namespace SysQueiroz.Users
             return department;
         }
 
-        public IList<Menu> SelectMenuByUserId(int id)
-        {
-            var menuAccesses = SelectWhere<MenuAccess>(a => a.User.Id == id);
-            var menus = menuAccesses.Select(a => a.Menu).OrderBy(a => a.Name).ToList();
-            return menus;
-        }
-
         public IList<dynamic> SelectUsersEmployeesWithDepartments()
         {
             var employees = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => e);

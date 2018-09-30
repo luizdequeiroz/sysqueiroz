@@ -5,8 +5,8 @@ namespace SysQueiroz.Core.Entities
 {
     public class MenuAccess : GenericEntity
     {
-        [ForeignKey("User")] public int UserId { get; set; }
-        public User User { get; set; }
+        [ForeignKey("Profile")] public int ProfileId { get; set; }
+        public Profile Profile { get; set; }
         [ForeignKey("Menu")] public int MenuId { get; set; }
         public Menu Menu { get; set; }
     }

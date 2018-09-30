@@ -47,7 +47,8 @@ namespace SysQueiroz.API.Controllers
         {
             try
             {
-                if (userDomain.SelectAll<User>().Count() == 0){
+                if (userDomain.SelectAll<User>().Count() == 0)
+                {
                     var user = new User
                     {
                         Email = "admin",
@@ -58,31 +59,6 @@ namespace SysQueiroz.API.Controllers
                             Department = new Department
                             {
                                 Name = "Administração de Sistema"
-                            }
-                        },
-                        MenuAccesses = new List<MenuAccess>
-                        {
-                            new MenuAccess
-                            {
-                                Menu = new Menu
-                                {
-                                    Href = "systempermissions",
-                                    Icon = "shield",
-                                    Name = "Permissões",
-                                    SuperHref = "",
-                                    IsSuperItem = true
-                                }
-                            },
-                            new MenuAccess
-                            {
-                                Menu = new Menu
-                                {
-                                    Href = "profiles",
-                                    Icon = "user-circle",
-                                    Name = "Perfis de Usuário",
-                                    SuperHref = "systempermissions",
-                                    IsSuperItem = false
-                                }
                             }
                         },
                         UserProfiles = new List<UserProfile>
@@ -143,7 +119,32 @@ namespace SysQueiroz.API.Controllers
                                                 Description = "Listar todos os usuários."
                                             }
                                         }
-                                    }
+                                    },
+                                    MenuAccesses = new List<MenuAccess>
+                                    {
+                                        new MenuAccess
+                                        {
+                                            Menu = new Menu
+                                            {
+                                                Href = "systempermissions",
+                                                Icon = "shield",
+                                                Name = "Permissões",
+                                                SuperHref = "",
+                                                IsSuperItem = true
+                                            }
+                                        },
+                                        new MenuAccess
+                                        {
+                                            Menu = new Menu
+                                            {
+                                                Href = "profiles",
+                                                Icon = "user-circle",
+                                                Name = "Perfis de Usuário",
+                                                SuperHref = "systempermissions",
+                                                IsSuperItem = false
+                                            }
+                                        }
+                                    },
                                 }
                             }
                         }
@@ -245,8 +246,8 @@ namespace SysQueiroz.API.Controllers
                                 {
                                     Method = new Method
                                     {
-                                        Name = "GetUsersIdByMenu",
-                                        Description = "Listar usuários que possuem acesso à item de menu informado (id)."
+                                        Name = "GetProfilesIdByMenu",
+                                        Description = "Listar perfis de usuário que possuem acesso à item de menu informado (id)."
                                     }
                                 },
                                 new ProfileMethod
@@ -500,7 +501,7 @@ namespace SysQueiroz.API.Controllers
             {
                 var employee = userDomain.SelectEmployeeByUserId(id);
                 var department = userDomain.SelectDepartmentByUserId(id);
-                var menu = userDomain.SelectMenuByUserId(id);
+                var menu = menuDomain.SelectMenuByUserId(id);
 
                 if (employee == null)
                     return new Error(Err.EmployeeDoesNotExist);
@@ -707,17 +708,17 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// Listar ids de usuários com atribuição de acesso a item de menu pelo id do item de menu.
+        /// Listar ids de perfis de usuário com atribuição de acesso a item de menu pelo id do item de menu.
         /// </summary>
-        /// <param name="id">Id do item de menu pelo qual se listará os ids dos usuários com atribuição de acesso a item de menu.</param>
+        /// <param name="id">Id do item de menu pelo qual se listará os ids dos perfis de usuário com atribuição de acesso a item de menu.</param>
         [HttpGet("{id}")]
-        public Return GetUsersIdByMenu(int id)
+        public Return GetProfilesIdByMenu(int id)
         {
             try
             {
-                var usersId = menuDomain.SelectWhere<MenuAccess>(ma => ma.MenuId == id).Select(ma => ma.UserId).ToList();
+                var profileId = menuDomain.SelectWhere<MenuAccess>(ma => ma.MenuId == id).Select(ma => ma.ProfileId).ToList();
 
-                return new Success(usersId);
+                return new Success(profileId);
             }
             catch (Exception ex)
             {

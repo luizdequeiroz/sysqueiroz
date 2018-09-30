@@ -25,22 +25,22 @@ namespace SysQueiroz.Users
 
         public void InsertAssignsAndRemoveUnassigns(int menuId, List<int> all, IList<int> selecteds)
         {
-            foreach (var userId in selecteds)
+            foreach (var profileId in selecteds)
             {
                 var MenuAccess = new MenuAccess
                 {
-                    UserId = userId,
+                    ProfileId = profileId,
                     MenuId = menuId
                 };
 
-                var mAccess = SelectWhere<MenuAccess>(ma => ma.UserId == userId && ma.MenuId == menuId).FirstOrDefault();
+                var mAccess = SelectWhere<MenuAccess>(ma => ma.ProfileId == profileId && ma.MenuId == menuId).FirstOrDefault();
                 if (mAccess == null) Insert(MenuAccess);
-                all.Remove(userId);
+                all.Remove(profileId);
             }
 
-            foreach (var userId in all)
+            foreach (var profileId in all)
             {
-                var mAccess = SelectWhere<MenuAccess>(ma => ma.UserId == userId && ma.MenuId == menuId).FirstOrDefault();
+                var mAccess = SelectWhere<MenuAccess>(ma => ma.ProfileId == profileId && ma.MenuId == menuId).FirstOrDefault();
                 if (mAccess != null) Delete(mAccess);
             }
         }
@@ -73,5 +73,16 @@ namespace SysQueiroz.Users
             Insert(menu);
             return true;
         }
-      }
+
+        public IList<Menu> SelectMenuByUserId(int id)
+        {
+            var userProfiles = SelectWhere<UserProfile>(up => up.UserId == id);
+            var profiles = userProfiles.Select(up => up.Profile);
+            var menuAccesses = profiles.Select(p => p.MenuAccesses);
+
+            var menus = menuAccesses.SelectMany(ma => ma.Select(m => m.Menu)).Distinct().OrderBy(m => m.Name).ToList();
+
+            return menus;
+        }
+    }
 }

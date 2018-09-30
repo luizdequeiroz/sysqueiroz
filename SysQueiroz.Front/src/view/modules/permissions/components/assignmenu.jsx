@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { requestToReducer, closeModal, requestToState } from '../../../../data/dispatchers'
-import { GetUsersEmployeesWithDepartments, AssignMenuItem, GetUsersIdByMenu } from '../../../../data/alias/methods'
-import { usersemployeesdepartmant, usersidfrommenu } from '../../../../data/alias/keys'
+import {  AssignMenuItem, GetProfilesIdByMenu, GetAllProfiles } from '../../../../data/alias/methods'
+import { profiles, profilesidfrommenu } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -23,27 +23,30 @@ class AssignMenu extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
-        requestToState(this, GetUsersIdByMenu, usersidfrommenu, this.props.menuId)
+        requestToReducer(this, GetAllProfiles, profiles)
+        requestToState(this, GetProfilesIdByMenu, profilesidfrommenu, this.props.menuId)
     }
 
     onSelect(row, isSelect) {
-
-        if (isSelect)
-            this.setState({ responses: { usersidfrommenu: { data: [...this.state.responses[usersidfrommenu].data, row.id] } } })
-        else this.setState({ responses: { usersidfrommenu: { data: this.state.responses[usersidfrommenu].data.filter(id => id !== row.id) } } })
+debugger
+        if (isSelect) {
+            this.setState({ responses: { profilesidfrommenu: { data: [...this.state.responses[profilesidfrommenu].data, row.id] } } })
+        }
+        else {
+            this.setState({ responses: { profilesidfrommenu: { data: this.state.responses[profilesidfrommenu].data.filter(id => id !== row.id) } } })
+        }
     }
 
     onSelectAll(isSelect, rows) {
 
         if (isSelect)
-            this.setState({ responses: { usersidfrommenu: { data: rows.map(r => r.id) } } })
-        else this.setState({ responses: { usersidfrommenu: { data: [] } } })
+            this.setState({ responses: { profilesidfrommenu: { data: rows.map(r => r.id) } } })
+        else this.setState({ responses: { profilesidfrommenu: { data: [] } } })
     }
 
     assignMenu() {
 
-        requestToReducer(this, AssignMenuItem, 'ssgn_menu', { menuId: this.props.menuId, all: this.props.responses[usersemployeesdepartmant].data.map(u => u.id), selecteds: this.state.responses[usersidfrommenu].data }, 'POST', true, "Atribuindo menus aos usuários selecionados...")
+        requestToReducer(this, AssignMenuItem, 'ssgn_menu', { menuId: this.props.menuId, all: this.props.responses[profiles].data.map(u => u.id), selecteds: this.state.responses[profilesidfrommenu].data }, 'POST', true, "Atribuindo menus aos perfis selecionados...")
         closeModal(this);
     }
 
@@ -52,35 +55,32 @@ class AssignMenu extends Component {
         const cols = [
             {
                 dataField: 'name',
-                text: 'Nome'
+                text: 'Nome do Perfil'
             }, {
-                dataField: 'email',
-                text: 'E-mail'
-            }, {
-                dataField: 'departmentName',
-                text: 'Setor'
+                dataField: 'description',
+                text: 'Descrição'
             }
         ]
-        let ueds
-        if (this.props.responses[usersemployeesdepartmant] !== undefined)
-            ueds = this.props.responses[usersemployeesdepartmant].data
-        else ueds = []
+        let prfls
+        if (this.props.responses[profiles] !== undefined)
+            prfls = this.props.responses[profiles].data
+        else prfls = []
 
         let selecteds
-        if (this.state.responses[usersidfrommenu] !== undefined)
-            selecteds = this.state.responses[usersidfrommenu].data
+        if (this.state.responses[profilesidfrommenu] !== undefined)
+            selecteds = this.state.responses[profilesidfrommenu].data
         else selecteds = []
 
         return (
             <div>
                 <Modal.Body>
                     <fieldset>
-                        <legend>Lista de Usuários <i>(selecione os usuários para atribuir o acesso ao menu)</i></legend>
+                        <legend>Lista de Perfis de Usuário <i>(selecione os perfis para atribuir o acesso ao menu)</i></legend>
                         <BootstrapTable
                             keyField='id'
-                            data={ueds}
+                            data={prfls}
                             columns={cols}
-                            noDataIndication="Não há usuários!"
+                            noDataIndication="Não há perfis!"
                             selectRow={{
                                 mode: 'checkbox',
                                 clickToSelect: true,

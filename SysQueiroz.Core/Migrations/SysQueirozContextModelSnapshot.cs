@@ -115,13 +115,13 @@ namespace SysQueiroz.Core.Migrations
 
                     b.Property<int>("MenuId");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("ProfileId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MenuId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ProfileId");
 
                     b.ToTable("MenuAccesses");
                 });
@@ -224,9 +224,9 @@ namespace SysQueiroz.Core.Migrations
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SysQueiroz.Core.Entities.User", "User")
+                    b.HasOne("SysQueiroz.Core.Entities.Profile", "Profile")
                         .WithMany("MenuAccesses")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProfileId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
