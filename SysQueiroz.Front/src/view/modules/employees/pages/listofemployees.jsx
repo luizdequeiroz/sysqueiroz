@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import BootstrapTable from 'react-bootstrap-table-next'
-import { employeesdepartmant } from '../../../../data/alias/keys'
+import { employeesdepartmant, employee } from '../../../../data/alias/keys'
 import { requestToReducer, showModal, closeModal } from '../../../../data/dispatchers'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
@@ -21,7 +21,10 @@ class ListOfEmployees extends Component {
 
     deleteEmployee(id) {
 
-
+        requestToReducer(this, methods.DeleteEmployee, 'dlt_employee', id, 'POST', true, "Deletando funcionário...")
+        // atualizar redux com a alteração da tabela
+        setTimeout(() => requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant), 1000); 
+        closeModal(this)
     }
 
     render() {

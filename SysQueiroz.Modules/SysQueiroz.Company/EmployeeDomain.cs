@@ -54,5 +54,15 @@ namespace SysQueiroz.Company
             employee.DepartmentId = newDepartmentId;
             Update(employee);
         }
+
+        public void DeleteEmployee(int id)
+        {
+            var employee = SelectByID<Employee>(id);
+            var employees = SelectWhere<Employee>(e => e.DepartmentId == employee.DepartmentId);
+            var department = employees.Select(e => e.Department).First();
+            Delete(employee);
+            if (employees.Where(e => e.Id != id).Count() == 0)
+                Delete(department);
+        }
     }
 }

@@ -75,6 +75,11 @@ namespace SysQueiroz.API.Treatments.Enums
         /// Código de sucesso: 13; Descrição do erro: "Funcionário atualizado com sucesso!"
         /// </summary>
         [Description("Funcionário atualizado com sucesso!")]
-        EmployeeUpdatedSuccessfully = 13
+        EmployeeUpdatedSuccessfully = 13,
+        /// <summary>
+        /// Código de sucesso: 14; Descrição do erro: "Funcionário deletado com sucesso!"
+        /// </summary>
+        [Description("Funcionário deletado com sucesso!")]
+        EmployeeDeletedSuccessfully = 14
     }
 }

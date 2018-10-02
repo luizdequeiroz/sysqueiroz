@@ -142,5 +142,24 @@ namespace SysQueiroz.API.Controllers
                 return new Error(ex);
             }
         }
+
+        /// <summary>
+        /// Deletar um funcionário.
+        /// </summary>
+        /// <param name="id">Id do funcionário a ser deletado.</param>
+        [HttpPost]
+        public Return DeleteEmployee([FromBody] int id)
+        {
+            try
+            {
+                employeeDomain.DeleteEmployee(id);
+
+                return new Success(Suc.EmployeeDeletedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
     }
 }
