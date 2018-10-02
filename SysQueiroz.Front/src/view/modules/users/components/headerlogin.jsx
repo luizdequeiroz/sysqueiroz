@@ -73,7 +73,7 @@ class HeaderLogin extends Component {
         )
 
         return (
-            <Navbar {...NavbarProps} >
+            <Navbar {...NavbarProps}>
                 <If condition={this.props.brand !== undefined}>
                     <Navbar.Header>
                         <Navbar.Brand>

@@ -16,18 +16,18 @@ class Index extends Component {
 
     componentWillMount() {
 
-        loadMethods(this)
+        if (sessionStorage.getItem('methods') === null || sessionStorage.getItem('methods') === '[]') {        
+            loadMethods(this)
+        }
 
         window.onkeydown = e => this.keyCode = e.keyCode
         window.onbeforeunload = () => {
             if (this.keyCode !== 116) sessionStorage.clear()
         }
-    }
+    }    
 
     componentDidMount() {
         
-
-
         if (sessionStorage.getItem(session) !== undefined) {
             setReducer(this, session, sessionStorage.getItem(session) === null ? undefined : sessionStorage.getItem(session));
         }
@@ -56,7 +56,18 @@ function select(state) {
         sessionStorage.setItem(session, state.reducers.responses[session])
     }
 
-    methods = state.reducers.methods
+    if (!Array.isArray(state.reducers.methods)) {        
+        if (sessionStorage.getItem('methods') === null) {
+            sessionStorage.setItem('methods', JSON.stringify(state.reducers.methods))
+            methods = state.reducers.methods
+        }
+    } else {
+        if (sessionStorage.getItem('methods') !== null) {
+            methods = JSON.parse(sessionStorage.getItem('methods'))
+        } else {
+            methods = '[]'
+        }
+    }
 
     return {
         responses: state.reducers.responses

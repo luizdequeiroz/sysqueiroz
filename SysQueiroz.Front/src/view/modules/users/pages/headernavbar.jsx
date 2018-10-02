@@ -8,7 +8,7 @@ import { usersessiondatas, session } from '../../../../data/alias/keys'
 import { requestToReducer, setReducer } from '../../../../data/dispatchers'
 import { methods } from '../../../templates'
 
-const _img = require('../../../../www/imgs/logo.png')
+const _img = require('../../../../www/imgs/_logo.png')
 
 class HeaderNavBar extends Component {
 
@@ -31,7 +31,7 @@ class HeaderNavBar extends Component {
         const tagsBrand = (
             <span>
                 <img alt="presentation" src={_img} width="30px" />
-                <i>&nbsp;</i><a href="#/"><b>CL Promotora</b></a> <i className="h6">(SysQueiroz)</i>
+                <i>&nbsp;</i><a href="#/"><b>React Base</b></a>
             </span>
         )
         let content

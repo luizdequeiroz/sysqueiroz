@@ -59,7 +59,7 @@ namespace SysQueiroz.Users
         public IList<dynamic> SelectUsersEmployeesWithDepartments()
         {
             var employees = SelectAll<Department>().Join(SelectAll<Employee>(), d => d.Id, e => e.Department.Id, (d, e) => e);
-            var result = employees.Select(e => new {
+            var result = employees.Where(e => e.User != null).Select(e => new {
                 id = e.User != null ? e.User.Id : 0,
                 employeeId = e.Id,
                 name = e.Name,

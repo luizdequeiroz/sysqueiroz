@@ -103,7 +103,7 @@ class Profiles extends Component {
                                     <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar exclusão!</button>
                                 </div>
                             </Modal.Footer>
-                        ), true, 'md')}>Deletar</button>
+                        ), false, 'md')}>Deletar</button>
                     </div>
                 )
             }))

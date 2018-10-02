@@ -69,7 +69,8 @@ class Menus extends Component {
             }, {
                 dataField: 'actions',
                 text: 'Ações',
-                editable: false
+                editable: false,
+                headerStyle: { width: '180px' }
             }
         ]
 
@@ -86,7 +87,7 @@ class Menus extends Component {
                                 <SysButton type="default" size="md" text="Cancelar exclusão!" action={() => closeModal(this)} />
                             </div>
                         </Modal.Footer>
-                    ), 'sm')} />
+                    ), true, 'md')} />
                 </div>
             )
         }))
@@ -161,7 +162,7 @@ class Menus extends Component {
                                     <SysButton type="default" size="md" text="Cancelar exclusão!" action={() => closeModal(this)} />
                                 </div>
                             </Modal.Footer>
-                        ), 'sm')} />
+                        ), true, 'md')} />
                     </div>
                 )
             }))

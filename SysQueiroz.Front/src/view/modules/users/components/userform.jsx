@@ -44,7 +44,7 @@ class UserForm extends Component {
             requestToState(this, methods.GetUser, user, userId)
         } else {
 
-            requestToState(this, methods.GetAllEmployeesForNewUser, employeesForNewUser)
+            requestToState(this, methods.GetAllEmployeesWithoutUser, employeesForNewUser)
             this.setState({ actionUser: this.saveUser })
         }
 
