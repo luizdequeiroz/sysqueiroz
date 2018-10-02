@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 
 import { requestToReducer, setReducer, showModal, closeModal } from '../../../../data/dispatchers'
-import { GetAllHierarchicallyOrganizedMenuItems, UpdateMenuItem, DeleteMenuItem } from '../../../../data/alias/methods'
 import { menus } from '../../../../data/alias/keys'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -12,6 +11,7 @@ import cellEditFactory from 'react-bootstrap-table2-editor'
 import AssignMenu from '../components/assignmenu'
 import { SysButton } from '../../../components/syscomponents'
 import MenuForm from '../components/menuform'
+import { methods } from '../../../templates'
 
 class Menus extends Component {
 
@@ -25,7 +25,7 @@ class Menus extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
+        requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus)
     }
 
     componentWillUnmount() {
@@ -35,9 +35,9 @@ class Menus extends Component {
 
     deleteMenu(id) {
 
-        requestToReducer(this, DeleteMenuItem, 'dlt_menu', id, 'POST', true, "Deletando menu...")
+        requestToReducer(this, methods.DeleteMenuItem, 'dlt_menu', id, 'POST', true, "Deletando menu...")
         // atualizar redux com a alteração da tabela
-        setTimeout(() => requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus), 1000);
+        setTimeout(() => requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus), 1000);
         closeModal(this)
     }
 
@@ -46,9 +46,9 @@ class Menus extends Component {
         const { id, href, icon, name, superHref } = row
 
         if (newValue !== oldValue) {
-            requestToReducer(this, UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
+            requestToReducer(this, methods.UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
             // atualizar redux com a alteração da tabela
-            requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
+            requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus)
         }
     }
 

@@ -4,17 +4,17 @@ import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import { clients } from '../../../../data/alias/keys'
 import { requestToReducer } from '../../../../data/dispatchers'
-import { GetAllClients } from '../../../../data/alias/methods'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 
 import { SysButton } from '../../../components/syscomponents'
+import { methods } from '../../../templates'
 
 class ListOfClients extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetAllClients, clients)
+        requestToReducer(this, methods.GetAllClients, clients)
     }
 
     render() {

@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import HeaderLogin from '../components/headerlogin'
 import HeaderLogged from '../components/headerlogged'
 
-import { session, usersessiondatas } from '../../../../data/alias/keys'
-import { GetUserSessionDatasByUserId } from '../../../../data/alias/methods'
+import { usersessiondatas, session } from '../../../../data/alias/keys'
 import { requestToReducer, setReducer } from '../../../../data/dispatchers'
+import { methods } from '../../../templates'
 
 const _img = require('../../../../www/imgs/logo.png')
 
@@ -16,8 +16,8 @@ class HeaderNavBar extends Component {
     componentDidUpdate() {
 
         if (this.props.responses[session] !== undefined) {
-            if (this.props.responses[usersessiondatas] === undefined) {
-                requestToReducer(this, GetUserSessionDatasByUserId, usersessiondatas, JSON.parse(this.props.responses[session]).data, 'GET', false)
+            if (this.props.responses[usersessiondatas] === undefined) {                
+                requestToReducer(this, methods.GetUserSessionDatasByUserId, usersessiondatas, JSON.parse(this.props.responses[session]).data, 'GET', false)
             }
         } else {
             if (this.props.responses[usersessiondatas] !== undefined)

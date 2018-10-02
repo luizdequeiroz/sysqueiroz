@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import { showAlert, requestToReducer, requestToState } from '../../../../data/dispatchers'
-import { Login, Relogin } from '../../../../data/alias/methods'
-import { session } from '../../../../data/alias/keys'
 
 import If, { Else } from '../../../components/if'
-import { SysInput } from '../../../components/syscomponents';
+import { SysInput } from '../../../components/syscomponents'
+import { session } from '../../../../data/alias/keys'
+import { methods } from '../../../templates'
 
 export var entrar
 
@@ -36,9 +36,9 @@ class HeaderLogin extends Component {
             showAlert(context, "E-mail e senha obrigatórios", 'warning')
         } else {            
             if (revalidation) {
-                requestToState(context, Relogin, session, { email, password }, 'POST')
+                requestToState(context, methods.Relogin, session, { email, password }, 'POST')
             } else {
-                requestToReducer(context, Login, session, { email, password }, 'POST')
+                requestToReducer(context, methods.Login, session, { email, password }, 'POST')
             }
         }
     }

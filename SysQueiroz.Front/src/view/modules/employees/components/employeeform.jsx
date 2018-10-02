@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { GetEmployeesWithDepartments, GetEmployee, SetNewEmployee, GetAllDepartments } from '../../../../data/alias/methods'
 import { departments, employeesdepartmant, employee } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
 import If, { Else } from '../../../components/if'
+import { methods } from '../../../templates'
 
 class EmployeeForm extends Component {
 
@@ -38,10 +38,10 @@ class EmployeeForm extends Component {
         if (edit) {
 
             this.setState({ buttonSave: 'Alterar', actionEmployee: this.alterEmployee })
-            requestToState(this, GetEmployee, employee, employeeId)
+            requestToState(this, methods.GetEmployee, employee, employeeId)
         } else {
 
-            requestToState(this, GetAllDepartments, departments)
+            requestToState(this, methods.GetAllDepartments, departments)
             this.setState({ actionEmployee: this.saveEmployee })
         }
 
@@ -80,7 +80,7 @@ class EmployeeForm extends Component {
                 department: departmentId === '' ? { name: departmentName } : null
             }
 
-            requestToState(this, SetNewEmployee, 'rgstr_employee', employee, 'POST', true)
+            requestToState(this, methods.SetNewEmployee, 'rgstr_employee', employee, 'POST', true)
         } else {
             this.setState({ nameValidation, departmentValidation })
         }
@@ -95,7 +95,7 @@ class EmployeeForm extends Component {
         const { responses } = this.state
         const { status } = responses['rgstr_employee'] !== undefined ? responses['rgstr_employee'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, GetEmployeesWithDepartments, employeesdepartmant)
+            requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant)
             closeModal(this)
         }
     }

@@ -4,8 +4,8 @@ import Modal from 'react-bootstrap/lib/Modal'
 
 import HeaderLogin, { entrar } from '../modules/users/components/headerlogin'
 
-import { closeModal, clearReducer, setReducer } from '../../data/dispatchers';
-import { session } from '../../data/alias/keys';
+import { closeModal, clearReducer, setReducer } from '../../data/dispatchers'
+import { session } from '../../data/alias/keys'
 
 class RevalidarSessao extends Component {
 

@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { requestToReducer, closeModal, requestToState } from '../../../../data/dispatchers'
-import { AssignMenuItem, GetProfilesIdByMenu, GetAllProfiles } from '../../../../data/alias/methods'
 import { profiles, profilesidfrommenu } from '../../../../data/alias/keys'
 import Modal from 'react-bootstrap/lib/Modal'
 
 import BootstrapTable from 'react-bootstrap-table-next'
+import { methods } from '../../../templates'
 
 class AssignMenu extends Component {
 
@@ -23,8 +23,8 @@ class AssignMenu extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetAllProfiles, profiles)
-        requestToState(this, GetProfilesIdByMenu, profilesidfrommenu, this.props.menuId)
+        requestToReducer(this, methods.GetAllProfiles, profiles)
+        requestToState(this, methods.GetProfilesIdByMenu, profilesidfrommenu, this.props.menuId)
     }
 
     onSelect(row, isSelect) {
@@ -43,7 +43,7 @@ class AssignMenu extends Component {
 
     assignMenu() {
 
-        requestToReducer(this, AssignMenuItem, 'ssgn_menu', { menuId: this.props.menuId, all: this.props.responses[profiles].data.map(u => u.id), selecteds: this.state.responses[profilesidfrommenu].data }, 'POST', true, "Atribuindo menus aos perfis selecionados...")
+        requestToReducer(this, methods.AssignMenuItem, 'ssgn_menu', { menuId: this.props.menuId, all: this.props.responses[profiles].data.map(u => u.id), selecteds: this.state.responses[profilesidfrommenu].data }, 'POST', true, "Atribuindo menus aos perfis selecionados...")
         closeModal(this);
     }
 

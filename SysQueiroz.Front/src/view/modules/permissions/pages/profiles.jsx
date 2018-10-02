@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { requestToReducer, setReducer, showModal, closeModal } from '../../../../data/dispatchers'
-import { GetAllProfiles, UpdateProfile, DeleteProfile } from '../../../../data/alias/methods'
 import { profiles } from '../../../../data/alias/keys'
 
 import BootstrapTable from 'react-bootstrap-table-next'
@@ -10,7 +9,8 @@ import cellEditFactory from 'react-bootstrap-table2-editor'
 
 import AssignProfile from '../components/assignprofile'
 import Modal from 'react-bootstrap/lib/Modal'
-import { SysButton } from '../../../components/syscomponents';
+import { SysButton } from '../../../components/syscomponents'
+import { methods } from '../../../templates'
 
 class Profiles extends Component {
 
@@ -23,7 +23,7 @@ class Profiles extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetAllProfiles, profiles)
+        requestToReducer(this, methods.GetAllProfiles, profiles)
     }
 
     componentWillUnmount() {
@@ -33,7 +33,7 @@ class Profiles extends Component {
 
     deleteProfile(id) {
 
-        requestToReducer(this, DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
+        requestToReducer(this, methods.DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
         closeModal(this)
         // atualizar redux com a alteração da tabela
         setReducer(this, profiles, {
@@ -52,7 +52,7 @@ class Profiles extends Component {
         const { id, name, description } = row
 
         if (newValue !== oldValue) {
-            requestToReducer(this, UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
+            requestToReducer(this, methods.UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
             // atualizar redux com a alteração da tabela
             setReducer(this, profiles, {
                 data: this.props.responses[profiles].data.map(p => {

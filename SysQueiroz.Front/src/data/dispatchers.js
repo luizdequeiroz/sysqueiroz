@@ -1,8 +1,7 @@
-import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL, GENERIC_SUCCESS, GENERIC_PANEL } from './alias/actions'
-
-import { session } from './alias/keys'
+import { GENERIC_PROCCESS, HIDE_MODAL_ALERT, GENERIC_FAILED, GENERIC_ALERT, GENERIC_RETURN, SHOW_MODAL, CLOSE_MODAL, GENERIC_SUCCESS, GENERIC_PANEL, METHODS } from './alias/actions'
 
 import { getRequestKey, fetchDedupe } from 'fetch-dedupe'
+import { session } from './alias/keys'
 
 export const API = process.env.REACT_APP_API_DEVELOP
 // export const API = process.env.REACT_APP_API_PRODUCT
@@ -279,4 +278,32 @@ export function requestSync(method, param = '', methodType = 'GET', msgError = '
             type: 'danger'
         }
     }
+}
+export function loadMethods(context) {
+    const { props: { dispatch } } = context
+
+    const init = {
+        method: 'GET',
+        headers: new Headers({
+            'Content-type': 'text/json',
+        })
+    }
+    const url = API.replace('/api', '/swagger/v1/swagger.json')
+    const requestKey = getRequestKey({ url, method: 'GET' })
+    const dedupeOptions = { requestKey }
+
+    fetchDedupe(url, init, dedupeOptions).then(response => {
+        return response.data
+    }).then(json => {
+
+        const methods = {}
+        for (var name in json.paths) {
+            name = name.replace('/api/', '').replace('/{id}', '')
+            methods[name] = name
+        }
+        
+        dispatch({ type: METHODS, data: methods })
+    }).catch((error) => {
+        console.error(error)    
+    })
 }

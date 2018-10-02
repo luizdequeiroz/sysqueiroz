@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { GetUser, SetNewUser, GetAllEmployeesForNewUser, GetAllDepartments, GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods'
 import { user, employeesForNewUser, departments, usersemployeesdepartmant } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
 import { entrar } from './headerlogin'
 import If, { Else } from '../../../components/if'
+import { methods } from '../../../templates'
 
 class UserForm extends Component {
 
@@ -41,10 +41,10 @@ class UserForm extends Component {
         if (edit) {
 
             this.setState({ buttonSave: 'Alterar', actionUser: this.alterUser })
-            requestToState(this, GetUser, user, userId)
+            requestToState(this, methods.GetUser, user, userId)
         } else {
 
-            requestToState(this, GetAllEmployeesForNewUser, employeesForNewUser)
+            requestToState(this, methods.GetAllEmployeesForNewUser, employeesForNewUser)
             this.setState({ actionUser: this.saveUser })
         }
 
@@ -105,7 +105,7 @@ class UserForm extends Component {
                 } : null
             }
 
-            requestToState(this, SetNewUser, 'rgstr_user', user, 'POST', true)
+            requestToState(this, methods.SetNewUser, 'rgstr_user', user, 'POST', true)
         } else {
             this.setState({ employeeValidation, departmentValidation, emailValidation, passwordValidation })
         }
@@ -120,7 +120,7 @@ class UserForm extends Component {
         const { responses } = this.state
         const { status } = responses['rgstr_user'] !== undefined ? responses['rgstr_user'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+            requestToReducer(this, methods.GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
             closeModal(this)
         }
     }
@@ -173,7 +173,7 @@ class UserForm extends Component {
                                         <SysSelect id="employee" label="Funcionário" options={optnsEmpl} textValidation={this.state.employeeValidation} />
                                         <div className="input-group-btn">
                                             <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => {
-                                                requestToState(this, GetAllDepartments, departments)
+                                                requestToState(this, methods.GetAllDepartments, departments)
                                                 this.setState({ newEmployee: true })
                                             }} size="sm" />
                                         </div>

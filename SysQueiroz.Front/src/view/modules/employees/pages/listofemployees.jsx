@@ -4,17 +4,17 @@ import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import { employeesdepartmant } from '../../../../data/alias/keys'
 import { requestToReducer, showModal } from '../../../../data/dispatchers'
-import { GetEmployeesWithDepartments } from '../../../../data/alias/methods'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import { SysButton } from '../../../components/syscomponents'
 import EmployeeForm from '../components/employeeform'
+import { methods } from '../../../templates'
 
 class ListOfEmployees extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetEmployeesWithDepartments, employeesdepartmant)
+        requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant)
     }
 
     render() {

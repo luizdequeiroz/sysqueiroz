@@ -4,17 +4,17 @@ import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
 import { usersemployeesdepartmant } from '../../../../data/alias/keys'
 import { requestToReducer, showModal } from '../../../../data/dispatchers'
-import { GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import { SysButton } from '../../../components/syscomponents'
 import UserForm from '../components/userform'
+import { methods } from '../../../templates'
 
 class ListOfUsers extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+        requestToReducer(this, methods.GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
     }
 
     render() {

@@ -12,3 +12,5 @@ export const HIDE_PANEL_ALERT = 'HIDE_PANEL_ALERT'
 
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const CLOSE_MODAL = 'CLOSE_MODAL'
+
+export const METHODS = 'METHODS'

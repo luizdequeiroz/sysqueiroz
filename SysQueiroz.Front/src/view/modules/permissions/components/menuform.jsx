@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { GetAllHierarchicallyOrganizedMenuItems, GetMenuItem, GetAllMenuItemsWhereSuperItems, SetNewMenuItem } from '../../../../data/alias/methods'
 import { menus, menuitem, menuItensForNewMenuItem } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysCheck, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
+import { methods } from '../../../templates'
 
 class MenuForm extends Component {
 
@@ -38,10 +38,10 @@ class MenuForm extends Component {
         if (edit) {
 
             this.setState({ buttonSave: 'Alterar', actionMenu: this.alterMenu })
-            requestToState(this, GetMenuItem, menuitem, menuId)
+            requestToState(this, methods.GetMenuItem, menuitem, menuId)
         } else {
 
-            requestToState(this, GetAllMenuItemsWhereSuperItems, menuItensForNewMenuItem)
+            requestToState(this, methods.GetAllMenuItemsWhereSuperItems, menuItensForNewMenuItem)
             this.setState({ actionMenu: this.saveMenu })
         }
 
@@ -72,7 +72,7 @@ class MenuForm extends Component {
         }
 
         if (valid) {
-            requestToState(this, SetNewMenuItem, 'rgstr_menu_item', { href, icon, name, superHref, isSuperItem }, 'POST', true)
+            requestToState(this, methods.SetNewMenuItem, 'rgstr_menu_item', { href, icon, name, superHref, isSuperItem }, 'POST', true)
         } else {
             this.setState({ hrefValidation, nameValidation })
         }
@@ -87,7 +87,7 @@ class MenuForm extends Component {
         const { responses } = this.state
         const { status } = responses['rgstr_menu_item'] !== undefined ? responses['rgstr_menu_item'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
+            requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus)
             closeModal(this)
         }
     }

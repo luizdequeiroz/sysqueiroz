@@ -6,13 +6,17 @@ import SysModal from './modal'
 
 import HeaderNavBar from '../modules/users/pages/headernavbar'
 import FooterNavBar from '../modules/users/components/footernavbar'
+import { setReducer, loadMethods } from '../../data/dispatchers'
 import { session } from '../../data/alias/keys'
-import { setReducer } from '../../data/dispatchers'
+
+export let methods
 
 class Index extends Component {
     keyCode = ""
 
     componentWillMount() {
+
+        loadMethods(this)
 
         window.onkeydown = e => this.keyCode = e.keyCode
         window.onbeforeunload = () => {
@@ -22,6 +26,8 @@ class Index extends Component {
 
     componentDidMount() {
         
+
+
         if (sessionStorage.getItem(session) !== undefined) {
             setReducer(this, session, sessionStorage.getItem(session) === null ? undefined : sessionStorage.getItem(session));
         }
@@ -49,6 +55,8 @@ function select(state) {
     if (state.reducers.responses[session] !== undefined) {
         sessionStorage.setItem(session, state.reducers.responses[session])
     }
+
+    methods = state.reducers.methods
 
     return {
         responses: state.reducers.responses
