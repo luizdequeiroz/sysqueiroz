@@ -14,12 +14,10 @@ class EmployeeForm extends Component {
         super(props)
 
         this.saveEmployee = this.saveEmployee.bind(this)
-        this.alterEmployee = this.alterEmployee.bind(this)
 
         this.state = {
             responses: {},
             buttonSave: 'Cadastrar',
-            actionEmployee: undefined,
             nameValidation: '',
             departmentValidation: '',
             newDepartment: false
@@ -37,18 +35,18 @@ class EmployeeForm extends Component {
         const { edit, employeeId } = this.props
         if (edit) {
 
-            this.setState({ buttonSave: 'Alterar', actionEmployee: this.alterEmployee })
+            this.setState({ buttonSave: 'Alterar' })
             requestToState(this, methods.GetEmployee, employee, employeeId)
-        } else {
-
-            requestToState(this, methods.GetAllDepartments, departments)
-            this.setState({ actionEmployee: this.saveEmployee })
         }
+
+        requestToState(this, methods.GetAllDepartments, departments)
 
         window.onkeypress = undefined
     }
 
     saveEmployee() {
+
+        const { edit, employeeId } = this.props
 
         let departmentId = '', departmentName
         let nameValidation = '', departmentValidation = ''
@@ -75,25 +73,26 @@ class EmployeeForm extends Component {
         if (valid) {
 
             const employee = {
+                id: employeeId || 0,
                 name,
                 departmentId: departmentId || 0,
                 department: departmentId === '' ? { name: departmentName } : null
             }
 
-            requestToState(this, methods.SetNewEmployee, 'rgstr_employee', employee, 'POST', true)
+            if (edit) {
+                requestToState(this, methods.UpdateEmployee, 'pdt_employee', employee, 'POST', true)
+            } else {
+                requestToState(this, methods.SetNewEmployee, 'rgstr_employee', employee, 'POST', true)
+            }
         } else {
             this.setState({ nameValidation, departmentValidation })
         }
     }
 
-    alterEmployee() {
-        alert("Alterar funcionário!")
-    }
-
     componentWillUpdate() {
 
         const { responses } = this.state
-        const { status } = responses['rgstr_employee'] !== undefined ? responses['rgstr_employee'] : { status: 0 }
+        const { status } = responses['rgstr_employee'] !== undefined ? responses['rgstr_employee'] : responses['pdt_employee'] !== undefined ? responses['pdt_employee'] : { status: 0 }
         if (status > 0) {
             requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant)
             closeModal(this)
@@ -125,7 +124,7 @@ class EmployeeForm extends Component {
                             <SysInput defaultValue={e.name} id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />
                             <Else childrenCountIsOne>
                                 <div className="input-group">
-                                    <SysSelect id="department" label="Setor" options={optnsDepa} textValidation={this.state.departmentValidation} />
+                                    <SysSelect defaultValue={e.departmentId} id="department" label="Setor" options={optnsDepa} textValidation={this.state.departmentValidation} />
                                     <div className="input-group-btn">
                                         <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => this.setState({ newDepartment: true })} size="sm" />
                                     </div>
@@ -138,7 +137,7 @@ class EmployeeForm extends Component {
                 <Modal.Footer>
                     <div className="btn-group">
                         <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar</button>
-                        <button className="btn btn-primary" onClick={() => this.state.actionEmployee()}>{this.state.buttonSave}</button>
+                        <button className="btn btn-primary" onClick={() => this.saveEmployee()}>{this.state.buttonSave}</button>
                     </div>
                 </Modal.Footer>
             </div>

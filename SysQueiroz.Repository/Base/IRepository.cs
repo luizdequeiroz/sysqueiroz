@@ -11,7 +11,7 @@ namespace SysQueiroz.Repository.Base
         IQueryable<TEntity> SelectAll<TEntity>() where TEntity : GenericEntity;
         IQueryable<TEntity> SelectWhere<TEntity>(Expression<Func<TEntity, bool>> predicate) where TEntity : GenericEntity;
         TEntity SelectByID<TEntity>(object key) where TEntity : GenericEntity;
-        void Insert<TEntity>(TEntity item) where TEntity : GenericEntity;
+        int Insert<TEntity>(TEntity item) where TEntity : GenericEntity;
         void Update<TEntity>(TEntity item) where TEntity : GenericEntity;
         void Delete<TEntity>(TEntity item) where TEntity : GenericEntity;
         void Commit();

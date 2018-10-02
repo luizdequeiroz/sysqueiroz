@@ -3,18 +3,25 @@ import { connect } from 'react-redux'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import { employeesdepartmant } from '../../../../data/alias/keys'
-import { requestToReducer, showModal } from '../../../../data/dispatchers'
+import { requestToReducer, showModal, closeModal } from '../../../../data/dispatchers'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import { SysButton } from '../../../components/syscomponents'
 import EmployeeForm from '../components/employeeform'
 import { methods } from '../../../templates'
 
+import Modal from 'react-bootstrap/lib/Modal'
+
 class ListOfEmployees extends Component {
 
     componentDidMount() {
 
         requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant)
+    }
+
+    deleteEmployee(id) {
+
+
     }
 
     render() {
@@ -26,12 +33,31 @@ class ListOfEmployees extends Component {
             }, {
                 dataField: 'departmentName',
                 text: 'Setor'
+            }, {
+                dataField: 'actions',
+                text: 'Ações',
+                headerStyle: { width: '180px' }
             }
         ]
         
         let eds
         if(this.props.responses[employeesdepartmant] !== undefined)
-            eds = this.props.responses[employeesdepartmant].data
+            eds = this.props.responses[employeesdepartmant].data.map(e => ({
+                ...e,
+                actions: (
+                    <div className="btn-group">
+                        <SysButton type="primary" size="xs" text="Alterar" action={() => showModal(this, 'Altear funcionário', <EmployeeForm employeeId={e.id} edit />, true)} />
+                        <SysButton type="danger" size="xs" text="Deletar" action={() => showModal(this, `Confirmar exclusão do funcionário "${e.name}"?`, (
+                            <Modal.Footer>
+                                <div className="btn-group">
+                                    <SysButton type="danger" text="Confirmar exclusão!" action={() => this.deleteEmployee(e.id)} />
+                                    <SysButton type="default" text="Cancelar exclusão!" action={() => closeModal(this)} />
+                                </div>
+                            </Modal.Footer>
+                        ), false, 'md')} />
+                    </div>
+                )
+            }))
         else eds = []
 
         const { SearchBar } = Search

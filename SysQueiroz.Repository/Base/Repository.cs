@@ -34,10 +34,11 @@ namespace SysQueiroz.Repository.Base
             return _context.Set<TEntity>().Where(predicate);
         }
 
-        public void Insert<TEntity>(TEntity item) where TEntity : GenericEntity
+        public int Insert<TEntity>(TEntity item) where TEntity : GenericEntity
         {
             _context.Set<TEntity>().Add(item);
             Commit();
+            return item.Id;
         }
 
         public void Delete<TEntity>(TEntity item) where TEntity : GenericEntity
@@ -54,6 +55,7 @@ namespace SysQueiroz.Repository.Base
 
         public void Commit()
         {
+            int ret = 0;
             bool saveFailed;
             do
             {
@@ -61,7 +63,7 @@ namespace SysQueiroz.Repository.Base
 
                 try
                 {
-                    _context.SaveChanges();
+                    ret = _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException exception)
                 {

@@ -121,5 +121,26 @@ namespace SysQueiroz.API.Controllers
                 return new Error(ex);
             }
         }
+
+        /// <summary>
+        /// Atualizar dados de um funcionário.
+        /// </summary>
+        /// <param name="employee">Dados do perfil de usuário. Identificado pela propriedade Id.</param>
+        [HttpPost]
+        public Return UpdateEmployee([FromBody] Employee employee)
+        {
+            try
+            {
+                if (employee.DepartmentId == 0)
+                    employeeDomain.UpdateEmployeeWithNewDepartment(employee);
+                else employeeDomain.Update(employee);
+
+                return new Success(Suc.EmployeeUpdatedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
     }
 }

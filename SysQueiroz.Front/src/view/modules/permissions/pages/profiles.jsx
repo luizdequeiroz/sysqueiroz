@@ -11,6 +11,7 @@ import AssignProfile from '../components/assignprofile'
 import Modal from 'react-bootstrap/lib/Modal'
 import { SysButton } from '../../../components/syscomponents'
 import { methods } from '../../../templates'
+import { entrar } from '../../users/components/headerlogin'
 
 class Profiles extends Component {
 
@@ -21,9 +22,17 @@ class Profiles extends Component {
         this.saveProfile = this.saveProfile.bind(this)
     }
 
+    componentWillUnmount = () => window.onkeypress = (e) => {
+        if (e.keyCode === 13) {
+            entrar()
+        }
+    }
+
     componentDidMount() {
 
         requestToReducer(this, methods.GetAllProfiles, profiles)
+
+        window.onkeypress = undefined
     }
 
     componentWillUnmount() {
@@ -34,17 +43,9 @@ class Profiles extends Component {
     deleteProfile(id) {
 
         requestToReducer(this, methods.DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
-        closeModal(this)
         // atualizar redux com a alteração da tabela
-        setReducer(this, profiles, {
-            data: this.props.responses[profiles].data.filter(p => p.id !== id).map(p => ({
-                id: p.id,
-                name: p.name,
-                description: p.description,
-                profileMethods: null,
-                userProfile: null
-            }))
-        })
+        setTimeout(() => requestToReducer(this, methods.GetAllProfiles, profiles), 1000); 
+        closeModal(this)
     }
 
     saveProfile(oldValue, newValue, row, column) {

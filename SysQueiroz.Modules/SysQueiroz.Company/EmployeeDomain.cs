@@ -46,5 +46,13 @@ namespace SysQueiroz.Company
             Insert(employee);
             return true;
         }
+
+        public void UpdateEmployeeWithNewDepartment(Employee employee)
+        {
+            var newDepartmentId = Insert(employee.Department);
+            employee.Department = null;
+            employee.DepartmentId = newDepartmentId;
+            Update(employee);
+        }
     }
 }

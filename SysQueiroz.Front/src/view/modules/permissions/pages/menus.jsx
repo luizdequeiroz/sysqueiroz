@@ -12,6 +12,7 @@ import AssignMenu from '../components/assignmenu'
 import { SysButton } from '../../../components/syscomponents'
 import MenuForm from '../components/menuform'
 import { methods } from '../../../templates'
+import { entrar } from '../../users/components/headerlogin'
 
 class Menus extends Component {
 
@@ -23,9 +24,17 @@ class Menus extends Component {
         this.subTable = this.subTable.bind(this)
     }
 
+    componentWillUnmount = () => window.onkeypress = (e) => {
+        if (e.keyCode === 13) {
+            entrar()
+        }
+    }
+
     componentDidMount() {
 
         requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus)
+
+        window.onkeypress = undefined
     }
 
     componentWillUnmount() {

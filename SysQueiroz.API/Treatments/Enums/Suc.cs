@@ -70,6 +70,11 @@ namespace SysQueiroz.API.Treatments.Enums
         /// Código de sucesso: 12; Descrição do erro: "Funcionário cadastrado com sucesso!"
         /// </summary>
         [Description("Funcionário cadastrado com sucesso!")]
-        EmployeeSuccessfullyRegistered = 12
+        EmployeeSuccessfullyRegistered = 12,
+        /// <summary>
+        /// Código de sucesso: 13; Descrição do erro: "Funcionário atualizado com sucesso!"
+        /// </summary>
+        [Description("Funcionário atualizado com sucesso!")]
+        EmployeeUpdatedSuccessfully = 13
     }
 }

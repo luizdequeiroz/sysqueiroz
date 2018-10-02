@@ -129,7 +129,7 @@ export class SysSelect extends Component {
     render() {
 
         const { inputStyleError } = this.state
-        const { className, id, label, options, textValidation, firstOption, children } = this.props
+        const { className, id, label, options, textValidation, firstOption, children, defaultValue } = this.props
         const validationError = textValidation !== ''
 
         const divInputProps = {
@@ -148,7 +148,7 @@ export class SysSelect extends Component {
                     <select className="form-control" id={id} onChange={this.validate}>
                         <option>{firstOption}</option>
                         {children === undefined ? options.map(o => (
-                            <option key={o.value} value={o.value}>{o.text}</option>
+                            <option key={o.value} value={o.value} selected={defaultValue === o.value}>{o.text}</option>
                         )) : children}
                     </select>
                 </div>
