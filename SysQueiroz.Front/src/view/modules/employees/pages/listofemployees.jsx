@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import BootstrapTable from 'react-bootstrap-table-next'
-import { employeesdepartmant, employee } from '../../../../data/alias/keys'
+import { employeesdepartmant } from '../../../../data/alias/keys'
 import { requestToReducer, showModal, closeModal } from '../../../../data/dispatchers'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
