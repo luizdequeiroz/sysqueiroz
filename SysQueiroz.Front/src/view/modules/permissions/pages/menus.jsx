@@ -191,7 +191,7 @@ class Menus extends Component {
         return (
             <fieldset>
                 <legend>
-                    Lista de Itens de Menu <i>(para alterar um item de menu, dê duplo clique no campo a ser editado)</i>
+                    Lista de Itens de Menu <i className="h6">(para alterar um item de menu, dê duplo clique no campo a ser editado)</i>
                     <div className="pull-right">
                         <SysButton type="primary" size="sm" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo item de menu', <MenuForm />, true, 'lg')} />
                     </div>

@@ -52,10 +52,12 @@ class AssignMenu extends Component {
         const cols = [
             {
                 dataField: 'name',
-                text: 'Nome do Perfil'
+                text: 'Nome do Perfil',
+                headerStyle: { width: '35%' }
             }, {
                 dataField: 'description',
-                text: 'Descrição'
+                text: 'Descrição',
+                headerStyle: { width: '65%' }
             }
         ]
         let prfls
@@ -72,7 +74,7 @@ class AssignMenu extends Component {
             <div>
                 <Modal.Body>
                     <fieldset>
-                        <legend>Lista de Perfis de Usuário <i>(selecione os perfis para atribuir o acesso ao menu)</i></legend>
+                        <legend>Lista de Perfis de Usuário <i className="h6">(selecione os perfis para atribuir o acesso ao menu)</i></legend>
                         <BootstrapTable
                             keyField='id'
                             data={prfls}

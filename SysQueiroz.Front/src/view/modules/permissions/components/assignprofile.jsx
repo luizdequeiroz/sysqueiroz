@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/lib/Modal'
 import RevalidarSessao from '../../../components/revalidarsessao'
 
 import BootstrapTable from 'react-bootstrap-table-next'
-import { GetAllUsers, GetUsersIdByProfile } from '../../../../data/alias/methods'
+import { GetAllUsers, GetUsersIdByProfile, AssignProfileMethod } from '../../../../data/alias/methods'
 
 
 class AssignProfile extends Component {
@@ -46,7 +46,7 @@ class AssignProfile extends Component {
 
     assignProfile() {
 
-        requestToReducer(this, AssignProfile, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[users].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
+        requestToReducer(this, AssignProfileMethod, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[users].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
         closeModal(this);
         
         window.setTimeout(() => showModal(this, 'Revalidar sessão.', <RevalidarSessao />, false, 'medium'), 3000)
@@ -57,13 +57,16 @@ class AssignProfile extends Component {
         const cols = [
             {
                 dataField: 'name',
-                text: 'Nome'
+                text: 'Nome',
+                headerStyle: { width: '33.33%' }
             }, {
                 dataField: 'email',
-                text: 'E-mail'
+                text: 'E-mail',
+                headerStyle: { width: '33.33%' }
             }, {
                 dataField: 'departmentName',
-                text: 'Setor'
+                text: 'Setor',
+                headerStyle: { width: '33.33%' }
             }
         ]
         let ueds
@@ -80,7 +83,7 @@ class AssignProfile extends Component {
             <div>
                 <Modal.Body>
                     <fieldset>
-                        <legend>Lista de Usuários <i>(selecione os usuários para atribuir o perfil)</i></legend>
+                        <legend>Lista de Usuários <i className="h6">(selecione os usuários para atribuir o perfil)</i></legend>
                         <BootstrapTable
                             keyField='id'
                             data={ueds}

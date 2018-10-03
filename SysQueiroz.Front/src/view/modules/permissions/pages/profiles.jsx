@@ -79,14 +79,17 @@ class Profiles extends Component {
         const cols = [
             {
                 dataField: 'name',
-                text: 'Nome do Perfil'
+                text: 'Nome do Perfil',
+                headerStyle: { width: '25%' }
             }, {
                 dataField: 'description',
-                text: 'Descrição'
+                text: 'Descrição',
+                headerStyle: { width: '60%' }
             }, {
                 dataField: 'actions',
                 text: 'Ações',
-                editable: false
+                editable: false,
+                headerStyle: { width: '15%' }
             }
         ]
 
@@ -114,7 +117,7 @@ class Profiles extends Component {
         return (
             <fieldset>
                 <legend>
-                    Lista de Perfis de Usuário
+                    Lista de Perfis de Usuário <i className="h6">(para alterar um perfil de usuário, dê duplo clique no campo a ser editado)</i>
                     <div className="pull-right">
                         <SysButton type="primary" size="sm" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo perfil de usuário', <h1>É o gera!</h1>, true, 'lg')} />
                     </div>
