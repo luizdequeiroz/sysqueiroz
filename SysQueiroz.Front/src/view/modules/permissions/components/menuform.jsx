@@ -5,7 +5,7 @@ import { closeModal, requestToState, requestToReducer } from '../../../../data/d
 import { menus, menuitem, menuItensForNewMenuItem } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysCheck, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
-import { methods } from '../../../templates'
+import { GetMenuItem, GetAllMenuItemsWhereSuperItems, SetNewMenuItem, GetAllHierarchicallyOrganizedMenuItems } from '../../../../data/alias/methods'
 
 class MenuForm extends Component {
 
@@ -38,10 +38,10 @@ class MenuForm extends Component {
         if (edit) {
 
             this.setState({ buttonSave: 'Alterar', actionMenu: this.alterMenu })
-            requestToState(this, methods.GetMenuItem, menuitem, menuId)
+            requestToState(this, GetMenuItem, menuitem, menuId)
         } else {
 
-            requestToState(this, methods.GetAllMenuItemsWhereSuperItems, menuItensForNewMenuItem)
+            requestToState(this, GetAllMenuItemsWhereSuperItems, menuItensForNewMenuItem)
             this.setState({ actionMenu: this.saveMenu })
         }
 
@@ -72,7 +72,7 @@ class MenuForm extends Component {
         }
 
         if (valid) {
-            requestToState(this, methods.SetNewMenuItem, 'rgstr_menu_item', { href, icon, name, superHref, isSuperItem }, 'POST', true)
+            requestToState(this, SetNewMenuItem, 'rgstr_menu_item', { href, icon, name, superHref, isSuperItem }, 'POST', true)
         } else {
             this.setState({ hrefValidation, nameValidation })
         }
@@ -87,7 +87,7 @@ class MenuForm extends Component {
         const { responses } = this.state
         const { status } = responses['rgstr_menu_item'] !== undefined ? responses['rgstr_menu_item'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus)
+            requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
             closeModal(this)
         }
     }

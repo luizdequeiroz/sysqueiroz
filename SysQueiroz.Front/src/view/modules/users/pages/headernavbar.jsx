@@ -6,7 +6,7 @@ import HeaderLogged from '../components/headerlogged'
 
 import { usersessiondatas, session } from '../../../../data/alias/keys'
 import { requestToReducer, setReducer } from '../../../../data/dispatchers'
-import { methods } from '../../../templates'
+import { GetUserSessionDatasByUserId } from '../../../../data/alias/methods'
 
 const _img = require('../../../../www/imgs/_logo.png')
 
@@ -17,7 +17,7 @@ class HeaderNavBar extends Component {
 
         if (this.props.responses[session] !== undefined) {
             if (this.props.responses[usersessiondatas] === undefined) {                
-                requestToReducer(this, methods.GetUserSessionDatasByUserId, usersessiondatas, JSON.parse(this.props.responses[session]).data, 'GET', false)
+                requestToReducer(this, GetUserSessionDatasByUserId, usersessiondatas, JSON.parse(this.props.responses[session]).data, 'GET', false)
             }
         } else {
             if (this.props.responses[usersessiondatas] !== undefined)

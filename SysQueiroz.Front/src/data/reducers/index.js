@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
 import status from './status'
-import responses, { methods } from './responses'
+import responses from './responses'
 import modal from './modal'
 import messagepanel from './messagepanel'
 
@@ -12,8 +12,7 @@ const storeApp = combineReducers({
     status,
     responses,
     modal,
-    messagepanel,
-    methods
+    messagepanel
 })
 
 export default storeApp

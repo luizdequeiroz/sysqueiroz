@@ -7,7 +7,8 @@ import Modal from 'react-bootstrap/lib/Modal'
 import RevalidarSessao from '../../../components/revalidarsessao'
 
 import BootstrapTable from 'react-bootstrap-table-next'
-import { methods } from '../../../templates'
+import { GetAllUsers, GetUsersIdByProfile } from '../../../../data/alias/methods'
+
 
 class AssignProfile extends Component {
 
@@ -25,8 +26,8 @@ class AssignProfile extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, methods.GetAllUsers, users)
-        requestToState(this, methods.GetUsersIdByProfile, usersidfromprofile, this.props.profileId)
+        requestToReducer(this, GetAllUsers, users)
+        requestToState(this, GetUsersIdByProfile, usersidfromprofile, this.props.profileId)
     }
 
     onSelect(row, isSelect) {
@@ -45,7 +46,7 @@ class AssignProfile extends Component {
 
     assignProfile() {
 
-        requestToReducer(this, methods.AssignProfile, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[users].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
+        requestToReducer(this, AssignProfile, 'ssgn_profile', { profileId: this.props.profileId, all: this.props.responses[users].data.map(u => u.id), selecteds: this.state.responses[usersidfromprofile].data }, 'POST', true, "Atribuindo perfis aos usuários selecionados...")
         closeModal(this);
         
         window.setTimeout(() => showModal(this, 'Revalidar sessão.', <RevalidarSessao />, false, 'medium'), 3000)

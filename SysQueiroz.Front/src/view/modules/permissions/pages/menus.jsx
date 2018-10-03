@@ -11,8 +11,9 @@ import cellEditFactory from 'react-bootstrap-table2-editor'
 import AssignMenu from '../components/assignmenu'
 import { SysButton } from '../../../components/syscomponents'
 import MenuForm from '../components/menuform'
-import { methods } from '../../../templates'
+
 import { entrar } from '../../users/components/headerlogin'
+import { GetAllHierarchicallyOrganizedMenuItems, DeleteMenuItem, UpdateMenuItem } from '../../../../data/alias/methods'
 
 class Menus extends Component {
 
@@ -32,7 +33,7 @@ class Menus extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus)
+        requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
 
         window.onkeypress = undefined
     }
@@ -44,9 +45,9 @@ class Menus extends Component {
 
     deleteMenu(id) {
 
-        requestToReducer(this, methods.DeleteMenuItem, 'dlt_menu', id, 'POST', true, "Deletando menu...")
+        requestToReducer(this, DeleteMenuItem, 'dlt_menu', id, 'POST', true, "Deletando menu...")
         // atualizar redux com a alteração da tabela
-        setTimeout(() => requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus), 1000);
+        setTimeout(() => requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus), 1000);
         closeModal(this)
     }
 
@@ -55,9 +56,9 @@ class Menus extends Component {
         const { id, href, icon, name, superHref } = row
 
         if (newValue !== oldValue) {
-            requestToReducer(this, methods.UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
+            requestToReducer(this, UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
             // atualizar redux com a alteração da tabela
-            requestToReducer(this, methods.GetAllHierarchicallyOrganizedMenuItems, menus)
+            requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
         }
     }
 
@@ -66,20 +67,21 @@ class Menus extends Component {
         const cols = [
             {
                 dataField: 'name',
-                text: 'Nome do Item'
+                text: 'Nome do Item',
+                headerStyle: { width: '55%' }
             }, {
                 dataField: 'href',
                 text: 'Caminho',
-                editable: false
+                headerStyle: { width: '20%' }
             }, {
                 dataField: 'icon',
                 text: 'Ícone',
-                editable: false
+                headerStyle: { width: '10%' }
             }, {
                 dataField: 'actions',
                 text: 'Ações',
                 editable: false,
-                headerStyle: { width: '180px' }
+                headerStyle: { width: '15%' }
             }
         ]
 
@@ -143,16 +145,21 @@ class Menus extends Component {
         const cols = [
             {
                 dataField: 'name',
-                text: 'Nome do Item'
+                text: 'Nome do Item',
+                headerStyle: { width: '55%' }
             }, {
                 dataField: 'href',
                 text: 'Caminho',
-                editable: false
+                headerStyle: { width: '20%' }
+            }, {
+                dataField: 'icon',
+                text: 'Ícone',
+                headerStyle: { width: '10%' }
             }, {
                 dataField: 'actions',
                 text: 'Ações',
                 editable: false,
-                headerStyle: { width: '180px' }
+                headerStyle: { width: '15%' }
             }
         ]
 
@@ -184,7 +191,7 @@ class Menus extends Component {
         return (
             <fieldset>
                 <legend>
-                    Lista de Itens de Menu
+                    Lista de Itens de Menu <i>(para alterar um item de menu, dê duplo clique no campo a ser editado)</i>
                     <div className="pull-right">
                         <SysButton type="primary" size="sm" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo item de menu', <MenuForm />, true, 'lg')} />
                     </div>

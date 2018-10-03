@@ -8,22 +8,23 @@ import { requestToReducer, showModal, closeModal } from '../../../../data/dispat
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import { SysButton } from '../../../components/syscomponents'
 import EmployeeForm from '../components/employeeform'
-import { methods } from '../../../templates'
+
 
 import Modal from 'react-bootstrap/lib/Modal'
+import { GetEmployeesWithDepartments, DeleteEmployee } from '../../../../data/alias/methods'
 
 class ListOfEmployees extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant)
+        requestToReducer(this, GetEmployeesWithDepartments, employeesdepartmant)
     }
 
     deleteEmployee(id) {
 
-        requestToReducer(this, methods.DeleteEmployee, 'dlt_employee', id, 'POST', true, "Deletando funcionário...")
+        requestToReducer(this, DeleteEmployee, 'dlt_employee', id, 'POST', true, "Deletando funcionário...")
         // atualizar redux com a alteração da tabela
-        setTimeout(() => requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant), 1000); 
+        setTimeout(() => requestToReducer(this, GetEmployeesWithDepartments, employeesdepartmant), 1000); 
         closeModal(this)
     }
 

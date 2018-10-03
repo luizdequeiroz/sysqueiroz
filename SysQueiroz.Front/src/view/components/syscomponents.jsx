@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import If from './if';
+import If from './if'
 
 //#region SysInput
 export class SysInput extends Component {

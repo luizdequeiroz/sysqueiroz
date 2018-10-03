@@ -6,7 +6,7 @@ import { departments, employeesdepartmant, employee } from '../../../../data/ali
 import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
 import If, { Else } from '../../../components/if'
-import { methods } from '../../../templates'
+import { GetEmployee, GetAllDepartments, UpdateEmployee, SetNewEmployee, GetEmployeesWithDepartments } from '../../../../data/alias/methods'
 
 class EmployeeForm extends Component {
 
@@ -36,10 +36,10 @@ class EmployeeForm extends Component {
         if (edit) {
 
             this.setState({ buttonSave: 'Alterar' })
-            requestToState(this, methods.GetEmployee, employee, employeeId)
+            requestToState(this, GetEmployee, employee, employeeId)
         }
 
-        requestToState(this, methods.GetAllDepartments, departments)
+        requestToState(this, GetAllDepartments, departments)
 
         window.onkeypress = undefined
     }
@@ -80,9 +80,9 @@ class EmployeeForm extends Component {
             }
 
             if (edit) {
-                requestToState(this, methods.UpdateEmployee, 'pdt_employee', employee, 'POST', true)
+                requestToState(this, UpdateEmployee, 'pdt_employee', employee, 'POST', true)
             } else {
-                requestToState(this, methods.SetNewEmployee, 'rgstr_employee', employee, 'POST', true)
+                requestToState(this, SetNewEmployee, 'rgstr_employee', employee, 'POST', true)
             }
         } else {
             this.setState({ nameValidation, departmentValidation })
@@ -94,7 +94,7 @@ class EmployeeForm extends Component {
         const { responses } = this.state
         const { status } = responses['rgstr_employee'] !== undefined ? responses['rgstr_employee'] : responses['pdt_employee'] !== undefined ? responses['pdt_employee'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, methods.GetEmployeesWithDepartments, employeesdepartmant)
+            requestToReducer(this, GetEmployeesWithDepartments, employeesdepartmant)
             closeModal(this)
         }
     }

@@ -6,7 +6,7 @@ import { user, employeesForNewUser, departments, usersemployeesdepartmant } from
 import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
 import { entrar } from './headerlogin'
 import If, { Else } from '../../../components/if'
-import { methods } from '../../../templates'
+import { GetUser, GetAllEmployeesWithoutUser, SetNewUser, GetUsersEmployeesWithDepartments, GetAllDepartments } from '../../../../data/alias/methods'
 
 class UserForm extends Component {
 
@@ -41,10 +41,10 @@ class UserForm extends Component {
         if (edit) {
 
             this.setState({ buttonSave: 'Alterar', actionUser: this.alterUser })
-            requestToState(this, methods.GetUser, user, userId)
+            requestToState(this, GetUser, user, userId)
         } else {
 
-            requestToState(this, methods.GetAllEmployeesWithoutUser, employeesForNewUser)
+            requestToState(this, GetAllEmployeesWithoutUser, employeesForNewUser)
             this.setState({ actionUser: this.saveUser })
         }
 
@@ -105,7 +105,7 @@ class UserForm extends Component {
                 } : null
             }
 
-            requestToState(this, methods.SetNewUser, 'rgstr_user', user, 'POST', true)
+            requestToState(this, SetNewUser, 'rgstr_user', user, 'POST', true)
         } else {
             this.setState({ employeeValidation, departmentValidation, emailValidation, passwordValidation })
         }
@@ -120,7 +120,7 @@ class UserForm extends Component {
         const { responses } = this.state
         const { status } = responses['rgstr_user'] !== undefined ? responses['rgstr_user'] : { status: 0 }
         if (status > 0) {
-            requestToReducer(this, methods.GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+            requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
             closeModal(this)
         }
     }
@@ -173,7 +173,7 @@ class UserForm extends Component {
                                         <SysSelect id="employee" label="Funcionário" options={optnsEmpl} textValidation={this.state.employeeValidation} />
                                         <div className="input-group-btn">
                                             <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => {
-                                                requestToState(this, methods.GetAllDepartments, departments)
+                                                requestToState(this, GetAllDepartments, departments)
                                                 this.setState({ newEmployee: true })
                                             }} size="sm" />
                                         </div>

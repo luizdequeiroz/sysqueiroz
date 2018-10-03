@@ -8,13 +8,13 @@ import { requestToReducer } from '../../../../data/dispatchers'
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 
 import { SysButton } from '../../../components/syscomponents'
-import { methods } from '../../../templates'
+import { GetAllClients } from '../../../../data/alias/methods'
 
 class ListOfClients extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, methods.GetAllClients, clients)
+        requestToReducer(this, GetAllClients, clients)
     }
 
     render() {

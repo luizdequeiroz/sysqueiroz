@@ -10,8 +10,9 @@ import cellEditFactory from 'react-bootstrap-table2-editor'
 import AssignProfile from '../components/assignprofile'
 import Modal from 'react-bootstrap/lib/Modal'
 import { SysButton } from '../../../components/syscomponents'
-import { methods } from '../../../templates'
+
 import { entrar } from '../../users/components/headerlogin'
+import { GetAllProfiles, DeleteProfile, UpdateProfile } from '../../../../data/alias/methods'
 
 class Profiles extends Component {
 
@@ -30,7 +31,7 @@ class Profiles extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, methods.GetAllProfiles, profiles)
+        requestToReducer(this, GetAllProfiles, profiles)
 
         window.onkeypress = undefined
     }
@@ -42,9 +43,9 @@ class Profiles extends Component {
 
     deleteProfile(id) {
 
-        requestToReducer(this, methods.DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
+        requestToReducer(this, DeleteProfile, 'dlt_profile', id, 'POST', true, "Deletando perfil...")
         // atualizar redux com a alteração da tabela
-        setTimeout(() => requestToReducer(this, methods.GetAllProfiles, profiles), 1000); 
+        setTimeout(() => requestToReducer(this, GetAllProfiles, profiles), 1000); 
         closeModal(this)
     }
 
@@ -53,7 +54,7 @@ class Profiles extends Component {
         const { id, name, description } = row
 
         if (newValue !== oldValue) {
-            requestToReducer(this, methods.UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
+            requestToReducer(this, UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
             // atualizar redux com a alteração da tabela
             setReducer(this, profiles, {
                 data: this.props.responses[profiles].data.map(p => {

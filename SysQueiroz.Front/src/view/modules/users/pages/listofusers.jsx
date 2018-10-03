@@ -8,13 +8,13 @@ import { requestToReducer, showModal } from '../../../../data/dispatchers'
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import { SysButton } from '../../../components/syscomponents'
 import UserForm from '../components/userform'
-import { methods } from '../../../templates'
+import { GetUsersEmployeesWithDepartments } from '../../../../data/alias/methods'
 
 class ListOfUsers extends Component {
 
     componentDidMount() {
 
-        requestToReducer(this, methods.GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
+        requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
     }
 
     render() {
