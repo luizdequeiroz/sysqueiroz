@@ -58,7 +58,7 @@ class Menus extends Component {
         if (newValue !== oldValue) {
             requestToReducer(this, UpdateMenuItem, 'upd_menu', { id, href, icon, name, superHref }, 'POST', false)
             // atualizar redux com a alteração da tabela
-            requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus)
+            setTimeout(() => requestToReducer(this, GetAllHierarchicallyOrganizedMenuItems, menus), 1000);
         }
     }
 

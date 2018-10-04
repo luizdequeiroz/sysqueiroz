@@ -74,8 +74,11 @@ export class SysButton extends Component {
 
     render() {
 
-        const { type, size, className, action } = this.props
+        const { submit, type, size, className, action, href } = this.props
         const { originalText, text, textHover } = this.state
+
+        const props = { href }
+        if (submit) props.type = "submit"
 
         return <button
             className={`btn btn-${type} btn-${size} ${className}`}
@@ -86,16 +89,20 @@ export class SysButton extends Component {
                 this.setState({ text: originalText })
             }}
             onClick={action}
+            { ...props }
         >{text}</button>
     }
 }
 
 SysButton.defaultProps = {
+    submit: false,
     type: 'default',
+    size: 'md',
+    className: '',
     text: 'click here',
     textHover: undefined,
     action: undefined,
-    size: 'md'
+    href: undefined
 }
 //#endregion
 

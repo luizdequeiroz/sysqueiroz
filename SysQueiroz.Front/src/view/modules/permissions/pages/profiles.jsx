@@ -56,21 +56,7 @@ class Profiles extends Component {
         if (newValue !== oldValue) {
             requestToReducer(this, UpdateProfile, 'upd_profile', { id, name, description }, 'POST', false)
             // atualizar redux com a alteração da tabela
-            setReducer(this, profiles, {
-                data: this.props.responses[profiles].data.map(p => {
-                    if (p.id === id) {
-                        return ({
-                            id: p.id,
-                            name: name,
-                            description: description,
-                            profileMethods: null,
-                            userProfile: null
-                        })
-                    } else {
-                        return p
-                    }
-                })
-            })
+            setTimeout(() => requestToReducer(this, GetAllProfiles, profiles), 1000); 
         }
     }
 
@@ -104,8 +90,8 @@ class Profiles extends Component {
                         <button className="btn btn-xs btn-danger" onClick={() => showModal(this, `Confirmar exclusão do perfil "${p.name}"?`, (
                             <Modal.Footer>
                                 <div className="btn-group">
-                                    <button className="btn btn-danger" onClick={() => this.deleteProfile(p.id)}>Confirmar exclusão!</button>
-                                    <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar exclusão!</button>
+                                    <SysButton type="danger" text="Confirmar exclusão!" action={() => this.deleteProfile(p.id)} />
+                                    <SysButton type="default" text="Cancelar exclusão!" action={() => closeModal(this)} />
                                 </div>
                             </Modal.Footer>
                         ), false, 'md')}>Deletar</button>

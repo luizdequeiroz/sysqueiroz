@@ -6,7 +6,7 @@ import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import { showAlert, requestToReducer, requestToState } from '../../../../data/dispatchers'
 
 import If, { Else } from '../../../components/if'
-import { SysInput } from '../../../components/syscomponents'
+import { SysInput, SysButton } from '../../../components/syscomponents'
 import { session } from '../../../../data/alias/keys'
 import { Relogin, Login } from '../../../../data/alias/methods'
 
@@ -55,7 +55,7 @@ class HeaderLogin extends Component {
                     <div className="form-inline">
                         <SysInput className="hidden-xs" id="email" label={<FontAwesome name="at" />} type="text" placeholder="E-mail" />&nbsp;
                         <SysInput className="hidden-xs" id="password" label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
-                        <button type="submit" className="btn btn-link" onClick={() => this.entrar(context, revalidation)}>Entrar</button>
+                        <SysButton submit type="link" text="Entrar" action={() => this.entrar(context, revalidation)} />
                     </div>
                 </Navbar.Form>
                 <Nav className="hidden-sm hidden-md hidden-lg">
@@ -66,7 +66,7 @@ class HeaderLogin extends Component {
                         <SysInput id="p-mobile" label={<FontAwesome name="lock" />} type="password" placeholder="Senha" />
                     </NavItem>
                     <NavItem>
-                        <button className="btn btn-link btn-block" onClick={() => this.entrar(context, revalidation)}>Entrar</button>
+                        <SysButton submit type="link" className="btn-block" text="Entrar" action={() => this.entrar(context, revalidation)} />
                     </NavItem>
                 </Nav>
             </div>

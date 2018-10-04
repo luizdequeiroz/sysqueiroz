@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Navbar, Nav, NavItem/*, NavDropdown, MenuItem*/ } from 'react-bootstrap'
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
 import { clearReducer } from '../../../../data/dispatchers'
 import { usersessiondatas } from '../../../../data/alias/keys'
+import { SysButton } from '../../../components/syscomponents'
 
 class HeaderLogged extends Component {
 
@@ -33,12 +34,12 @@ class HeaderLogged extends Component {
                 <Navbar.Collapse>
                     <Nav>
                         <NavItem className="hidden-sm hidden-md hidden-lg">
-                            <button className="btn btn-link btn-block" onClick={this.sair} href="#">Sair</button>
+                            <SysButton type="link" className="btn-block" text="Sair" action={this.sair} href="#" />
                         </NavItem>
                     </Nav>
                     <Navbar.Form pullRight className="hidden-xs">
                         <div className="form-inline">
-                            <button className="btn btn-link btn-block" onClick={this.sair} href="#">Sair</button>
+                            <SysButton type="link" className="btn-block" text="Sair" action={this.sair} href="#" />
                         </div>
                     </Navbar.Form>
                 </Navbar.Collapse>

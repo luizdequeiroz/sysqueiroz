@@ -8,6 +8,7 @@ import RevalidarSessao from '../../../components/revalidarsessao'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import { GetAllUsers, GetUsersIdByProfile, AssignProfileMethod } from '../../../../data/alias/methods'
+import { SysButton } from '../../../components/syscomponents'
 
 
 class AssignProfile extends Component {
@@ -101,8 +102,8 @@ class AssignProfile extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <div>
-                        <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar</button>
-                        <button className="btn btn-primary" onClick={() => this.assignProfile()}>Salvar</button>
+                        <SysButton type="default" text="Cancelar" action={() => closeModal(this)} />
+                        <SysButton type="primary" text="Salvar" action={() => this.assignProfile()} />
                     </div>
                 </Modal.Footer>
             </div>

@@ -136,8 +136,8 @@ class EmployeeForm extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <div className="btn-group">
-                        <button className="btn btn-default" onClick={() => closeModal(this)}>Cancelar</button>
-                        <button className="btn btn-primary" onClick={() => this.saveEmployee()}>{this.state.buttonSave}</button>
+                        <SysButton type="default" text="Cancelar" action={() => closeModal(this)} />
+                        <SysButton type="primary" text={this.state.buttonSave} action={() => this.saveEmployee()} />
                     </div>
                 </Modal.Footer>
             </div>
