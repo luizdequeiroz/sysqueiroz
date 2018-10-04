@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { menus, menuitem, menuItensForNewMenuItem } from '../../../../data/alias/keys'
+import { menus, menuitem, menuitensfornewmenuitem } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysCheck, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
-import { GetMenuItem, GetAllMenuItemsWhereSuperItems, SetNewMenuItem, GetAllHierarchicallyOrganizedMenuItems } from '../../../../data/alias/methods'
+import { SetNewMenuItem, GetAllHierarchicallyOrganizedMenuItems, GetAllMenuItemsWhereSuperItems } from '../../../../data/alias/methods'
 
 class MenuForm extends Component {
 
@@ -13,12 +13,9 @@ class MenuForm extends Component {
         super(props)
 
         this.saveMenu = this.saveMenu.bind(this)
-        this.alterMenu = this.alterMenu.bind(this)
 
         this.state = {
             responses: {},
-            buttonSave: 'Criar',
-            actionMenu: undefined,
             hrefValidation: '',
             iconValidation: '',
             nameValidation: '',
@@ -32,22 +29,12 @@ class MenuForm extends Component {
         }
     }
 
-    componentDidMount() {
+    componentDidMount = () => {
 
-        const { edit, menuId } = this.props
-        if (edit) {
-
-            this.setState({ buttonSave: 'Alterar', actionMenu: this.alterMenu })
-            requestToState(this, GetMenuItem, menuitem, menuId)
-        } else {
-
-            requestToState(this, GetAllMenuItemsWhereSuperItems, menuItensForNewMenuItem)
-            this.setState({ actionMenu: this.saveMenu })
-        }
+        requestToState(this, GetAllMenuItemsWhereSuperItems, menuitensfornewmenuitem)
 
         window.onkeypress = undefined
     }
-
     saveMenu() {
 
         let hrefValidation, nameValidation
@@ -78,10 +65,6 @@ class MenuForm extends Component {
         }
     }
 
-    alterMenu() {
-        alert("Alterar item de menu!")
-    }
-
     componentWillUpdate() {
 
         const { responses } = this.state
@@ -104,7 +87,7 @@ class MenuForm extends Component {
         }
 
         const optnsMenuItens = (
-            responses[menuItensForNewMenuItem] !== undefined ? responses[menuItensForNewMenuItem].data : []
+            responses[menuitensfornewmenuitem] !== undefined ? responses[menuitensfornewmenuitem].data : []
         ).map(d => ({ value: d.href, text: d.name }))
 
         return (
@@ -124,7 +107,7 @@ class MenuForm extends Component {
                 <Modal.Footer>
                     <div className="btn-group">
                         <SysButton type="default" action={() => closeModal(this)} text='Cancelar' />
-                        <SysButton type="primary" action={() => this.state.actionMenu()} text={this.state.buttonSave} />
+                        <SysButton type="primary" action={() => this.saveMenu()} text="Criar" />
                     </div>
                 </Modal.Footer>
             </div>

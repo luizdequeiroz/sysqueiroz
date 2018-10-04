@@ -80,6 +80,11 @@ namespace SysQueiroz.API.Treatments.Enums
         /// Código de sucesso: 14; Descrição do erro: "Funcionário deletado com sucesso!"
         /// </summary>
         [Description("Funcionário deletado com sucesso!")]
-        EmployeeDeletedSuccessfully = 14
+        EmployeeDeletedSuccessfully = 14,
+        /// <summary>
+        /// Código de sucesso: 15; Descrição do erro: "Usuário deletado com sucesso!"
+        /// </summary>
+        [Description("Usuário deletado com sucesso!")]
+        UserDeletedSuccessfully = 15
     }
 }

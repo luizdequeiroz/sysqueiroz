@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { user, employeesForNewUser, departments, usersemployeesdepartmant } from '../../../../data/alias/keys'
+import { user, employeesfornewuser, departments, usersemployeesdepartmant } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysButton } from '../../../components/syscomponents'
 import { entrar } from './headerlogin'
 import If, { Else } from '../../../components/if'
-import { GetUser, GetAllEmployeesWithoutUser, SetNewUser, GetUsersEmployeesWithDepartments, GetAllDepartments } from '../../../../data/alias/methods'
+import { GetAllEmployeesWithoutUser, SetNewUser, GetUsersEmployeesWithDepartments, GetAllDepartments, UpdateUser, GetUserWithEmployee } from '../../../../data/alias/methods'
 
 class UserForm extends Component {
 
@@ -14,12 +14,10 @@ class UserForm extends Component {
         super(props)
 
         this.saveUser = this.saveUser.bind(this)
-        this.alterUser = this.alterUser.bind(this)
 
         this.state = {
             responses: {},
             buttonSave: 'Cadastrar',
-            actionUser: undefined,
             employeeValidation: '',
             departmentValidation: '',
             emailValidation: '',
@@ -40,18 +38,18 @@ class UserForm extends Component {
         const { edit, userId } = this.props
         if (edit) {
 
-            this.setState({ buttonSave: 'Alterar', actionUser: this.alterUser })
-            requestToState(this, GetUser, user, userId)
-        } else {
-
-            requestToState(this, GetAllEmployeesWithoutUser, employeesForNewUser)
-            this.setState({ actionUser: this.saveUser })
+            this.setState({ buttonSave: 'Alterar' })
+            requestToState(this, GetUserWithEmployee, user, userId)
         }
+
+        requestToState(this, GetAllEmployeesWithoutUser, employeesfornewuser)
 
         window.onkeypress = undefined
     }
 
     saveUser() {
+
+        const { edit, userId } = this.props
 
         let employeeId = '', name, departmentId = '', departmentName
         let employeeValidation = '', departmentValidation = '', emailValidation = '', passwordValidation = ''
@@ -95,6 +93,7 @@ class UserForm extends Component {
         if (valid) {
 
             const user = {
+                id: userId || 0,
                 email,
                 password,
                 employeeId: employeeId || 0,
@@ -105,20 +104,20 @@ class UserForm extends Component {
                 } : null
             }
 
-            requestToState(this, SetNewUser, 'rgstr_user', user, 'POST', true)
+            if (edit) {
+                requestToState(this, UpdateUser, 'pdt_user', user, 'POST', true)
+            } else {
+                requestToState(this, SetNewUser, 'rgstr_user', user, 'POST', true)
+            }
         } else {
             this.setState({ employeeValidation, departmentValidation, emailValidation, passwordValidation })
         }
     }
 
-    alterUser() {
-        alert("Alterar usuário!")
-    }
-
     componentWillUpdate() {
 
         const { responses } = this.state
-        const { status } = responses['rgstr_user'] !== undefined ? responses['rgstr_user'] : { status: 0 }
+        const { status } = responses['rgstr_user'] !== undefined ? responses['rgstr_user'] : responses['pdt_user'] !== undefined ? responses['pdt_user'] : { status: 0 }
         if (status > 0) {
             requestToReducer(this, GetUsersEmployeesWithDepartments, usersemployeesdepartmant)
             closeModal(this)
@@ -134,10 +133,17 @@ class UserForm extends Component {
         }
 
         const optnsEmpl = (
-            u.employee !== undefined ? [u.employee] : (
-                responses[employeesForNewUser] !== undefined ? responses[employeesForNewUser].data : []
-            )
+            responses[employeesfornewuser] !== undefined ? responses[employeesfornewuser].data : []
         ).map(e => ({ value: e.id, text: `${e.name} - ${e.departmentName}` }))
+
+        if(responses[user] !== undefined) {
+
+            const usr = responses[user].data
+            optnsEmpl.push({
+                value: usr.employeeId,
+                text: `${usr.name} - ${usr.departmentName}` 
+            })
+        }        
 
         const optnsDepa = (
             responses[departments] !== undefined ? responses[departments].data : []
@@ -170,7 +176,7 @@ class UserForm extends Component {
                             <Else childrenCountIsOne>
                                 <div className="form-inline">
                                     <div className="input-group">
-                                        <SysSelect id="employee" label="Funcionário" options={optnsEmpl} textValidation={this.state.employeeValidation} />
+                                        <SysSelect defaultValue={u.employeeId} id="employee" label="Funcionário" options={optnsEmpl} textValidation={this.state.employeeValidation} />
                                         <div className="input-group-btn">
                                             <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => {
                                                 requestToState(this, GetAllDepartments, departments)
@@ -192,7 +198,7 @@ class UserForm extends Component {
                 <Modal.Footer>
                     <div className="btn-group">
                         <SysButton type="default" text="Cancelar" action={() => closeModal(this)} />
-                        <SysButton type="primary" text={this.state.buttonSave} action={() => this.state.actionUser()} />
+                        <SysButton type="primary" text={this.state.buttonSave} action={() => this.saveUser()} />
                     </div>
                 </Modal.Footer>
             </div>

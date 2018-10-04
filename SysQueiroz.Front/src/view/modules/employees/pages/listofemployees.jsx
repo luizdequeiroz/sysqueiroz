@@ -9,7 +9,6 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import { SysButton } from '../../../components/syscomponents'
 import EmployeeForm from '../components/employeeform'
 
-
 import Modal from 'react-bootstrap/lib/Modal'
 import { GetEmployeesWithDepartments, DeleteEmployee } from '../../../../data/alias/methods'
 
@@ -40,7 +39,7 @@ class ListOfEmployees extends Component {
             }, {
                 dataField: 'actions',
                 text: 'Ações',
-                headerStyle: { width: '180px' }
+                headerStyle: { width: '15%' }
             }
         ]
         

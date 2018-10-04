@@ -90,5 +90,32 @@ namespace SysQueiroz.Users
 
             return users;          
         }
+
+        public void DeleteUser(int id)
+        {
+            var user = SelectByID<User>(id);
+            Delete(user);
+        }
+
+        public dynamic SelectUserWithEmployee(int id)
+        {
+            var user = SelectWhere<User>(u => u.Id == id).Select(u => new
+            {
+                u.Id,
+                EmployeeId = u.Employee.Id,
+                u.Employee.Name,
+                u.Email,
+                DepartmentName = u.Employee.Department.Name
+            }).Single<dynamic>();
+            return user;
+        }
+
+        public void UpdateUserWithNewEmployee(User user)
+        {
+            var newEmployeeId = Insert(user.Employee);
+            user.Employee = null;
+            user.EmployeeId = newEmployeeId;
+            Update(user);
+        }
     }
 }

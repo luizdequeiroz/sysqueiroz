@@ -201,6 +201,30 @@ namespace SysQueiroz.API.Controllers
                                         Name = "GetAllEmployeesWithoutUser",
                                         Description = "Listar funcionários que não possuem usuário (para cadastro de usuário)."
                                     }
+                                },
+                                new ProfileMethod
+                                {
+                                    Method = new Method
+                                    {
+                                        Name = "GetUserWithEmployee",
+                                        Description = "Carregar usuário com dados de funcionário."
+                                    }
+                                },
+                                new ProfileMethod
+                                {
+                                    Method = new Method
+                                    {
+                                        Name = "UpdateUser",
+                                        Description = "Atualizar usuário."
+                                    }
+                                },
+                                new ProfileMethod
+                                {
+                                    Method = new Method
+                                    {
+                                        Name = "DeleteUser",
+                                        Description = "Deletar usuário."
+                                    }
                                 }
                             }
                         },
@@ -308,6 +332,22 @@ namespace SysQueiroz.API.Controllers
                                     {
                                         Name = "GetEmployee",
                                         Description = "Carregar funcionário pelo id."
+                                    }
+                                },
+                                new ProfileMethod
+                                {
+                                    Method = new Method
+                                    {
+                                        Name = "DeleteEmployee",
+                                        Description = "Deletar funcionário."
+                                    }
+                                },
+                                new ProfileMethod
+                                {
+                                    Method = new Method
+                                    {
+                                        Name = "UpdateEmployee",
+                                        Description = "Atualizar funcionário."
                                     }
                                 }
                             }
@@ -795,6 +835,66 @@ namespace SysQueiroz.API.Controllers
                 if (menu == null)
                     return new Error(Err.MenuItemDoesNotExist);
                 else return new Success(menu);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        /// <summary>
+        /// Deletar um usuário.
+        /// </summary>
+        /// <param name="id">Id do usuário a ser deletado.</param>
+        [HttpPost]
+        public Return DeleteUser([FromBody] int id)
+        {
+            try
+            {
+                userDomain.DeleteUser(id);
+
+                return new Success(Suc.UserDeletedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+        
+        /// <summary>
+        /// Consultar dados de um usuário com dados de funcionário pelo id.
+        /// </summary>
+        /// <param name="id">Id do usuário a ser consultado.</param>
+        [HttpGet("{id}")]
+        public Return GetUserWithEmployee(int id)
+        {
+            try
+            {
+                var user = userDomain.SelectUserWithEmployee(id);
+                if (user == null)
+                    return new Error(Err.UserDoesNotExist);
+                else return new Success(user);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        /// <summary>
+        /// Atualizar dados de um usuário.
+        /// </summary>
+        /// <param name="user">Dados do usuário. Identificado pela propriedade Id.</param>
+        [HttpPost]
+        public Return UpdateUser([FromBody] User user)
+        {
+            try
+            {
+                if (user.EmployeeId == 0)
+                    userDomain.UpdateUserWithNewEmployee(user);
+                else userDomain.Update(user);
+
+                return new Success(Suc.EmployeeUpdatedSuccessfully);
             }
             catch (Exception ex)
             {
