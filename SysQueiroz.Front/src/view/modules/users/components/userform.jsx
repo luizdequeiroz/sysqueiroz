@@ -36,6 +36,7 @@ class UserForm extends Component {
     componentDidMount() {
 
         const { edit, userId } = this.props
+        const { responses } = this.state
         if (edit) {
 
             this.setState({ buttonSave: 'Alterar' })
@@ -43,6 +44,11 @@ class UserForm extends Component {
         }
 
         requestToState(this, GetAllEmployeesWithoutUser, employeesfornewuser)
+
+        if (responses[employeesfornewuser] === undefined) {
+            requestToState(this, GetAllDepartments, departments)
+            this.setState({ newEmployee: true })
+        } else this.setState({ newEmployee: true })
 
         window.onkeypress = undefined
     }
@@ -136,14 +142,14 @@ class UserForm extends Component {
             responses[employeesfornewuser] !== undefined ? responses[employeesfornewuser].data : []
         ).map(e => ({ value: e.id, text: `${e.name} - ${e.departmentName}` }))
 
-        if(responses[user] !== undefined) {
+        if (responses[user] !== undefined) {
 
             const usr = responses[user].data
             optnsEmpl.push({
                 value: usr.employeeId,
-                text: `${usr.name} - ${usr.departmentName}` 
+                text: `${usr.name} - ${usr.departmentName}`
             })
-        }        
+        }
 
         const optnsDepa = (
             responses[departments] !== undefined ? responses[departments].data : []
@@ -156,13 +162,20 @@ class UserForm extends Component {
                         <If condition={this.state.newEmployee}>
                             <div className="form-inline">
                                 <div className="input-group">
-                                    <SysInput id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.employeeValidation} />
-                                    <div className="input-group-btn">
-                                        <SysButton type="primary" text={<i className="fa fa-minus-circle" />} textHover="Existente" action={() => this.setState({ newEmployee: false, newDepartment: false })} size="sm" />
-                                    </div>
+                                    <SysInput id="name" label="Nome" type="text" placeholder="Nome de novo funcionário." textValidation={this.state.employeeValidation} />
+                                    <If condition={responses[employeesfornewuser] !== undefined} childrenCountIsOne>
+                                        <div className="input-group-btn">
+                                            <SysButton type="primary" text={<i className="fa fa-minus-circle" />} textHover="Existente" action={() => this.setState({ newEmployee: false, newDepartment: false })} size="sm" />
+                                        </div>
+                                    </If>
                                 </div>&nbsp;
                                 <If condition={this.state.newDepartment} childrenCountIsOne>
-                                    <SysInput id="departmentName" label="Setor" type="text" placeholder="Nome do setor." textValidation={this.state.departmentValidation} />
+                                    <SysInput id="departmentName" label="Setor" type="text" placeholder="Nome de novo setor." textValidation={this.state.departmentValidation} />
+                                    <div className="input-group">
+                                        <div className="input-group-btn">
+                                            <SysButton type="primary" text={<i className="fa fa-minus-circle" />} textHover="Existente" action={() => this.setState({ newDepartment: false })} size="sm" />
+                                        </div>
+                                    </div>
                                     <Else childrenCountIsOne>
                                         <div className="input-group">
                                             <SysSelect id="department" label="Setor" options={optnsDepa} textValidation={this.state.departmentValidation} />

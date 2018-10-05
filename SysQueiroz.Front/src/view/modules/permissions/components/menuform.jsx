@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Modal from 'react-bootstrap/lib/Modal'
 import { closeModal, requestToState, requestToReducer } from '../../../../data/dispatchers'
-import { menus, menuitem, menuitensfornewmenuitem } from '../../../../data/alias/keys'
+import { menus, menuitensfornewmenuitem } from '../../../../data/alias/keys'
 import { SysInput, SysSelect, SysCheck, SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
 import { SetNewMenuItem, GetAllHierarchicallyOrganizedMenuItems, GetAllMenuItemsWhereSuperItems } from '../../../../data/alias/methods'
@@ -78,13 +78,6 @@ class MenuForm extends Component {
     render() {
 
         const { responses } = this.state
-        const m = responses[menuitem] !== undefined ? responses[menuitem].data : {
-            href: '',
-            icon: '',
-            name: '',
-            superHref: '',
-            isSuperItem: false
-        }
 
         const optnsMenuItens = (
             responses[menuitensfornewmenuitem] !== undefined ? responses[menuitensfornewmenuitem].data : []
@@ -97,10 +90,10 @@ class MenuForm extends Component {
                         <SysSelect id="superHref" label="Item de menu superior" firstOption="Nenhum" options={optnsMenuItens} />
                         <div className="form-inline">
                             <small className="h2 hidden-xs">&nbsp;&#10551;&nbsp;</small>
-                            <SysInput defaultValue={m.href} id="href" label="Href" type="text" placeholder="Href do item de menu." textValidation={this.state.hrefValidation} /><small className="hidden-xs">&nbsp;</small>
-                            <SysInput defaultValue={m.icon} id="icon" label="Ícone" type="text" placeholder="Ícone do item de menu." textValidation={this.state.iconValidation} /><small className="hidden-xs">&nbsp;</small>
-                            <SysInput defaultValue={m.name} id="name" label="Nome" type="text" placeholder="Nome do item de menu." textValidation={this.state.nameValidation} /><small className="hidden-xs">&nbsp;</small>
-                            <SysCheck id="isSuperItem" defaultChecked={m.isSuperItem} text="Super" />
+                            <SysInput id="href" label="Href" type="text" placeholder="Href do item de menu." textValidation={this.state.hrefValidation} /><small className="hidden-xs">&nbsp;</small>
+                            <SysInput id="icon" label="Ícone" type="text" placeholder="Ícone do item de menu." textValidation={this.state.iconValidation} /><small className="hidden-xs">&nbsp;</small>
+                            <SysInput id="name" label="Nome" type="text" placeholder="Nome do item de menu." textValidation={this.state.nameValidation} /><small className="hidden-xs">&nbsp;</small>
+                            <SysCheck id="isSuperItem" text="Super" />
                         </div>
                     </div>
                 </Modal.Body>
