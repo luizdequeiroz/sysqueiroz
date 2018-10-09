@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using SysQueiroz.Core.Entities;
+using System.Collections.Generic;
 
 namespace SysQueiroz.Users.Objects
 {

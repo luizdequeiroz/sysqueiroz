@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SysQueiroz.API.Treatments;
@@ -7,6 +5,8 @@ using SysQueiroz.API.Treatments.Enums;
 using SysQueiroz.Company;
 using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
+using System;
+using System.Linq;
 
 namespace SysQueiroz.API.Controllers
 {

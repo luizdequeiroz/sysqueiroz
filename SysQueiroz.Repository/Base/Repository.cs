@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace SysQueiroz.Repository.Base
 {

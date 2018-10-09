@@ -1,8 +1,6 @@
 ﻿using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
 using SysQueiroz.Repository.Base;
-using System;
-using System.Collections.Generic;
 
 namespace SysQueiroz.Clients
 {

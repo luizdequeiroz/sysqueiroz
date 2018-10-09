@@ -1,7 +1,7 @@
-﻿using SysQueiroz.Core.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using SysQueiroz.Core.Entities;
 
-namespace SysQueiroz.Core 
+namespace SysQueiroz.Core
 {
     public class SysQueirozContext : DbContext 
     {

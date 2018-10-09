@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SysQueiroz.API.Treatments;
 using SysQueiroz.API.Treatments.Enums;
 using SysQueiroz.Clients;
 using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
+using System;
+using System.Linq;
 
 namespace SysQueiroz.API.Controllers
 {

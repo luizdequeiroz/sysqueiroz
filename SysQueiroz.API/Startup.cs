@@ -1,23 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using SysQueiroz.Repository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using SecurityKeyFromCore = SysQueiroz.Core.Provider.SecurityKey;
-using System.Text;
-using SysQueiroz.Core.Entities;
-using SysQueiroz.API.Treatments.Enums;
-using System.Linq;
-using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.Extensions.PlatformAbstractions;
-using System.IO;
-using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Swagger;
+using SysQueiroz.API.Treatments.Enums;
 using SysQueiroz.Core;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using SecurityKeyFromCore = SysQueiroz.Core.Provider.SecurityKey;
 
 namespace SysQueiroz.API
 {

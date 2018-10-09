@@ -1,5 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SysQueiroz.API.Bodies.Users;
 using SysQueiroz.API.Treatments;
 using SysQueiroz.API.Treatments.Enums;
 using SysQueiroz.Core;
@@ -7,11 +8,9 @@ using SysQueiroz.Core.Entities;
 using SysQueiroz.Core.Provider;
 using SysQueiroz.Core.Utils;
 using SysQueiroz.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Dynamic;
-using SysQueiroz.API.Bodies.Users;
+using System.Linq;
 
 namespace SysQueiroz.API.Controllers
 {

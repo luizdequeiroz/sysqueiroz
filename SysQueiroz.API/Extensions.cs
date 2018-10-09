@@ -1,6 +1,6 @@
-using System.Linq;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
+using System.Linq;
 
 namespace SysQueiroz.API
 {

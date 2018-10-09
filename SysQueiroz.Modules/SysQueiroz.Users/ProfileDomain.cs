@@ -1,10 +1,8 @@
 ﻿using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
 using SysQueiroz.Repository.Base;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SysQueiroz.Users
 {

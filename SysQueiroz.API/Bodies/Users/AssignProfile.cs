@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace SysQueiroz.API.Bodies.Users

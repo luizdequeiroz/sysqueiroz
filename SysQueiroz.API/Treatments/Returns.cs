@@ -1,5 +1,5 @@
-﻿using System;
-using SysQueiroz.API.Treatments.Enums;
+﻿using SysQueiroz.API.Treatments.Enums;
+using System;
 
 namespace SysQueiroz.API.Treatments
 {

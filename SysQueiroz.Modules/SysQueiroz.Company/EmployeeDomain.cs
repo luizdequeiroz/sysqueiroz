@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SysQueiroz.Core;
+﻿using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
 using SysQueiroz.Repository.Base;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SysQueiroz.Company
 {

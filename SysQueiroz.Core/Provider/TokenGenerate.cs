@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SysQueiroz.Core.Entities;
 using System.Linq;
-using SysQueiroz.Core.Entities;
 
 namespace SysQueiroz.Core.Provider
 {
