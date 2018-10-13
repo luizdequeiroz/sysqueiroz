@@ -1,5 +1,38 @@
 import React, { Component } from 'react'
 import If from './if'
+import { connect } from 'react-redux'
+import { requestToReducer } from '../../data/dispatchers'
+import { session, accesstocomponent } from '../../data/alias/keys'
+import { UserHasAccessToComponent } from '../../data/alias/methods'
+
+function select(state) {
+
+    return {
+        responses: state.reducers.responses
+    }
+}
+
+//#region SysComponent
+class SysComponent extends Component {
+
+    accessible = false
+
+    componentWillMount() {
+
+        const { Parent, Name, responses } = this.props
+        const sessionId = responses[session] !== undefined ? JSON.parse(responses[session]).data : 0
+
+        requestToReducer(this, UserHasAccessToComponent, accesstocomponent, { sessionId, Parent, Name }, 'POST', false)
+    }
+
+    componentDidMount() {
+
+        const { responses } = this.props
+
+        this.accessible = responses[accesstocomponent] !== undefined ? responses[accesstocomponent].data : true
+    }
+}
+//#endregion
 
 //#region SysInput
 export class SysInput extends Component {
@@ -60,7 +93,7 @@ SysInput.defaultProps = {
 //#endregion
 
 //#region SysButton
-export class SysButton extends Component {
+class sysbutton extends SysComponent {
 
     constructor(props) {
         super(props)
@@ -80,21 +113,29 @@ export class SysButton extends Component {
         const props = { href }
         if (submit) props.type = "submit"
 
-        return <button
-            className={`btn btn-${type} btn-${size} ${className}`}
-            onMouseOver={() => {
-                this.setState({ text: textHover })
-            }}
-            onMouseLeave={() => {
-                this.setState({ text: originalText })
-            }}
-            onClick={action}
-            { ...props }
-        >{text}</button>
+        if (this.accessible) {
+
+            return <button
+                className={`btn btn-${type} btn-${size} ${className}`}
+                onMouseOver={() => {
+                    this.setState({ text: textHover })
+                }}
+                onMouseLeave={() => {
+                    this.setState({ text: originalText })
+                }}
+                onClick={action}
+                {...props}
+            >{text}</button>
+        } else {
+            return <button
+                className={`btn btn-${type} btn-${size} ${className}`}
+                disabled
+            >{text}</button>
+        }
     }
 }
 
-SysButton.defaultProps = {
+sysbutton.defaultProps = {
     submit: false,
     type: 'default',
     size: 'md',
@@ -104,10 +145,12 @@ SysButton.defaultProps = {
     action: undefined,
     href: undefined
 }
+
+export const SysButton = connect(select)(sysbutton)
 //#endregion
 
 //#region SysSelect
-export class SysSelect extends Component {
+class sysselect extends SysComponent {
 
     constructor(props) {
         super(props)
@@ -145,48 +188,81 @@ export class SysSelect extends Component {
 
         divInputProps.style = validationError ? inputStyleError : undefined
 
-        return (
-            <div className="form-group">
-                <If condition={textValidation !== ''}>
-                    <div className="h6 text-danger" style={{ marginTop: '-13px', marginBottom: '0px' }}>{textValidation}</div>
-                </If>
-                <div {...divInputProps}>
-                    <label className="input-group-addon" htmlFor={id}>{label}</label>
-                    <select className="form-control" id={id} onChange={this.validate}>
-                        <option>{firstOption}</option>
-                        {children === undefined ? options.map(o => (
-                            <option key={o.value} value={o.value} selected={defaultValue === o.value}>{o.text}</option>
-                        )) : children}
-                    </select>
+        if (this.accessible) {
+
+            return (
+                <div className="form-group">
+                    <If condition={textValidation !== ''}>
+                        <div className="h6 text-danger" style={{ marginTop: '-13px', marginBottom: '0px' }}>{textValidation}</div>
+                    </If>
+                    <div {...divInputProps}>
+                        <label className="input-group-addon" htmlFor={id}>{label}</label>
+                        <select className="form-control" id={id} onChange={this.validate}>
+                            <option>{firstOption}</option>
+                            {children === undefined ? options.map(o => (
+                                <option key={o.value} value={o.value} selected={defaultValue === o.value}>{o.text}</option>
+                            )) : children}
+                        </select>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        } else {
+            return (
+                <div className="form-group">
+                    <div {...divInputProps}>
+                        <label className="input-group-addon">{label}</label>
+                        <select className="form-control" disabled>
+                            <option>{firstOption}</option>
+                        </select>
+                    </div>
+                </div>
+            )
+        }
     }
 }
-SysSelect.defaultProps = {
+
+sysselect.defaultProps = {
     options: [],
     textValidation: '',
     firstOption: 'Selecione'
 }
+
+export const SysSelect = connect(select)(sysselect)
 //#endregion
 
 //#region SysCheck
-export class SysCheck extends Component {
+export class syscheck extends SysComponent {
 
     render() {
 
         const { id, defaultChecked, text } = this.props
         const inputProps = { id, defaultChecked }
 
-        return (
-            <div className="form-group">
-                <label className="sys-checkbox">
-                    <input type="checkbox" {...inputProps} />
-                    <small className="checkmark h5 form-control">{text}</small>
-                </label>
-            </div>
-        )
+        if (this.accessible) {
+
+            return (
+                <div className="form-group">
+                    <label className="sys-checkbox">
+                        <input type="checkbox" {...inputProps} />
+                        <small className="checkmark h5 form-control">{text}</small>
+                    </label>
+                </div>
+            )
+        } else {
+
+            inputProps.id = undefined
+            return (
+                <div className="form-group">
+                    <label className="sys-checkbox">
+                        <input type="checkbox" {...inputProps} disabled/>
+                        <small className="checkmark h5 form-control">{text}</small>
+                    </label>
+                </div>
+            )
+        }
     }
 }
+
+export const SysCheck = connect(select)(syscheck)
 //#endregion
 

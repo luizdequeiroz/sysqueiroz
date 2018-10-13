@@ -1,6 +1,7 @@
 ﻿using SysQueiroz.Core;
 using SysQueiroz.Core.Entities;
 using SysQueiroz.Repository.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,6 +41,15 @@ namespace SysQueiroz.Users
                 var uProfile = SelectWhere<UserProfile>(up => up.UserId == userId && up.ProfileId == profileId).FirstOrDefault();
                 if (uProfile != null) Delete(uProfile);
             }
+        }
+
+        public bool InsertNewProfile(Profile profile)
+        {
+            var pr = SelectWhere<Profile>(p => p.Name == profile.Name).FirstOrDefault();
+            if (pr != null) return false;
+
+            Insert(profile);
+            return true;
         }
     }
 }

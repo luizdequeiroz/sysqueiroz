@@ -117,6 +117,14 @@ namespace SysQueiroz.API.Controllers
                                                 Name = "GetAllUsers",
                                                 Description = "Listar todos os usuários."
                                             }
+                                        },
+                                        new ProfileMethod
+                                        {
+                                            Method = new Method
+                                            {
+                                                Name = "SetNewProfile",
+                                                Description = "Inserir novo perfil de usuário."
+                                            }
                                         }
                                     },
                                     MenuAccesses = new List<MenuAccess>
@@ -785,9 +793,9 @@ namespace SysQueiroz.API.Controllers
         }
 
         /// <summary>
-        /// Registrar um novo item de menu.
+        /// Criar um novo item de menu.
         /// </summary>
-        /// <param name="menu">Dados do novo item de menu a ser registrado.</param>
+        /// <param name="menu">Dados do novo item de menu a ser criado.</param>
         [HttpPost]
         public Return SetNewMenuItem([FromBody] Menu menu)
         {
@@ -894,6 +902,43 @@ namespace SysQueiroz.API.Controllers
                 else userDomain.Update(user);
 
                 return new Success(Suc.EmployeeUpdatedSuccessfully);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        /// <summary>
+        /// Criar um novo perfil de usuário.
+        /// </summary>
+        /// <param name="profile">Dados do novo perfil de usuário a ser criado.</param>
+        [HttpPost]
+        public Return SetNewProfile([FromBody] Profile profile)
+        {
+            try
+            {
+                var ok = profileDomain.InsertNewProfile(profile);
+                if (ok) return new Success(Suc.ProfileSuccessfullyCreated);
+                else return new Error(Err.ProfileAlreadyExists);
+            }
+            catch (Exception ex)
+            {
+                return new Error(ex);
+            }
+        }
+
+        /// <summary>
+        /// Verificar se usuário contém acesso à componente.
+        /// </summary>
+        /// <param name="dataToVerifyAccess">Dados para verificar acesso. (sessionId, Parent, Name)</param>
+        [HttpPost]
+        [AllowAnonymous]
+        public Return UserHasAccessToComponent([FromBody] DataToVerifyAccess dataToVerifyAccess)
+        {
+            try
+            {
+                return new Success(true);
             }
             catch (Exception ex)
             {

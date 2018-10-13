@@ -14,6 +14,8 @@ import { SysButton } from '../../../components/syscomponents'
 import { entrar } from '../../users/components/headerlogin'
 import { GetAllProfiles, DeleteProfile, UpdateProfile } from '../../../../data/alias/methods'
 
+import ProfileForm from '../components/profileform'
+
 class Profiles extends Component {
 
     constructor(props) {
@@ -86,15 +88,15 @@ class Profiles extends Component {
                 // adicionando propriedade para mostrar botão(ões) em coluna da tabela
                 actions: (
                     <div className="btn-group">
-                        <button className="btn btn-xs btn-primary" onClick={() => showModal(this, `Atribuir perfil ${p.name}`, <AssignProfile profileId={p.id} />)}>Atribuir</button>
-                        <button className="btn btn-xs btn-danger" onClick={() => showModal(this, `Confirmar exclusão do perfil "${p.name}"?`, (
+                        <SysButton type="primary" size="xs" text="Atribuir" action={() => showModal(this, `Atribuir perfil ${p.name}`, <AssignProfile profileId={p.id} />)} />
+                        <SysButton type="danger" size="xs" text="Deletar" action={() => showModal(this, `Confirmar exclusão do perfil "${p.name}"?`, (
                             <Modal.Footer>
                                 <div className="btn-group">
                                     <SysButton type="danger" text="Confirmar exclusão!" action={() => this.deleteProfile(p.id)} />
                                     <SysButton type="default" text="Cancelar exclusão!" action={() => closeModal(this)} />
                                 </div>
                             </Modal.Footer>
-                        ), false, 'md')}>Deletar</button>
+                        ), false, 'md')} />
                     </div>
                 )
             }))
@@ -105,7 +107,7 @@ class Profiles extends Component {
                 <legend>
                     Lista de Perfis de Usuário <i className="h6">(para alterar um perfil de usuário, dê duplo clique no campo a ser editado)</i>
                     <div className="pull-right">
-                        <SysButton type="primary" size="sm" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo perfil de usuário', <h1>É o gera!</h1>, true, 'lg')} />
+                        <SysButton type="primary" size="sm" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo perfil de usuário', <ProfileForm />, true, 'lg')} />
                     </div>
                 </legend>
                 <BootstrapTable

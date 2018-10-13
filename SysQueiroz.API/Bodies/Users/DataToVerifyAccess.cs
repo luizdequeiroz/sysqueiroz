@@ -1,28 +1,26 @@
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SysQueiroz.API.Bodies.Users
 {
     /// <summary>
     /// 
     /// </summary>
-    public class Assigns
+    public class DataToVerifyAccess
     {
         /// <summary>
         /// 
         /// </summary>
-        public int ProfileId { get; set; }
+        public int SessionId { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        /// <value></value>
-        public int MenuId { get; set; }
+        public string Parent { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        public List<int> All { get; set; }
-        /// <summary>
-        /// 
-        /// </summary>
-        public int[] Selecteds { get; set; }
+        public string Name { get; set; }
     }
 }

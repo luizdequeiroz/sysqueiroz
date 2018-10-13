@@ -41,14 +41,14 @@ class UserForm extends Component {
 
             this.setState({ buttonSave: 'Alterar' })
             requestToState(this, GetUserWithEmployee, user, userId)
+        } else {
+
+            if (responses[employeesfornewuser] === undefined) {
+                requestToState(this, GetAllDepartments, departments)
+                this.setState({ newEmployee: true })
+            } else this.setState({ newEmployee: true })
         }
-
         requestToState(this, GetAllEmployeesWithoutUser, employeesfornewuser)
-
-        if (responses[employeesfornewuser] === undefined) {
-            requestToState(this, GetAllDepartments, departments)
-            this.setState({ newEmployee: true })
-        } else this.setState({ newEmployee: true })
 
         window.onkeypress = undefined
     }

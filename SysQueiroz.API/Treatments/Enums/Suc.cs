@@ -81,6 +81,11 @@ namespace SysQueiroz.API.Treatments.Enums
         /// Código de sucesso: 15; Descrição do erro: "Usuário deletado com sucesso!"
         /// </summary>
         [Description("Usuário deletado com sucesso!")]
-        UserDeletedSuccessfully = 15
+        UserDeletedSuccessfully = 15,
+        /// <summary>
+        /// Código de sucesso: 16; Descrição do erro: "Perfil de usuário criado com sucesso!"
+        /// </summary>
+        [Description("Perfil de usuário criado com sucesso!")]
+        ProfileSuccessfullyCreated = 16
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace SysQueiroz.Core.Migrations
 {
     [DbContext(typeof(SysQueirozContext))]
-    partial class SysQueirozContextModelSnapshot : ModelSnapshot
+    [Migration("20181012231129_SysQueiroz002")]
+    partial class SysQueiroz002
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

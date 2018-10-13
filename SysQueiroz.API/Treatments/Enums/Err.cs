@@ -96,6 +96,11 @@ namespace SysQueiroz.API.Treatments.Enums
         /// Código de erro: -18; Descrição do erro: "Item de Menu não existe!"
         /// </summary>
         [Description("Item de Menu não existe!")]
-        MenuItemDoesNotExist = -18
-      }
+        MenuItemDoesNotExist = -18,
+        /// <summary>
+        /// Código de erro: -19; Descrição do erro: "Perfil de usuário já existe!"
+        /// </summary>
+        [Description("Perfil de usuário já existe!")]
+        ProfileAlreadyExists = -19
+    }
 }
