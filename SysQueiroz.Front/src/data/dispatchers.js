@@ -98,6 +98,7 @@ export function requestToState(context, method, returnStateKey, param = '', meth
 
     if (withProgress) dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
     //#region preparando requisição genérica
+    
     var init = {
         method: methodType,
         headers: new Headers({
@@ -108,14 +109,19 @@ export function requestToState(context, method, returnStateKey, param = '', meth
 
     if (methodType === 'POST')
         init = { ...init, body: JSON.stringify(param) }
+    
+    const url = `${API}/${method}/${methodType === 'GET' ? param : ''}`
 
-    const request = new Request(`${API}/${method}/${methodType === 'GET' ? param : ''}`, init)
+    const request = new Request(url, init)
     //#endregion
 
-    fetch(request).then(response => {
+    const requestKey = getRequestKey({ url, method: methodType, body: methodType === 'POST' ? JSON.stringify(param) : undefined })
+    const dedupeOptions = { requestKey }
+
+    fetchDedupe(url, init, dedupeOptions).then(response => {
         if (response.ok) {
             if (response.status === 200)
-                return response.json()
+                return response.data
         } else {
             if (response.status === 401) {
 
@@ -138,6 +144,7 @@ export function requestToState(context, method, returnStateKey, param = '', meth
             responses[returnStateKey] = undefined
             context.setState({ responses })
         } else {
+
             responses[returnStateKey] = json.token === null ? json : JSON.stringify(json)
             context.setState({ responses })
 
@@ -146,7 +153,7 @@ export function requestToState(context, method, returnStateKey, param = '', meth
         }
 
         //window.setTimeout(() => dispatch({ type: HIDE_MODAL_ALERT }), 1000)
-    }).catch(() => {
+    }).catch((error) => {
         responses[returnStateKey] = undefined
         context.setState({ responses })
 
@@ -191,8 +198,7 @@ export function requestToReducer(context, method, returnReduceKey, param = '', m
     fetchDedupe(url, init, dedupeOptions).then(response => {
         if (response.ok) {
             if (response.status === 200)
-                //console.log(response.data)
-            return response.data
+                return response.data
         } else {
             if (response.status === 401) {
 
