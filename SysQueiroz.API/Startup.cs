@@ -112,6 +112,7 @@ namespace SysQueiroz.API
             });
 
             StartupCore.Init(Configuration.GetConnectionString("development"));
+            //StartupCore.Init(Configuration.GetConnectionString("production"));
             StartupCore.Configure(services);
         }
 
