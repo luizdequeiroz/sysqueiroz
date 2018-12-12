@@ -34,3 +34,4 @@ msbuild.wrn
 
 # Visual Studio 2015/2017
 .vs/
+SysQueiroz.Front/package-lock.json
