@@ -17,7 +17,6 @@ class EmployeeForm extends Component {
 
         this.state = {
             responses: {},
-            buttonSave: 'Cadastrar',
             nameValidation: '',
             departmentValidation: '',
             newDepartment: false
@@ -35,7 +34,6 @@ class EmployeeForm extends Component {
         const { edit, employeeId } = this.props
         if (edit) {
 
-            this.setState({ buttonSave: 'Alterar' })
             requestToState(this, GetEmployee, employee, employeeId)
         }
 
@@ -137,7 +135,7 @@ class EmployeeForm extends Component {
                 <Modal.Footer>
                     <div className="btn-group">
                         <SysButton type="default" text="Cancelar" action={() => closeModal(this)} />
-                        <SysButton type="primary" text={this.state.buttonSave} action={() => this.saveEmployee()} />
+                        <SysButton type="primary" text={this.props.edit ? 'Alterar' : 'Cadastrar'} action={() => this.saveEmployee()} />
                     </div>
                 </Modal.Footer>
             </div>

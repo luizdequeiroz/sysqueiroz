@@ -49,7 +49,7 @@ class ListOfEmployees extends Component {
                 ...e,
                 actions: (
                     <div className="btn-group">
-                        <SysButton type="primary" size="xs" text="Alterar" action={() => showModal(this, 'Altear funcionário', <EmployeeForm employeeId={e.id} edit />, true)} />
+                        <SysButton type="primary" size="xs" text="Alterar" action={() => showModal(this, 'Alterar funcionário', <EmployeeForm employeeId={e.id} edit />, true)} />
                         <SysButton type="danger" size="xs" text="Deletar" action={() => showModal(this, `Confirmar exclusão do funcionário "${e.name}"?`, (
                             <Modal.Footer>
                                 <div className="btn-group">

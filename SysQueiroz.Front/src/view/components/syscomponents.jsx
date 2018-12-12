@@ -69,7 +69,7 @@ export class SysInput extends Component {
         const validationError = textValidation !== ''
 
         const divInputProps = {
-            className: `input-group ${className}`
+            className: `input-group ${className || ''}`
         }
 
         divInputProps.style = validationError ? inputStyleError : undefined
