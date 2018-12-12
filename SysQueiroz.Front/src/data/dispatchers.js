@@ -98,7 +98,6 @@ export function requestToState(context, method, returnStateKey, param = '', meth
 
     if (withProgress) dispatch({ type: GENERIC_PROCCESS, msg: msgProcessing })
     //#region preparando requisição genérica
-    
     var init = {
         method: methodType,
         headers: new Headers({
@@ -111,8 +110,6 @@ export function requestToState(context, method, returnStateKey, param = '', meth
         init = { ...init, body: JSON.stringify(param) }
     
     const url = `${API}/${method}/${methodType === 'GET' ? param : ''}`
-
-    const request = new Request(url, init)
     //#endregion
 
     const requestKey = getRequestKey({ url, method: methodType, body: methodType === 'POST' ? JSON.stringify(param) : undefined })
@@ -189,7 +186,6 @@ export function requestToReducer(context, method, returnReduceKey, param = '', m
         init = { ...init, body: JSON.stringify(param) }
 
     const url = `${API}/${method}/${methodType === 'GET' ? param : ''}`
-    // const request = new Request(url, init)
     //#endregion
 
     const requestKey = getRequestKey({ url, method: methodType, body: methodType === 'POST' ? JSON.stringify(param) : undefined });
