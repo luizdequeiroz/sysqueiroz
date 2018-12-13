@@ -8,7 +8,7 @@ import { usersessiondatas, session } from '../../../../data/alias/keys'
 import { requestToReducer, setReducer } from '../../../../data/dispatchers'
 import { GetUserSessionDatasByUserId } from '../../../../data/alias/methods'
 
-const _img = require('../../../../www/imgs/_logo.png')
+const _img = require('../../../../www/imgs/logo.png')
 
 class HeaderNavBar extends Component {
 
@@ -31,7 +31,7 @@ class HeaderNavBar extends Component {
         const tagsBrand = (
             <span>
                 <img alt="presentation" src={_img} width="30px" />
-                <i>&nbsp;</i><a href="#/"><b>React Base</b></a>
+                <i>&nbsp;</i><a href="#/"><b>CL Promotora</b> | <i>SysQueiroz</i></a>
             </span>
         )
         let content
