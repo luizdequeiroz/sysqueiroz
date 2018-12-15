@@ -48,59 +48,54 @@ namespace SysQueiroz.API.Treatments.Enums
         [Description("Não há clientes!")]
         NoClients = -8,
         /// <summary>
-        /// Código de erro: -9; Descrição do erro: "Preenchimento inválido!"
-        /// </summary>
-        [Description("Preenchimento inválido!")]
-        InvalidPadding = -9,
-        /// <summary>
-        /// Código de erro: -10; Descrição do erro: "Não há perfis!"
+        /// Código de erro: -9; Descrição do erro: "Não há perfis!"
         /// </summary>
         [Description("Não há perfis!")]
-        NoProfiles = -10,
+        NoProfiles = -9,
         /// <summary>
-        /// Código de erro: -11; Descrição do erro: "Múltiplos erros!"
+        /// Código de erro: -10; Descrição do erro: "Múltiplos erros!"
         /// </summary>
         [Description("Múltiplos erros!")]
-        MultipleErrors = -11,
+        MultipleErrors = -10,
         /// <summary>
-        /// Código de erro: -12; Descrição do erro: "Não há menus!"
+        /// Código de erro: -11; Descrição do erro: "Não há menus!"
         /// </summary>
         [Description("Não há menus!")]
-        NoMenus = -12,
+        NoMenus = -11,
         /// <summary>
-        /// Código de erro: -13; Descrição do erro: "Usuário já existe!"
+        /// Código de erro: -12; Descrição do erro: "Usuário já existe!"
         /// </summary>
         [Description("Usuário já existe!")]
-        UserAlreadyExists = -13,
+        UserAlreadyExists = -12,
         /// <summary>
-        /// Código de erro: -14; Descrição do erro: "Não há funcionários!"
+        /// Código de erro: -13; Descrição do erro: "Não há funcionários!"
         /// </summary>
         [Description("Não há funcionários!")]
-        NoEmployees = -14,
+        NoEmployees = -13,
         /// <summary>
-        /// Código de erro: -15; Descrição do erro: "Não há setores!"
+        /// Código de erro: -14; Descrição do erro: "Não há setores!"
         /// </summary>
         [Description("Não há setores!")]
-        NoDepartments = -15,
+        NoDepartments = -14,
         /// <summary>
-        /// Código de erro: -16; Descrição do erro: "Item de menu já existe!"
+        /// Código de erro: -15; Descrição do erro: "Item de menu já existe!"
         /// </summary>
         [Description("Item de menu já existe!")]
-        MenuItemAlreadyExists = -16,
+        MenuItemAlreadyExists = -15,
         /// <summary>
-        /// Código de erro: -17; Descrição do erro: "Funcionário já existe!"
+        /// Código de erro: -16; Descrição do erro: "Funcionário já existe!"
         /// </summary>
         [Description("Funcionário já existe!")]
-        EmployeeAlreadyExists = -17,
+        EmployeeAlreadyExists = -16,
         /// <summary>
-        /// Código de erro: -18; Descrição do erro: "Item de Menu não existe!"
+        /// Código de erro: -17; Descrição do erro: "Item de Menu não existe!"
         /// </summary>
         [Description("Item de Menu não existe!")]
-        MenuItemDoesNotExist = -18,
+        MenuItemDoesNotExist = -17,
         /// <summary>
-        /// Código de erro: -19; Descrição do erro: "Perfil de usuário já existe!"
+        /// Código de erro: -18; Descrição do erro: "Perfil de usuário já existe!"
         /// </summary>
         [Description("Perfil de usuário já existe!")]
-        ProfileAlreadyExists = -19
+        ProfileAlreadyExists = -18
     }
 }

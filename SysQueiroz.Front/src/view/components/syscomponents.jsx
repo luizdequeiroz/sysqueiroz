@@ -46,8 +46,6 @@ export class SysInput extends Component {
                 borderRadius: '4px'
             }
         }
-
-        this.validate = this.validate.bind(this)
     }
 
     validate({ target }) {
@@ -81,7 +79,7 @@ export class SysInput extends Component {
                 </If>
                 <div {...divInputProps}>
                     <label className="input-group-addon" htmlFor={id}>{label}</label>
-                    <input className="form-control" {...inputProps} onKeyUp={this.validate} />
+                    <input ref="input" className="form-control" {...inputProps} onKeyUp={this.validate.bind(this)} />
                 </div>
             </div>
         )
@@ -161,12 +159,11 @@ class sysselect extends SysComponent {
                 borderRadius: '4px'
             }
         }
-
-        this.validate = this.validate.bind(this)
     }
 
     validate({ target }) {
 
+        this.refs.input.value = target.value
         if (target.value !== this.props.firstOption) this.setState({ inputStyleError: undefined })
         else this.setState({
             inputStyleError: {
@@ -197,12 +194,13 @@ class sysselect extends SysComponent {
                     </If>
                     <div {...divInputProps}>
                         <label className="input-group-addon" htmlFor={id}>{label}</label>
-                        <select className="form-control" id={id} onChange={this.validate}>
+                        <select className="form-control" id={id} onChange={this.validate.bind(this)}>
                             <option>{firstOption}</option>
                             {children === undefined ? options.map(o => (
                                 <option key={o.value} value={o.value} selected={defaultValue === o.value}>{o.text}</option>
                             )) : children}
                         </select>
+                        <input type="hidden" ref="input" />
                     </div>
                 </div>
             )

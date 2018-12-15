@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 
 import BootstrapTable from 'react-bootstrap-table-next'
 import { clients } from '../../../../data/alias/keys'
-import { requestToReducer } from '../../../../data/dispatchers'
+import { requestToReducer, showModal } from '../../../../data/dispatchers'
 
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 
 import { SysButton } from '../../../components/syscomponents'
 import { GetAllClients } from '../../../../data/alias/methods'
+
+import ClienteForm from '../components/clienteform'
 
 class ListOfClients extends Component {
 
@@ -51,7 +53,7 @@ class ListOfClients extends Component {
                                 <div className="input-group">
                                     <SearchBar {...props.searchProps} placeholder="Buscar cliente..." />
                                     <span className="input-group-btn">                                    
-                                        <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => alert("Novo cliente!")} />
+                                        <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => showModal(this, 'Novo cliente', <ClienteForm />, true, 'lg')} />
                                     </span>
                                 </div>
                                 <hr />

@@ -18,7 +18,7 @@ namespace SysQueiroz.API.Controllers
     public class ClientController : Controller
     {
         private ClientDomain clientDomain;
-        
+
         /// <summary>
         /// Construtor referente ao controller do Módulo Cliente
         /// </summary>
@@ -56,16 +56,9 @@ namespace SysQueiroz.API.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    clientDomain.Insert(client);
+                clientDomain.Insert(client);
 
-                    return new Success(Suc.ClientSuccessfullyRegistered);
-                }
-                else
-                {
-                    return new Error(Err.InvalidPadding);
-                }
+                return new Success(Suc.ClientSuccessfullyRegistered);
             }
             catch (Exception ex)
             {

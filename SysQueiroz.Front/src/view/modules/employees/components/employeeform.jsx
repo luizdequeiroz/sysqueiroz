@@ -13,8 +13,6 @@ class EmployeeForm extends Component {
     constructor(props) {
         super(props)
 
-        this.saveEmployee = this.saveEmployee.bind(this)
-
         this.state = {
             responses: {},
             nameValidation: '',
@@ -48,14 +46,14 @@ class EmployeeForm extends Component {
 
         let departmentId = '', departmentName
         let nameValidation = '', departmentValidation = ''
-        const name = document.getElementById('name').value
+        const name = this.refs.name.refs.input.value
 
         let valid = true
 
         if (this.state.newDepartment) {
-            departmentName = document.getElementById('departmentName').value
+            departmentName = this.refs.departmentName.refs.input.value
         } else {
-            departmentId = document.getElementById('department').value
+            departmentId = this.refs.department.refs.input.value
         }
 
         if ((departmentId.trim() === '' && departmentName.trim() === '') || departmentId.trim() === 'Selecione') {
@@ -114,20 +112,20 @@ class EmployeeForm extends Component {
                     <div className="form-inline">
                         <If condition={this.state.newDepartment}>
                             <div className="input-group">
-                                <SysInput id="departmentName" label="Setor" type="text" placeholder="Nome do setor." textValidation={this.state.departmentValidation} />
+                                <SysInput ref="departmentName" label="Setor" type="text" placeholder="Nome do setor." textValidation={this.state.departmentValidation} />
                                 <div className="input-group-btn">
                                     <SysButton type="primary" text={<i className="fa fa-minus-circle" />} textHover="Existente" action={() => this.setState({ newDepartment: false })} size="sm" />
                                 </div>&nbsp;
                             </div>
-                            <SysInput defaultValue={e.name} id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />
+                            <SysInput defaultValue={e.name} ref="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />
                             <Else childrenCountIsOne>
                                 <div className="input-group">
-                                    <SysSelect defaultValue={e.departmentId} id="department" label="Setor" options={optnsDepa} textValidation={this.state.departmentValidation} />
+                                    <SysSelect defaultValue={e.departmentId} ref="department" label="Setor" options={optnsDepa} textValidation={this.state.departmentValidation} />
                                     <div className="input-group-btn">
                                         <SysButton type="primary" text={<i className="fa fa-plus-circle" />} textHover="NOVO" action={() => this.setState({ newDepartment: true })} size="sm" />
                                     </div>
                                 </div>
-                                <SysInput defaultValue={e.name} id="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />
+                                <SysInput defaultValue={e.name} ref="name" label="Nome" type="text" placeholder="Nome do funcionário." textValidation={this.state.nameValidation} />
                             </Else>
                         </If>
                     </div>
@@ -135,7 +133,7 @@ class EmployeeForm extends Component {
                 <Modal.Footer>
                     <div className="btn-group">
                         <SysButton type="default" text="Cancelar" action={() => closeModal(this)} />
-                        <SysButton type="primary" text={this.props.edit ? 'Alterar' : 'Cadastrar'} action={() => this.saveEmployee()} />
+                        <SysButton type="primary" text={this.props.edit ? 'Alterar' : 'Cadastrar'} action={this.saveEmployee.bind(this)} />
                     </div>
                 </Modal.Footer>
             </div>

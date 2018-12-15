@@ -1,5 +1,7 @@
 export const GetAllClients = 'GetAllClients'
+export const GetClient = 'GetClient'
 export const SetNewClient = 'SetNewClient'
+export const UpdateClient = 'UpdateClient'
 export const GetAllEmployeesWithoutUser = 'GetAllEmployeesWithoutUser'
 export const GetAllDepartments = 'GetAllDepartments'
 export const GetEmployeesWithDepartments = 'GetEmployeesWithDepartments'
